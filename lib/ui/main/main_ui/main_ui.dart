@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:password_manager/ui/main/main_ui/password_details_page.dart';
 
 class MainUI extends StatelessWidget {
   @override
@@ -67,7 +69,9 @@ class MainUI extends StatelessWidget {
                 return Container(
                   margin: EdgeInsets.only(top: 10, bottom: 10),
                   child: ListTile(
-                    onTap: (){},
+                    onTap: () {
+                      Get.to(PasswordDetailsUI());
+                    },
                     leading: Image.asset(
                       "assets/images/google.png",
                       width: 32,
@@ -93,8 +97,7 @@ class MainUI extends StatelessWidget {
                       child: CircularProgressIndicator(
                         value: 0.7,
                         strokeWidth: 7.0,
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.green),
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
                         backgroundColor: Colors.red,
                       ),
                     ),
