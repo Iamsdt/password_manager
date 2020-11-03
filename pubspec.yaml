@@ -38,13 +38,18 @@ dependencies:
   firebase_core: ^0.5.1
   # iso required
   firebase_crashlytics: ^0.2.2
+  #  firebase_analytics: "^6.1.0"
 
-  # sign_in
+  # auth
+  firebase_auth: ^0.18.2
   google_sign_in: ^4.5.5
+  flutter_facebook_auth: ^0.3.3
+  sign_in_with_apple: ^2.5.4
+  cloud_firestore: ^0.14.2
 
-  sembast: ^2.4.8
-  path_provider: ^1.6.22
-  crypto: ^2.1.5
+  #path_provider: ^1.6.22
+  #crypto: ^2.1.5
+  #pointycastle: ^2.0.0
   credit_card: ^0.1.8
 
   # icons
