@@ -1,8 +1,12 @@
+import 'package:credit_card/credit_card_model.dart';
 import 'package:flutter/material.dart';
+import 'package:credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
-import 'package:password_manager/ui/main/categories/categories_item_details.dart';
+import 'package:password_manager/ui/main/cards/card_input_form.dart';
 
-class CategoriesUI extends StatelessWidget {
+class CardPageUI extends StatelessWidget {
+  const CardPageUI({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,12 +14,14 @@ class CategoriesUI extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: Text(
-          "Categories",
+          "My Cards",
           style: TextStyle(color: Colors.black),
         ),
         actions: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.to(CardInputPage());
+            },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0, left: 10),
               child: Icon(
@@ -62,35 +68,31 @@ class CategoriesUI extends StatelessWidget {
               ),
             ),
           ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 20,
+            ),
+          ),
           SliverList(
-            delegate: SliverChildBuilderDelegate((ctx, pos) {
-              return Container(
-                margin: EdgeInsets.only(top: 5, right: 5),
-                child: ListTile(
+            delegate: SliverChildBuilderDelegate(
+              (ctx, pos) {
+                bool status = false;
+                return InkWell(
                   onTap: () {
-                    //handle click
-                    Get.to(CategoriesDetails());
+                    //todo click
+                    status = !status;
                   },
-                  leading: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white12,
-                      ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
-                      ),
-                      color: Colors.black.withOpacity(0.1),
-                    ),
-                    child: Icon(
-                      Icons.share,
-                    ),
+                  child: CreditCardWidget(
+                    cardNumber: "4242424242424242",
+                    expiryDate: "10/12",
+                    cardHolderName: "Test Data",
+                    cvvCode: "121",
+                    showBackView: status,
                   ),
-                  title: Text("Social Network"),
-                  trailing: Icon(Icons.arrow_forward_ios),
-                ),
-              );
-            }, childCount: 10),
+                );
+              },
+              childCount: 10,
+            ),
           ),
           SliverToBoxAdapter(
             child: SizedBox(

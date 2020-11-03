@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/ui/main/cards/cards_page.dart';
 import 'package:password_manager/ui/main/categories/categories_ui.dart';
 import 'package:password_manager/ui/main/main_ui/main_ui.dart';
+import 'package:password_manager/ui/main/settings/settings_page.dart';
 import 'package:password_manager/ui/shared/modal_sheet.dart';
 
 class BottomNavUI extends StatefulWidget {
@@ -17,12 +19,17 @@ class _BottomNavUIState extends State<BottomNavUI> {
 
   MainUI _mainUI;
   CategoriesUI _categoriesUI;
+  CardPageUI _cardPageUI;
+  SettingsPageUi _settingsPageUi;
 
   @override
   void initState() {
     _mainUI = MainUI();
     _categoriesUI = CategoriesUI();
-    pages = [_mainUI, _categoriesUI, _mainUI, _categoriesUI];
+    _cardPageUI = CardPageUI();
+    _settingsPageUi = SettingsPageUi();
+
+    pages = [_mainUI, _categoriesUI, _cardPageUI, _settingsPageUi];
 
     super.initState();
   }

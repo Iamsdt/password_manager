@@ -45,6 +45,7 @@ dependencies:
   sembast: ^2.4.8
   path_provider: ^1.6.22
   crypto: ^2.1.5
+  credit_card: ^0.1.8
 
   # icons
 #  eva_icons_flutter: ^2.0.1
