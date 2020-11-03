@@ -49,4 +49,5 @@ app.*.map.json
 *.env
 *.json
 
-/.gtm/
+# pub
+pubspec.lock
