@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:encrypt/encrypt.dart';
+import 'package:password_manager/utils/encrtypt.dart';
+
 class NotesModel {
   String notes;
   DateTime updatedDate;
@@ -52,4 +55,19 @@ class NotesModel {
 
   @override
   int get hashCode => notes.hashCode ^ updatedDate.hashCode;
+
+  NotesModel encrypt(Encrypter en) {
+    return NotesModel(
+      encryptString(en, this.notes),
+      this.updatedDate,
+    );
+  }
+
+  NotesModel decrypt(Encrypter en) {
+    this.notes = decryptString(en, this.notes);
+    return NotesModel(
+      this.notes,
+      this.updatedDate,
+    );
+  }
 }

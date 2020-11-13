@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:encrypt/encrypt.dart';
+import 'package:password_manager/utils/encrtypt.dart';
+
 class PasswordModel {
   String companyName;
   String userName;
@@ -98,5 +101,33 @@ class PasswordModel {
         iconPath.hashCode ^
         updated.hashCode ^
         accessedOn.hashCode;
+  }
+
+  PasswordModel encrypt(Encrypter en) {
+    return PasswordModel(
+      encryptString(en, this.companyName),
+      encryptString(en, this.userName),
+      encryptString(en, this.password),
+      this.strength,
+      this.iconPath,
+      this.updated,
+      this.accessedOn,
+    );
+  }
+
+  PasswordModel decrypt(Encrypter en) {
+    this.companyName = decryptString(en, this.companyName);
+    this.userName = decryptString(en, this.userName);
+    this.password = decryptString(en, this.password);
+
+    return PasswordModel(
+      this.companyName,
+      this.userName,
+      this.password,
+      this.strength,
+      this.iconPath,
+      this.updated,
+      this.accessedOn,
+    );
   }
 }

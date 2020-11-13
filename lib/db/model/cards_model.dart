@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:encrypt/encrypt.dart';
+import 'package:password_manager/utils/encrtypt.dart';
+
 class CardsModel {
   String cardNumber;
   String name;
@@ -83,5 +86,29 @@ class CardsModel {
         expDate.hashCode ^
         cvc.hashCode ^
         createdDate.hashCode;
+  }
+
+  CardsModel encrypt(Encrypter en) {
+    return CardsModel(
+      encryptString(en, this.cardNumber),
+      encryptString(en, this.name),
+      this.expDate,
+      encryptString(en, this.cvc),
+      this.createdDate,
+    );
+  }
+
+  CardsModel decrypt(Encrypter en) {
+    this.cardNumber = decryptString(en, this.cardNumber);
+    this.name = decryptString(en, this.name);
+    this.cvc = decryptString(en, this.cvc);
+
+    return CardsModel(
+      this.cardNumber,
+      this.name,
+      this.expDate,
+      this.cvc,
+      this.createdDate,
+    );
   }
 }

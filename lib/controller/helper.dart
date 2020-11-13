@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 void logout() async {
-  await FirebaseAuth.instance.signOut();
+  // await FirebaseAuth.instance.signOut();
 }
 
 String createNonce(int length) {
