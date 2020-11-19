@@ -17,19 +17,19 @@ class _BottomNavUIState extends State<BottomNavUI> {
 
   List<Widget> pages;
 
-  MainUI _mainUI;
+  HomePageUI _homePageUI;
   CategoriesUI _categoriesUI;
   CardPageUI _cardPageUI;
   SettingsPageUi _settingsPageUi;
 
   @override
   void initState() {
-    _mainUI = MainUI();
+    _homePageUI = HomePageUI();
     _categoriesUI = CategoriesUI();
     _cardPageUI = CardPageUI();
     _settingsPageUi = SettingsPageUi();
 
-    pages = [_mainUI, _categoriesUI, _cardPageUI, _settingsPageUi];
+    pages = [_homePageUI, _categoriesUI, _cardPageUI, _settingsPageUi];
 
     super.initState();
   }

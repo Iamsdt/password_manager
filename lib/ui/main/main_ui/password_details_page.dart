@@ -208,7 +208,7 @@ class PasswordDetailsUI extends StatelessWidget {
                     width: 20,
                   ),
                   Icon(
-                    Icons.sync,
+                    Icons.remove_red_eye_outlined,
                     color: Colors.black,
                   )
                 ],
@@ -249,14 +249,14 @@ class PasswordDetailsUI extends StatelessWidget {
       margin: EdgeInsets.only(left: 20, right: 20.0),
       child: Row(
         children: [
-          Image.asset(
-            "assets/images/google.png",
-            width: 24,
-            height: 24,
-          ),
-          SizedBox(
-            width: 20,
-          ),
+          // Image.asset(
+          //   "assets/images/google.png",
+          //   width: 24,
+          //   height: 24,
+          // ),
+          // SizedBox(
+          //   width: 20,
+          // ),
           Expanded(
             child: Text(
               "Google",

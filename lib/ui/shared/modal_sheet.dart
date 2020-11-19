@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/controller/app_controller.dart';
 
-class SheetUIHelper{
+class SheetUIHelper {
   static Widget showGenerateUI() {
+    AppController _controller = Get.find(tag: "APP");
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -58,11 +61,13 @@ class SheetUIHelper{
                         child: Row(
                           children: [
                             Expanded(
-                              child: Text(
-                                "pass" * 4,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black38,
+                              child: Obx(
+                                () => Text(
+                                  _controller.genPassword.value,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black38,
+                                  ),
                                 ),
                               ),
                             ),
@@ -79,23 +84,28 @@ class SheetUIHelper{
                     SizedBox(
                       width: 10,
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, top: 10, bottom: 10),
-                      decoration: BoxDecoration(
-                        border: Border.all(
+                    InkWell(
+                      onTap: () {
+                        _controller.updatePassword();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, top: 10, bottom: 10),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blue,
+                          ),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                           color: Colors.blue,
                         ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        color: Colors.blue,
-                      ),
-                      child: Text(
-                        "COPY",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
+                        child: Text(
+                          "COPY",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                       ),
                     ),

@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:password_manager/ui/main/main_ui/password_details_page.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
 
-class MainUI extends StatelessWidget {
+class HomePageUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +10,7 @@ class MainUI extends StatelessWidget {
         slivers: [
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 55,
+              height: 40 + kToolbarHeight,
             ),
           ),
           SliverToBoxAdapter(

@@ -5,14 +5,15 @@ import 'package:password_manager/ui/main/main_ui/password_details_page.dart';
 class ListItemUI {
   static ListTile passList() {
     return ListTile(
+      contentPadding: EdgeInsets.only(left: 20, right: 20),
       onTap: () {
         Get.to(PasswordDetailsUI());
       },
-      leading: Image.asset(
-        "assets/images/google.png",
-        width: 32,
-        height: 32,
-      ),
+      // leading: Image.asset(
+      //   "assets/images/google.png",
+      //   width: 32,
+      //   height: 32,
+      // ),
       title: Text(
         "Google",
         style: TextStyle(
