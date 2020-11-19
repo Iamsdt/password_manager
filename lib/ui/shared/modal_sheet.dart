@@ -4,7 +4,7 @@ import 'package:password_manager/controller/app_controller.dart';
 
 class SheetUIHelper {
   static Widget showGenerateUI() {
-    AppController _controller = Get.find(tag: "APP");
+    // AppController _controller = Get.find(tag: "APP");
 
     return Container(
       decoration: BoxDecoration(
@@ -61,13 +61,11 @@ class SheetUIHelper {
                         child: Row(
                           children: [
                             Expanded(
-                              child: Obx(
-                                () => Text(
-                                  _controller.genPassword.value,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black38,
-                                  ),
+                              child: Text(
+                                "Abs%syuyi23#@",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black38,
                                 ),
                               ),
                             ),
@@ -86,7 +84,7 @@ class SheetUIHelper {
                     ),
                     InkWell(
                       onTap: () {
-                        _controller.updatePassword();
+                        // _controller.updatePassword();
                       },
                       child: Container(
                         padding: const EdgeInsets.only(

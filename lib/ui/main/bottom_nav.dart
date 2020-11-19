@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -22,8 +23,13 @@ class _BottomNavUIState extends State<BottomNavUI> {
   CardPageUI _cardPageUI;
   SettingsPageUi _settingsPageUi;
 
+  void initFirebase() async {
+    await Firebase.initializeApp();
+  }
+
   @override
   void initState() {
+    initFirebase();
     _homePageUI = HomePageUI();
     _categoriesUI = CategoriesUI();
     _cardPageUI = CardPageUI();

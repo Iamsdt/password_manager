@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:password_manager/my_app.dart';
 
 void main() async {
-  await Firebase.initializeApp();
   //load env variables
   await DotEnv().load('.env');
   runApp(MyApp());

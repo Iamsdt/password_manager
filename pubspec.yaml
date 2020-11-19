@@ -31,22 +31,25 @@ dependencies:
   injectable: ^1.0.5
   get_it: ^5.0.1
 
+  # ui
+  credit_card: ^0.1.8
+
   # state management
-  get: ^3.15.0
+  get: ^3.17.1
 
   # firebase
-  # firebase_core: ^0.5.1
+  firebase_core: ^0.5.2
   # iso required
-  #firebase_crashlytics: ^0.2.2
-  #  firebase_analytics: "^6.1.0"
+  firebase_crashlytics: ^0.2.3
+#  firebase_analytics: ^6.2.0
 
   # auth
-  # firebase_auth: ^0.18.2
-  # google_sign_in: ^4.5.5
-  #flutter_facebook_auth: ^0.3.3
-  # sign_in_with_apple: ^2.5.4
-  # cloud_firestore: ^0.14.2
-  credit_card: ^0.1.8
+  firebase_auth: ^0.18.3
+  google_sign_in: ^4.5.6
+#  flutter_facebook_auth: ^0.3.3
+#  sign_in_with_apple: ^2.5.4
+  cloud_firestore: ^0.14.3
+
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +69,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - .env
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
