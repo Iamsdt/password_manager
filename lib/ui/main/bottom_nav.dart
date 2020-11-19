@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/controller/app_controller.dart';
+import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/main/cards/cards_page.dart';
 import 'package:password_manager/ui/main/categories/categories_ui.dart';
 import 'package:password_manager/ui/main/main_ui/main_ui.dart';
@@ -14,6 +16,12 @@ class BottomNavUI extends StatefulWidget {
 }
 
 class _BottomNavUIState extends State<BottomNavUI> {
+  final AppController _controller = Get.put(
+    getIt<AppController>(),
+    tag: "APP",
+    permanent: true,
+  );
+
   int _selectedIndex = 0;
 
   List<Widget> pages;

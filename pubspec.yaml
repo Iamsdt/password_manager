@@ -33,6 +33,7 @@ dependencies:
 
   # ui
   credit_card: ^0.1.8
+  google_fonts: ^1.1.1
 
   # state management
   get: ^3.17.1
@@ -41,19 +42,25 @@ dependencies:
   firebase_core: ^0.5.2
   # iso required
   firebase_crashlytics: ^0.2.3
-#  firebase_analytics: ^6.2.0
+  #  firebase_analytics: ^6.2.0
 
   # auth
   firebase_auth: ^0.18.3
   google_sign_in: ^4.5.6
-#  flutter_facebook_auth: ^0.3.3
-#  sign_in_with_apple: ^2.5.4
+  #  flutter_facebook_auth: ^0.3.3
+  #  sign_in_with_apple: ^2.5.4
   cloud_firestore: ^0.14.3
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # code generator
+  build_runner: ^1.10.6
+
+  # test
+  injectable_generator: ^1.0.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

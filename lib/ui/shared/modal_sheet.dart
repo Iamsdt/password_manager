@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/app_controller.dart';
 
 class SheetUIHelper {
   static Widget showGenerateUI() {
-    // AppController _controller = Get.find(tag: "APP");
+    AppController _controller = Get.find(tag: "APP");
 
     return Container(
       decoration: BoxDecoration(
@@ -61,19 +62,31 @@ class SheetUIHelper {
                         child: Row(
                           children: [
                             Expanded(
-                              child: Text(
-                                "Abs%syuyi23#@",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black38,
-                                ),
+                              child: GetX(
+                                init: _controller,
+                                builder: (_) {
+                                  var value = _controller.genPassword.value;
+                                  print("UI ->" + value.pass);
+                                  return Text(
+                                    value.pass,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black38,
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                             SizedBox(
                               width: 20,
                             ),
-                            Icon(
-                              Icons.sync,
+                            InkWell(
+                              onTap: () {
+                                _controller.updatePassword();
+                              },
+                              child: Icon(
+                                Icons.sync,
+                              ),
                             )
                           ],
                         ),
@@ -84,7 +97,8 @@ class SheetUIHelper {
                     ),
                     InkWell(
                       onTap: () {
-                        // _controller.updatePassword();
+                        var value = _controller.genPassword.value.pass;
+                        Clipboard.setData(new ClipboardData(text: value));
                       },
                       child: Container(
                         padding: const EdgeInsets.only(

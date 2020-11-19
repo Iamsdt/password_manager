@@ -4,6 +4,9 @@ import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:password_manager/controller/app_controller.dart';
+import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/envs.dart';
 import 'package:password_manager/ui/main/bottom_nav.dart';
 import 'package:password_manager/utils/encrtypt.dart';
@@ -21,13 +24,12 @@ class _SplashUIState extends State<SplashUI> {
         initEncryptor(MyEnvironment.passKey, MyEnvironment.paddingKey);
     //put into GetX, so that it can be accessed from across the APP
     Get.put<Encrypter>(encrypter, tag: "ENCRYPT", permanent: true);
-    Get.to(BottomNavUI());
+    Get.off(BottomNavUI());
   }
 
   @override
   void initState() {
-    Timer(Duration(seconds: 3), () => nextPage);
-
+    Timer(Duration(seconds: 1), () => nextPage());
     super.initState();
   }
 
@@ -44,6 +46,20 @@ class _SplashUIState extends State<SplashUI> {
                 ImageConst.APP_ICON,
                 width: 100,
                 height: 100,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                "Password Manager",
+                style: GoogleFonts.anton(
+                  color: Colors.black,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ],

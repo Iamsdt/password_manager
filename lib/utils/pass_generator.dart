@@ -9,7 +9,7 @@ String generatePassword(int length,
   String _lowercase = "abcdefghijklmnopqrstuvwxyz";
   String _uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   String _numbers = "0123456789";
-  String _special = "@#=-+!£\$%&?[](){}?<>~";
+  String _special = "@#=+!£\$%&?[](){}?<>~";
 
   //now add all the characters
   String chars = "";
@@ -24,4 +24,27 @@ String generatePassword(int length,
   //now generate string
   return List.generate(length, (index) => chars[random.nextInt(chars.length)])
       .join();
+
+  // final charCodes = List<int>.generate(length, (_) {
+  //   int codeUnit;
+  //
+  //   switch (random.nextInt(3)) {
+  //     case 0:
+  //       codeUnit = random.nextInt(10) + 48; //numbers
+  //       break;
+  //     case 1:
+  //       codeUnit = random.nextInt(26) + 65; //large caps
+  //       break;
+  //     case 2:
+  //       codeUnit = random.nextInt(26) + 97; //small caps
+  //       break;
+  //     case 3:
+  //       codeUnit = random.nextInt(26) + 97; //symbols
+  //       break;
+  //   }
+  //
+  //   return codeUnit;
+  // });
+
+  // return String.fromCharCodes(charCodes);
 }
