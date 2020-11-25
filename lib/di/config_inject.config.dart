@@ -8,6 +8,9 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../controller/app_controller.dart';
+import '../controller/categories/categories_controller.dart';
+import '../controller/home_controller.dart';
+import '../db/store.dart';
 
 /// adds generated dependencies
 /// to the provided [GetIt] instance
@@ -19,5 +22,8 @@ GetIt $initGetIt(
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
   gh.lazySingleton<AppController>(() => AppController());
+  gh.lazySingleton<CategoriesController>(() => CategoriesController());
+  gh.lazySingleton<HomeController>(() => HomeController());
+  gh.lazySingleton<Store>(() => Store());
   return get;
 }

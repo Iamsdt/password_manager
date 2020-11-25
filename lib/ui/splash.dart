@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:password_manager/controller/app_controller.dart';
-import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/envs.dart';
 import 'package:password_manager/ui/main/bottom_nav.dart';
 import 'package:password_manager/utils/encrtypt.dart';

@@ -18,6 +18,7 @@ class AppController extends GetxController {
       bool isUpperCase = true,
       bool isNumbers = true,
       bool isSpecial = true}) {
+        
     var pass = generatePassword(
       length,
       isLowerCase: isLowerCase,

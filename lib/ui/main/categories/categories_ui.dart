@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/controller/categories/categories_controller.dart';
+import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/main/categories/categories_item_details.dart';
+import 'package:password_manager/ui/main/categories/create_categories.dart';
 
 class CategoriesUI extends StatelessWidget {
+  final CategoriesController controller =
+      Get.put(getIt<CategoriesController>());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +21,9 @@ class CategoriesUI extends StatelessWidget {
         ),
         actions: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              CreateCategories.showDialog(controller);
+            },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0, left: 10),
               child: Icon(
@@ -65,27 +73,27 @@ class CategoriesUI extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate((ctx, pos) {
               return Container(
-                margin: EdgeInsets.only(top: 5, right: 5),
+                margin: EdgeInsets.only(top: 5, right: 5, left: 20),
                 child: ListTile(
                   onTap: () {
                     //handle click
                     Get.to(CategoriesDetails());
                   },
-                  leading: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white12,
-                      ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
-                      ),
-                      color: Colors.black.withOpacity(0.1),
-                    ),
-                    child: Icon(
-                      Icons.share,
-                    ),
-                  ),
+                  // leading: Container(
+                  //   padding: EdgeInsets.all(10.0),
+                  //   decoration: BoxDecoration(
+                  //     border: Border.all(
+                  //       color: Colors.white12,
+                  //     ),
+                  //     borderRadius: BorderRadius.all(
+                  //       Radius.circular(50),
+                  //     ),
+                  //     color: Colors.black.withOpacity(0.1),
+                  //   ),
+                  //   child: Icon(
+                  //     Icons.share,
+                  //   ),
+                  // ),
                   title: Text("Social Network"),
                   trailing: Icon(Icons.arrow_forward_ios),
                 ),

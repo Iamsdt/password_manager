@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/app_controller.dart';
+import 'package:password_manager/ext/ext.dart';
+import 'package:password_manager/ui/save_pass/advance_filter_ui.dart';
+import 'package:password_manager/ui/save_pass/save_password.dart';
 
 class SheetUIHelper {
   static Widget showGenerateUI() {
@@ -148,7 +151,9 @@ class SheetUIHelper {
                           ),
                         ],
                       ),
-                    ),
+                    ).materialClick(() {
+                      Get.off(AdvanceFilterUI());
+                    }),
                     Container(
                       child: Row(
                         children: [
@@ -166,7 +171,9 @@ class SheetUIHelper {
                           ),
                         ],
                       ),
-                    )
+                    ).materialClick(() {
+                      Get.off(SavePasswordUI());
+                    })
                   ],
                 ),
               ),
