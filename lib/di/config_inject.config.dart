@@ -21,9 +21,9 @@ GetIt $initGetIt(
   EnvironmentFilter environmentFilter,
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
-  gh.lazySingleton<AppController>(() => AppController());
   gh.lazySingleton<CategoriesController>(() => CategoriesController());
   gh.lazySingleton<HomeController>(() => HomeController());
   gh.lazySingleton<Store>(() => Store());
+  gh.lazySingleton<AppController>(() => AppController(get<Store>()));
   return get;
 }

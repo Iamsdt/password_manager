@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/controller/app_controller.dart';
 import 'package:password_manager/ext/ext.dart';
 
 class SavePasswordUI extends StatefulWidget {
@@ -9,6 +10,17 @@ class SavePasswordUI extends StatefulWidget {
 }
 
 class _SavePasswordState extends State<SavePasswordUI> {
+  bool isPasswordObsecure = true;
+  bool isUsernameObsecure = false;
+
+  var passwordController = TextEditingController();
+  var userNameController = TextEditingController();
+  var titleController = TextEditingController();
+
+  final AppController controller = Get.find(tag: "APP");
+
+  int _value = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,9 +68,58 @@ class _SavePasswordState extends State<SavePasswordUI> {
                   ),
                   Expanded(
                     child: TextField(
+                      controller: titleController,
                       decoration: InputDecoration(hintText: "write a title"),
                     ),
                   )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "Category: ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      value: _value,
+                      items: [
+                        DropdownMenuItem(
+                          child: Text("Default"),
+                          value: 1,
+                        ),
+                        DropdownMenuItem(
+                          child: Text("Second Item"),
+                          value: 2,
+                        ),
+                        DropdownMenuItem(
+                          child: Text("Third Item"),
+                          value: 3,
+                        ),
+                        DropdownMenuItem(
+                          child: Text("Fourth Item"),
+                          value: 4,
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _value = value;
+                        });
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -177,7 +238,8 @@ class _SavePasswordState extends State<SavePasswordUI> {
                   ),
                   child: MaterialButton(
                     onPressed: () {
-                      // _loginController.requestLogin();
+                      controller.savePassword(titleController.text,
+                          userNameController.text, passwordController.text);
                     },
                     child: Container(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -215,13 +277,18 @@ class _SavePasswordState extends State<SavePasswordUI> {
         color: Colors.white,
       ),
       child: TextField(
+        controller: userNameController,
+        obscureText: isUsernameObsecure,
         decoration: InputDecoration(
           hintText: "username",
           suffixIcon: Icon(
-            Icons.visibility,
+            isUsernameObsecure ? Icons.visibility_off : Icons.visibility,
             color: Colors.black,
           ).materialClick(() {
             //change icon
+            setState(() {
+              isUsernameObsecure = !isUsernameObsecure;
+            });
           }),
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -245,19 +312,31 @@ class _SavePasswordState extends State<SavePasswordUI> {
         color: Colors.white,
       ),
       child: TextField(
-        obscureText: true,
+        controller: passwordController,
+        obscureText: isPasswordObsecure,
         decoration: InputDecoration(
           hintText: "password",
           suffixIcon: Icon(
-            Icons.visibility_off,
+            isPasswordObsecure ? Icons.visibility_off : Icons.visibility,
             color: Colors.black,
           ).materialClick(() {
             //password
+            setState(() {
+              isPasswordObsecure = !isPasswordObsecure;
+            });
           }),
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    userNameController.dispose();
+    passwordController.dispose();
+    titleController.dispose();
+    super.dispose();
   }
 }

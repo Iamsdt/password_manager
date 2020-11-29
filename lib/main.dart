@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:password_manager/di/config_inject.dart';
@@ -8,6 +9,10 @@ void main() async {
   await DotEnv().load('.env');
   // inject first
   configureDependencies();
+
+  //init firebase
+  await Firebase.initializeApp();
+
   //run app
   runApp(MyApp());
 }

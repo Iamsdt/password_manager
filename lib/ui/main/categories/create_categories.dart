@@ -20,6 +20,9 @@ class CreateCategories {
             },
             decoration: InputDecoration(
               hintText: "Category name",
+              hintStyle: TextStyle(
+                color: Colors.black26,
+              ),
             ),
           ),
         ),
