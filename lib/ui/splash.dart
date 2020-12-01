@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:encrypt/encrypt.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:password_manager/envs.dart';
+import 'package:password_manager/ui/auth/login_ui_page.dart';
 import 'package:password_manager/ui/main/bottom_nav.dart';
 import 'package:password_manager/utils/encrtypt.dart';
 import 'package:password_manager/utils/image_const.dart';
@@ -22,7 +24,14 @@ class _SplashUIState extends State<SplashUI> {
         initEncryptor(MyEnvironment.passKey, MyEnvironment.paddingKey);
     //put into GetX, so that it can be accessed from across the APP
     Get.put<Encrypter>(encrypter, tag: "ENCRYPT", permanent: true);
-    Get.off(BottomNavUI());
+
+    var user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Get.off(BottomNavUI());
+    } else {
+      Get.to(LoginPageUI());
+    }
   }
 
   @override
@@ -41,9 +50,9 @@ class _SplashUIState extends State<SplashUI> {
             Container(
               alignment: Alignment.center,
               child: SvgPicture.asset(
-                ImageConst.APP_ICON,
-                width: 100,
-                height: 100,
+                ImageConst.PASSWORD_ICON,
+                width: 150,
+                height: 150,
               ),
             ),
             SizedBox(
@@ -53,10 +62,10 @@ class _SplashUIState extends State<SplashUI> {
               alignment: Alignment.center,
               child: Text(
                 "Password Manager",
-                style: GoogleFonts.anton(
+                style: GoogleFonts.montserrat(
                   color: Colors.black,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),

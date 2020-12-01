@@ -1,8 +1,111 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:password_manager/controller/auth/login_controller.dart';
+import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ui/shared/auth_helper_ui.dart';
+import 'package:password_manager/ui/auth/signup_page.dart';
 
 class LoginPageUI extends StatelessWidget {
+  final LoginController _controller = Get.put(getIt<LoginController>());
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Container(
+        height: Get.height,
+        width: Get.width,
+        margin: EdgeInsets.only(bottom: 5),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              AuthHelper.getAppBar(height: Get.height * 0.15),
+              AuthHelper.clipShape(
+                roundIconTop: Get.height * 0.07,
+                firstCliperHight: Get.height * 0.2,
+                secondCliperHeight: Get.height * 0.2,
+              ),
+              loginForm(),
+              SizedBox(
+                height: 50,
+              ),
+              AuthHelper.getAuthButton("SIGN IN", () {
+                _controller.login();
+              }),
+              AuthHelper.infoLabelText("Or signin using social media"),
+              AuthHelper.socialIconsButtons(() {
+                //google click
+                _controller.googleLogin();
+              }, () {
+                //facebook click
+                _controller.facebookLogin();
+              }),
+              AuthHelper.loginORSignupText("New here?", "Sign Up", () {
+                Get.to(SignupPageUI());
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget loginForm() {
+    return Container(
+      margin: EdgeInsets.only(
+        left: 25,
+        right: 25,
+        top: 60,
+      ),
+      child: Form(
+        autovalidateMode: AutovalidateMode.always,
+        child: Column(
+          children: <Widget>[
+            AuthHelper.nameTextFiled(
+              _controller.emailController,
+              "Email adress",
+              Icons.email,
+            ),
+            SizedBox(height: 10),
+            passwordTextFormField(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget passwordTextFormField() {
+    return Obx(
+      () => Material(
+        borderRadius: BorderRadius.circular(30.0),
+        elevation: 5,
+        child: TextFormField(
+          controller: _controller.passController,
+          cursorColor: Colors.blue[200],
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.lock,
+              color: Colors.blue[500],
+              size: 20,
+            ),
+            hintText: "Password",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: GestureDetector(
+              onTap: () {
+                _controller.showPassword();
+              },
+              child: Icon(
+                _controller.obsecureText.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+              ),
+            ),
+          ),
+          obscureText: _controller.obsecureText.value,
+        ),
+      ),
+    );
   }
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:password_manager/ui/shared/custom_shape.dart';
-import 'package:password_manager/utils/image_const.dart';
+import 'package:password_manager/controller/auth/signup_controller.dart';
+import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ui/shared/auth_helper_ui.dart';
+import 'package:password_manager/ui/auth/login_ui_page.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPageUI extends StatelessWidget {
+  final SignupController _controller = Get.put(getIt<SignupController>());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,90 +18,36 @@ class SignupPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              createAppBar(),
-              clipShape(),
+              AuthHelper.getAppBar(height: Get.height * 0.15),
+              AuthHelper.clipShape(
+                roundIconTop: Get.height * 0.07,
+                firstCliperHight: Get.height * 0.15,
+                secondCliperHeight: Get.height * 0.15,
+              ),
               signUPForm(),
               SizedBox(
                 height: 50,
               ),
-              signUpButton(),
-              infoTextRow(),
-              socialIconsRow(),
+              AuthHelper.getAuthButton("SIGN UP", () {
+                _controller.signup();
+              }),
+              AuthHelper.infoLabelText("Or create using social media"),
+              AuthHelper.socialIconsButtons(() {
+                //google click
+                _controller.googleLogin();
+              }, () {
+                //facebook click
+                _controller.facebookLogin();
+              }),
+              AuthHelper.loginORSignupText(
+                  "Already have an account?", "Sign In", () {
+                Get.to(LoginPageUI());
+              }),
               //signInTextRow(),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget createAppBar() {
-    return Material(
-      child: Container(
-        height: Get.height * 0.15,
-        width: Get.width,
-        decoration: BoxDecoration(
-          gradient:
-              LinearGradient(colors: [Colors.blue[200], Colors.blueAccent]),
-        ),
-      ),
-    );
-  }
-
-  Widget clipShape() {
-    return Stack(
-      children: <Widget>[
-        ClipPath(
-          clipper: FirstCliper(),
-          child: Container(
-            height: Get.height * 0.15,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue[200], Colors.blueAccent],
-              ),
-            ),
-          ),
-        ),
-        Opacity(
-          opacity: 0.4,
-          child: ClipPath(
-            clipper: SecondCliper(),
-            child: Container(
-              height: Get.height * 0.15,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blue[200], Colors.blueAccent],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: Get.height * 0.05,
-          left: 0,
-          right: 0,
-          child: Container(
-              height: Get.height * 0.12,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    spreadRadius: 0.0,
-                    color: Colors.black26,
-                    offset: Offset(1.0, 10.0),
-                    blurRadius: 20.0,
-                  ),
-                ],
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: SvgPicture.asset(
-                ImageConst.PASSWORD_ICON,
-                width: 50,
-                height: 60,
-              )),
-        ),
-      ],
     );
   }
 
@@ -110,11 +59,20 @@ class SignupPage extends StatelessWidget {
         top: 50,
       ),
       child: Form(
+        autovalidateMode: AutovalidateMode.always,
         child: Column(
           children: <Widget>[
-            fullNameTextField(),
+            AuthHelper.nameTextFiled(
+              _controller.nameController,
+              "Full name",
+              Icons.person,
+            ),
             SizedBox(height: 10),
-            emailTextFormField(),
+            AuthHelper.nameTextFiled(
+              _controller.emailController,
+              "Full name",
+              Icons.email,
+            ),
             SizedBox(height: 10),
             passwordTextFormField(),
           ],
@@ -123,171 +81,38 @@ class SignupPage extends StatelessWidget {
     );
   }
 
-  Widget fullNameTextField() {
-    return Material(
-      borderRadius: BorderRadius.circular(30.0),
-      elevation: 5,
-      child: TextFormField(
-        cursorColor: Colors.blue[200],
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.person,
-            color: Colors.blue[500],
-            size: 20,
-          ),
-          hintText: "Full name",
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide.none),
-        ),
-      ),
-    );
-  }
-
-  Widget emailTextFormField() {
-    return Material(
-      borderRadius: BorderRadius.circular(30.0),
-      elevation: 5,
-      child: TextFormField(
-        cursorColor: Colors.blue[200],
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.email,
-            color: Colors.blue[500],
-            size: 20,
-          ),
-          hintText: "Email adress",
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide.none),
-        ),
-      ),
-    );
-  }
-
   Widget passwordTextFormField() {
-    return Material(
-      borderRadius: BorderRadius.circular(30.0),
-      elevation: 5,
-      child: TextFormField(
-        cursorColor: Colors.blue[200],
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.email,
-            color: Colors.blue[500],
-            size: 20,
-          ),
-          hintText: "Password",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            borderSide: BorderSide.none,
-          ),
-        ),
-        obscureText: true,
-      ),
-    );
-  }
-
-  Widget signUpButton() {
-    return RaisedButton(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        print("Routing to your account");
-      },
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: Get.width * 0.5,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          gradient: LinearGradient(
-            colors: <Color>[Colors.orange[200], Colors.pinkAccent],
-          ),
-        ),
-        padding: const EdgeInsets.all(12.0),
-        child: Text(
-          'SIGN UP',
-          style: TextStyle(fontSize: 14),
-        ),
-      ),
-    );
-  }
-
-  Widget infoTextRow() {
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Or create using social media",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget socialIconsRow() {
-    return Container(
-      margin: EdgeInsets.only(top: 15),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 15,
-            backgroundImage: AssetImage("assets/images/google.png"),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          CircleAvatar(
-            radius: 15,
-            backgroundImage: AssetImage("assets/images/fblogo.jpg"),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          CircleAvatar(
-            radius: 15,
-            backgroundImage: AssetImage("assets/images/twitterlogo.jpg"),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget signInTextRow() {
-    return Container(
-      margin: EdgeInsets.only(top: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Already have an account?",
-            style: TextStyle(fontWeight: FontWeight.w400),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          GestureDetector(
-            onTap: () {
-              // Navigator.of(context).pop(SIGN_IN);
-              print("Routing to Sign up screen");
-            },
-            child: Text(
-              "Sign in",
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                color: Colors.orange[200],
-                fontSize: 19,
+    return Obx(
+      () => Material(
+        borderRadius: BorderRadius.circular(30.0),
+        elevation: 5,
+        child: TextFormField(
+          controller: _controller.passController,
+          cursorColor: Colors.blue[200],
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.lock,
+              color: Colors.blue[500],
+              size: 20,
+            ),
+            hintText: "Password",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: GestureDetector(
+              onTap: () {
+                _controller.showPassword();
+              },
+              child: Icon(
+                _controller.obsecureText.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
               ),
             ),
-          )
-        ],
+          ),
+          obscureText: _controller.obsecureText.value,
+        ),
       ),
     );
   }
