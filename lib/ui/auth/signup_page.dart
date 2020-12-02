@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/signup_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
-import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/auth/login_ui_page.dart';
+import 'package:password_manager/ui/shared/auth_helper_ui.dart';
+import 'package:password_manager/utils/validate_checker.dart';
 
 class SignupPageUI extends StatelessWidget {
   final SignupController _controller = Get.put(getIt<SignupController>());
@@ -66,12 +67,18 @@ class SignupPageUI extends StatelessWidget {
               _controller.nameController,
               "Full name",
               Icons.person,
+              validator: (value) => value.isNotEmpty && value.length > 3
+                  ? null
+                  : "Please enter your full name",
             ),
             SizedBox(height: 10),
             AuthHelper.nameTextFiled(
               _controller.emailController,
               "Full name",
               Icons.email,
+              validator: (value) => Validator.isEmailValid(value)
+                  ? null
+                  : "Please enter a valid email",
             ),
             SizedBox(height: 10),
             passwordTextFormField(),
@@ -89,6 +96,9 @@ class SignupPageUI extends StatelessWidget {
         child: TextFormField(
           controller: _controller.passController,
           cursorColor: Colors.blue[200],
+          validator: (value) => value.isNotEmpty && value.length > 6
+              ? null
+              : "Enter valid password (min length: 6)",
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.lock,
@@ -105,13 +115,13 @@ class SignupPageUI extends StatelessWidget {
                 _controller.showPassword();
               },
               child: Icon(
-                _controller.obsecureText.value
+                _controller.obscureText.value
                     ? Icons.visibility_off
                     : Icons.visibility,
               ),
             ),
           ),
-          obscureText: _controller.obsecureText.value,
+          obscureText: _controller.obscureText.value,
         ),
       ),
     );

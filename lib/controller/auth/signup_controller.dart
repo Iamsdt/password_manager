@@ -13,7 +13,7 @@ class SignupController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
-  var obsecureText = true.obs;
+  var obscureText = true.obs;
 
   void signup() {}
 
@@ -22,7 +22,7 @@ class SignupController extends GetxController {
   void facebookLogin() {}
 
   void showPassword() {
-    obsecureText.update((val) {
+    obscureText.update((val) {
       val = !val;
     });
   }

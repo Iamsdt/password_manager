@@ -2,91 +2,148 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+import 'package:password_manager/repo/auth_results.dart';
+import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 @lazySingleton
 class AuthLayer {
-  FirebaseAuth auth;
+  FirebaseAuth _auth;
 
   AuthLayer() {
-    auth = FirebaseAuth.instance;
+    _auth = FirebaseAuth.instance;
   }
 
-  void signupWithEmail(String email, String pass) async {
+  Future<AuthResults> signupWithEmail(String email, String pass) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: pass);
+      var userCredential = await _auth.createUserWithEmailAndPassword(
+          email: email, password: pass);
+      return AuthResults(userCredential, "", true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        Fimber.i('Weak password');
+        return AuthResults(
+            null, "This is a weak password, please use strong one", false);
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        Fimber.i('The account already exists for that email.');
+        return AuthResults(
+            null, "The account already exists for that email.", false);
       }
-    } catch (e) {
-      print(e);
     }
+
+    return AuthResults(null, "Something went wrong! please try again", false);
   }
 
-  Future<UserCredential> loginEmail(String email, password) async {
+  Future<AuthResults> loginEmail(String email, password) async {
     try {
-      return await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      var userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return AuthResults(userCredential, "", true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        Fimber.i('No user found for that email.');
+        return AuthResults(null, "No user found for that email.", false);
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        Fimber.i('Wrong password provided for that user.');
+        return AuthResults(
+            null, "Wrong password provided for that user.", false);
       }
     }
 
-    return null;
+    return AuthResults(null, "Something went wrong! please try again", false);
   }
 
-  void verifyUser(User user) async {
-    if (!user.emailVerified) {
+  //send verification email
+  Future<bool> verifyUser() async {
+    var user = _auth.currentUser;
+    if (user != null && !user.emailVerified) {
       await user.sendEmailVerification();
+      return true;
     }
+
+    return false;
   }
 
-  void verifyEmailCOde(String code) async {
+  Future<bool> verifyEmailCOde(String code) async {
     try {
-      await auth.checkActionCode(code);
-      await auth.applyActionCode(code);
-      auth.currentUser.reload();
+      await _auth.checkActionCode(code);
+      await _auth.applyActionCode(code);
+      _auth.currentUser.reload();
+      return true;
     } on FirebaseAuthException catch (e, s) {
       if (e.code == 'invalid-action-code') {
-        // todo code in not valid
         Fimber.e('The code is invalid.');
+        SnackBarHelper.showError("The code is invalid.");
       }
       Fimber.e("Error on verify email code", ex: e, stacktrace: s);
+      return false;
     }
   }
 
-  Future<UserCredential> googleSignin() async {
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+  Future<AuthResults> googleSignin() async {
+    GoogleSignInAuthentication googleAuth;
+    // Obtain the _auth details from the request
+    try {
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      googleAuth = await googleUser.authentication;
+    } catch (e, s) {
+      return AuthResults(null, "Something went wrong please try again?", false);
+    }
 
     // Create a new credential
     final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    try {
+      var userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      return AuthResults(userCredential, "", true);
+    } on FirebaseAuthException catch (e, s) {
+      var message = "";
+      switch (e.code) {
+        case "account-exists-with-different-credential":
+          message = "Account already exists with different credential";
+          break;
+        case "invalid-credential":
+          message = "Invalid credential, please provide correct one";
+          break;
+        case "operation-not-allowed":
+          message = "Sorry operation not allowed, please try again";
+          break;
+        case "user-disabled":
+          message = "User disabled, please contact with app provider";
+          break;
+        case "user-not-found":
+          message = "User not found, please contact with app provider";
+          break;
+        case "wrong-password":
+          message = "Wrong password, please provide correct password";
+          break;
+        case "invalid-verification-code":
+          message = "Wrong password, please provide correct password";
+          break;
+        case "invalid-verification-id":
+          message = "Invalid verification id, please try again";
+          break;
+        default:
+          message = "Something went wrong";
+          break;
+      }
+      return AuthResults(null, message, false);
+    }
   }
 
-  // void loginWithFacebook() async {
-  //   final LoginResult result = await FacebookAuth.instance.login();
+// void loginWithFacebook() async {
+//   final LoginResult result = await FacebookAuth.instance.login();
 
-  //   // Create a credential from the access token
-  //   final FacebookAuthCredential facebookAuthCredential =
-  //       FacebookAuthProvider.credential(result.accessToken.token);
+//   // Create a credential from the access token
+//   final FacebookAuthCredential facebookAuthCredential =
+//       FacebookAuthProvider.credential(result.accessToken.token);
 
-  //   // Once signed in, return the UserCredential
-  //   var res = await FirebaseAuth.instance
-  //       .signInWithCredential(facebookAuthCredential);
-  // }
+//   // Once signed in, return the UserCredential
+//   var res = await FirebaseAuth.instance
+//       .signInWithCredential(facebookAuthCredential);
+// }
 }

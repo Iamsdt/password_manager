@@ -82,13 +82,13 @@ class MasterPassUI extends StatelessWidget {
                 _controller.showPassword();
               },
               child: Icon(
-                _controller.obsecureText.value
+                _controller.obscureText.value
                     ? Icons.visibility_off
                     : Icons.visibility,
               ),
             ),
           ),
-          obscureText: _controller.obsecureText.value,
+          obscureText: _controller.obscureText.value,
         ),
       ),
     );

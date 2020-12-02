@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/shared/custom_shape.dart';
 import 'package:password_manager/utils/image_const.dart';
-import 'package:password_manager/ext/ext.dart';
 
 class AuthHelper {
   static Widget getAppBar({height}) {
@@ -84,16 +83,15 @@ class AuthHelper {
 
   //normal text field
   static Widget nameTextFiled(
-    TextEditingController controller,
-    String hintText,
-    IconData icon,
-  ) {
+      TextEditingController controller, String hintText, IconData icon,
+      {@required FormFieldValidator<String> validator}) {
     return Material(
       borderRadius: BorderRadius.circular(30.0),
       elevation: 5,
       child: TextFormField(
         controller: controller,
         cursorColor: Colors.blue[200],
+        validator: validator,
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,

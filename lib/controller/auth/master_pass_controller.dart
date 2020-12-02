@@ -7,12 +7,12 @@ class MasterPassController extends GetxController {
   final TextEditingController passController = TextEditingController();
   final TextEditingController conPassController = TextEditingController();
 
-  var obsecureText = true.obs;
+  var obscureText = true.obs;
 
   void updatePassword() {}
 
   void showPassword() {
-    obsecureText.update((val) {
+    obscureText.update((val) {
       val = !val;
     });
   }

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/login_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
-import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/auth/signup_page.dart';
+import 'package:password_manager/ui/shared/auth_helper_ui.dart';
+import 'package:password_manager/utils/validate_checker.dart';
 
 class LoginPageUI extends StatelessWidget {
   final LoginController _controller = Get.put(getIt<LoginController>());
@@ -62,8 +63,11 @@ class LoginPageUI extends StatelessWidget {
           children: <Widget>[
             AuthHelper.nameTextFiled(
               _controller.emailController,
-              "Email adress",
+              "Email address",
               Icons.email,
+              validator: (value) => Validator.isEmailValid(value)
+                  ? null
+                  : "Please enter a valid email",
             ),
             SizedBox(height: 10),
             passwordTextFormField(),
@@ -81,6 +85,9 @@ class LoginPageUI extends StatelessWidget {
         child: TextFormField(
           controller: _controller.passController,
           cursorColor: Colors.blue[200],
+          validator: (value) => value.isNotEmpty && value.length > 6
+              ? null
+              : "Enter valid password (min length: 6)",
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.lock,
@@ -97,13 +104,13 @@ class LoginPageUI extends StatelessWidget {
                 _controller.showPassword();
               },
               child: Icon(
-                _controller.obsecureText.value
+                _controller.obscureText.value
                     ? Icons.visibility_off
                     : Icons.visibility,
               ),
             ),
           ),
-          obscureText: _controller.obsecureText.value,
+          obscureText: _controller.obscureText.value,
         ),
       ),
     );
