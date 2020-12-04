@@ -16,11 +16,6 @@ class BottomNavUI extends StatefulWidget {
 }
 
 class _BottomNavUIState extends State<BottomNavUI> {
-  final AppController _controller = Get.put(
-    getIt<AppController>(),
-    tag: "APP",
-    permanent: true,
-  );
 
   int _selectedIndex = 0;
 

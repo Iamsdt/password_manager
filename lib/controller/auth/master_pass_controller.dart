@@ -21,16 +21,17 @@ class MasterPassController extends GetxController {
     var pass1 = passController.text;
     var pass2 = conPassController.text;
 
-    if (pass1 == pass2) {
-      // now save
-      var res = await store.addMasterPassword(pass1);
-      if (res) {
-        Get.to(BottomNavUI());
-      } else {
-        SnackBarHelper.showError("Something went wrong, please try again");
-      }
-    } else {
+Authentication    //if two password not matched, return
+    if (pass1 != pass2) {
       SnackBarHelper.showError("Password did not match");
+      return;
+    }
+
+    var res = await store.addMasterPassword(pass1);
+    if (res) {
+      Get.to(BottomNavUI());
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again");
     }
   }
 

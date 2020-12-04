@@ -8,9 +8,7 @@ import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 class VerifyOTP extends StatelessWidget {
   final LoginController _controller = Get.find();
 
-  final _formKey = GlobalKey<FormState>();
-
-  String otp = "";
+  // final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,23 +27,25 @@ class VerifyOTP extends StatelessWidget {
                 secondCliperHeight: Get.height * 0.2,
               ),
               SizedBox(
-                height: 30,
+                height: 50,
               ),
-              Text(
-                "Verify OTP",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              Container(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                  "An email with verification link, " +
+                      "sent to your email address, please use that link to verify your account, then click Verified Button",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
-              passwordForm(),
+              // passwordForm(),
               SizedBox(
                 height: 50,
               ),
               AuthHelper.getAuthButton("VERIFY", () {
-                if (_formKey.currentState.validate()) {
-                  _controller.verifyOTP(otp);
-                }
+                _controller.verify();
               }),
               //signInTextRow(),
             ],
@@ -55,47 +55,47 @@ class VerifyOTP extends StatelessWidget {
     );
   }
 
-  Widget passwordForm() {
-    return Container(
-      margin: EdgeInsets.only(
-        left: 25,
-        right: 25,
-        top: 30,
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            otpTextFiled(),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget passwordForm() {
+  //   return Container(
+  //     margin: EdgeInsets.only(
+  //       left: 25,
+  //       right: 25,
+  //       top: 30,
+  //     ),
+  //     child: Form(
+  //       key: _formKey,
+  //       child: Column(
+  //         children: <Widget>[
+  //           otpTextFiled(),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget otpTextFiled() {
-    return Material(
-      borderRadius: BorderRadius.circular(30.0),
-      elevation: 5,
-      child: TextFormField(
-        cursorColor: Colors.blue[200],
-        validator: (value) => value.isNotEmpty ? null : "Enter valid OTP",
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.email,
-            color: Colors.blue[500],
-            size: 20,
-          ),
-          hintText: "OTP",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            borderSide: BorderSide.none,
-          ),
-        ),
-        onChanged: (value) {
-          otp = value;
-        },
-      ),
-    );
-  }
+  // Widget otpTextFiled() {
+  //   return Material(
+  //     borderRadius: BorderRadius.circular(30.0),
+  //     elevation: 5,
+  //     child: TextFormField(
+  //       cursorColor: Colors.blue[200],
+  //       validator: (value) => value.isNotEmpty ? null : "Enter valid OTP",
+  //       decoration: InputDecoration(
+  //         prefixIcon: Icon(
+  //           Icons.email,
+  //           color: Colors.blue[500],
+  //           size: 20,
+  //         ),
+  //         hintText: "OTP",
+  //         border: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(30.0),
+  //           borderSide: BorderSide.none,
+  //         ),
+  //       ),
+  //       onChanged: (value) {
+  //         otp = value;
+  //       },
+  //     ),
+  //   );
+  // }
 }

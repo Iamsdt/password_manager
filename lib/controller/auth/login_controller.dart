@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
@@ -125,14 +126,15 @@ class LoginController extends GetxController {
     return res;
   }
 
-  void verifyOTP(String otp) {
-    _layer.verifyEmailCode(otp).then((value) {
-      if (value) {
-        nextPage();
-      }
-    }).catchError((e, s) {
-      Fimber.e("Error on verify OTP", ex: e, stacktrace: s);
-    });
+  void verify() async {
+    var user = FirebaseAuth.instance.currentUser;
+    //reload user
+    await user.reload();
+    //now check user email is verified
+    if (user != null && user.emailVerified) {
+      //then go to next page
+      nextPage();
+    }
   }
 
   void nextPage() async {

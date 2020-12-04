@@ -23,13 +23,9 @@ class CheckMasterPassController extends GetxController {
     Encrypter encrypter = Get.find(tag: "ENCRYPT");
     var current = passController.text.encrypt(encrypter);
     Fimber.i("Current password $current");
-    print(current);
-    var old = res.data();
-    print(old);
-    var str = old.toString();
-    print(str);
-
-    if (str == current) {
+    var old = res.data()['psssword'];
+    
+    if (old == current) {
       Get.to(BottomNavUI());
     } else {
       SnackBarHelper.showError("Password did not match, please try again!");

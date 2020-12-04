@@ -26,6 +26,19 @@ class MasterPassUI extends StatelessWidget {
                 firstCliperHight: Get.height * 0.2,
                 secondCliperHeight: Get.height * 0.2,
               ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                  "Please add Master Password",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
               passwordForm(),
               SizedBox(
                 height: 50,
@@ -48,22 +61,23 @@ class MasterPassUI extends StatelessWidget {
       margin: EdgeInsets.only(
         left: 25,
         right: 25,
-        top: 60,
+        top: 30,
       ),
       child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
-            passwordTextFiled(_controller.passController),
+            passwordTextFiled(_controller.passController, "Password"),
             SizedBox(height: 10),
-            passwordTextFiled(_controller.conPassController),
+            passwordTextFiled2(
+                _controller.conPassController, "Confirm password"),
           ],
         ),
       ),
     );
   }
 
-  Widget passwordTextFiled(TextEditingController controller) {
+  Widget passwordTextFiled(TextEditingController controller, String hint) {
     return Obx(
       () => Material(
         borderRadius: BorderRadius.circular(30.0),
@@ -80,7 +94,47 @@ class MasterPassUI extends StatelessWidget {
               color: Colors.blue[500],
               size: 20,
             ),
-            hintText: "Password",
+            hintText: hint,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: GestureDetector(
+              onTap: () {
+                _controller.showPassword();
+              },
+              child: Icon(
+                _controller.obscureText.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+              ),
+            ),
+          ),
+          obscureText: _controller.obscureText.value,
+        ),
+      ),
+    );
+  }
+
+
+  Widget passwordTextFiled2(TextEditingController controller, String hint) {
+    return Obx(
+      () => Material(
+        borderRadius: BorderRadius.circular(30.0),
+        elevation: 5,
+        child: TextFormField(
+          controller: controller,
+          cursorColor: Colors.blue[200],
+          validator: (value) => value.isNotEmpty && value.length >= 6
+              ? null
+              : "Enter valid password (min length: 6)",
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.email,
+              color: Colors.blue[500],
+              size: 20,
+            ),
+            hintText: hint,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
               borderSide: BorderSide.none,

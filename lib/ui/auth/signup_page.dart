@@ -9,6 +9,7 @@ import 'package:password_manager/utils/validate_checker.dart';
 
 class SignupPageUI extends StatelessWidget {
   final SignupController _controller = Get.put(getIt<SignupController>());
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,10 @@ class SignupPageUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("SIGN UP", () {
-                Get.to(MasterPassUI());
-                // _controller.signup();
+                if (_formKey.currentState.validate()) {
+                  _controller.signup();
+                }
+                // Get.to(MasterPassUI());
               }),
               AuthHelper.infoLabelText("Or create using social media"),
               AuthHelper.socialIconsButtons(() {
@@ -62,6 +65,7 @@ class SignupPageUI extends StatelessWidget {
         top: 50,
       ),
       child: Form(
+        key: _formKey,
         autovalidateMode: AutovalidateMode.always,
         child: Column(
           children: <Widget>[
@@ -76,7 +80,7 @@ class SignupPageUI extends StatelessWidget {
             SizedBox(height: 10),
             AuthHelper.nameTextFiled(
               _controller.emailController,
-              "Full name",
+              "Email Address",
               Icons.email,
               validator: (value) => Validator.isEmailValid(value)
                   ? null
@@ -98,7 +102,7 @@ class SignupPageUI extends StatelessWidget {
         child: TextFormField(
           controller: _controller.passController,
           cursorColor: Colors.blue[200],
-          validator: (value) => value.isNotEmpty && value.length > 6
+          validator: (value) => value.isNotEmpty && value.length >= 6
               ? null
               : "Enter valid password (min length: 6)",
           decoration: InputDecoration(

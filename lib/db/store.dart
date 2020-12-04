@@ -40,7 +40,7 @@ class Store {
       Encrypter encrypter = Get.find(tag: "ENCRYPT");
       var en = pass.encrypt(encrypter);
 
-      var data = Map();
+      var data = Map<String, String>();
       data['psssword'] = en;
 
       await _firestore
@@ -64,11 +64,16 @@ class Store {
   }
 
   Future<bool> checkMasterPassword() async {
-    var data = await _firestore
-        .collection(DbConstant.MASTERPASS)
-        .doc("MasterPass")
-        .get();
+    try {
+      var data = await _firestore
+          .collection(DbConstant.MASTERPASS)
+          .doc("MasterPass")
+          .get();
 
-    return data.exists;
+      return data.exists;
+    } catch (e, s) {
+      Fimber.e("Error on checking master password", ex: e, stacktrace: s);
+      return false;
+    }
   }
 }
