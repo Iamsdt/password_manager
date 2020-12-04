@@ -63,7 +63,7 @@ class AuthLayer {
     return false;
   }
 
-  Future<bool> verifyEmailCOde(String code) async {
+  Future<bool> verifyEmailCode(String code) async {
     try {
       await _auth.checkActionCode(code);
       await _auth.applyActionCode(code);

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/signup_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/auth/login_ui_page.dart';
+import 'package:password_manager/ui/auth/master_pass_ui.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/utils/validate_checker.dart';
 
@@ -21,7 +22,7 @@ class SignupPageUI extends StatelessWidget {
             children: <Widget>[
               AuthHelper.getAppBar(height: Get.height * 0.15),
               AuthHelper.clipShape(
-                roundIconTop: Get.height * 0.07,
+                roundIconTop: Get.height * 0.02,
                 firstCliperHight: Get.height * 0.15,
                 secondCliperHeight: Get.height * 0.15,
               ),
@@ -30,7 +31,8 @@ class SignupPageUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("SIGN UP", () {
-                _controller.signup();
+                Get.to(MasterPassUI());
+                // _controller.signup();
               }),
               AuthHelper.infoLabelText("Or create using social media"),
               AuthHelper.socialIconsButtons(() {

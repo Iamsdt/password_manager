@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:password_manager/envs.dart';
+import 'package:password_manager/ui/auth/check_master_password.dart';
 import 'package:password_manager/ui/auth/login_ui_page.dart';
 import 'package:password_manager/ui/main/bottom_nav.dart';
 import 'package:password_manager/utils/encrtypt.dart';
@@ -28,7 +29,7 @@ class _SplashUIState extends State<SplashUI> {
     var user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Get.off(BottomNavUI());
+      Get.off(CheckMasterPassUI());
     } else {
       Get.to(LoginPageUI());
     }

@@ -8,6 +8,8 @@ class MasterPassUI extends StatelessWidget {
   final MasterPassController _controller =
       Get.put(getIt<MasterPassController>());
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +30,10 @@ class MasterPassUI extends StatelessWidget {
               SizedBox(
                 height: 50,
               ),
-              AuthHelper.getAuthButton("UPDATE", () {
-                _controller.updatePassword();
+              AuthHelper.getAuthButton("Set Master Password", () {
+                if (_formKey.currentState.validate()) {
+                  _controller.updatePassword();
+                }
               }),
               //signInTextRow(),
             ],
@@ -47,6 +51,7 @@ class MasterPassUI extends StatelessWidget {
         top: 60,
       ),
       child: Form(
+        key: _formKey,
         child: Column(
           children: <Widget>[
             passwordTextFiled(_controller.passController),
@@ -66,6 +71,9 @@ class MasterPassUI extends StatelessWidget {
         child: TextFormField(
           controller: controller,
           cursorColor: Colors.blue[200],
+          validator: (value) => value.isNotEmpty && value.length >= 6
+              ? null
+              : "Enter valid password (min length: 6)",
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.email,

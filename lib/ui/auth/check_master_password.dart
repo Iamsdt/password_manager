@@ -1,15 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:password_manager/controller/auth/login_controller.dart';
+import 'package:password_manager/controller/auth/check_master_pass_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
-import 'package:password_manager/ui/auth/signup_page.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
-import 'package:password_manager/ui/shared/snack_bar_helper.dart';
-import 'package:password_manager/utils/validate_checker.dart';
 
-class LoginPageUI extends StatelessWidget {
-  final LoginController _controller = Get.put(getIt<LoginController>());
-  final _formKey = GlobalKey<FormState>();
+class CheckMasterPassUI extends StatelessWidget {
+  final CheckMasterPassController _controller =
+      Get.put(getIt<CheckMasterPassController>());
 
   @override
   Widget build(BuildContext context) {
@@ -27,28 +26,24 @@ class LoginPageUI extends StatelessWidget {
                 firstCliperHight: Get.height * 0.2,
                 secondCliperHeight: Get.height * 0.2,
               ),
-              loginForm(),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Verify master password",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              passwordForm(),
               SizedBox(
                 height: 50,
               ),
-              AuthHelper.getAuthButton("SIGN IN", () {
-                if (_formKey.currentState.validate()) {
-                  _controller.login();
-                } else {
-                  SnackBarHelper.showError("Please input valid data");
-                }
+              AuthHelper.getAuthButton("VERIFY", () {
+                _controller.updatePassword();
               }),
-              AuthHelper.infoLabelText("Or signin using social media"),
-              AuthHelper.socialIconsButtons(() {
-                //google click
-                _controller.googleLogin();
-              }, () {
-                //facebook click
-                _controller.facebookLogin();
-              }),
-              AuthHelper.loginORSignupText("New here?", "Sign Up", () {
-                Get.to(SignupPageUI());
-              }),
+              //signInTextRow(),
             ],
           ),
         ),
@@ -56,48 +51,34 @@ class LoginPageUI extends StatelessWidget {
     );
   }
 
-  Widget loginForm() {
+  Widget passwordForm() {
     return Container(
       margin: EdgeInsets.only(
         left: 25,
         right: 25,
-        top: 60,
+        top: 30,
       ),
       child: Form(
-        key: _formKey,
-        autovalidateMode: AutovalidateMode.always,
         child: Column(
           children: <Widget>[
-            AuthHelper.nameTextFiled(
-              _controller.emailController,
-              "Email address",
-              Icons.email,
-              validator: (value) => Validator.isEmailValid(value)
-                  ? null
-                  : "Please enter a valid email",
-            ),
-            SizedBox(height: 10),
-            passwordTextFormField(),
+            passwordTextFiled(_controller.passController),
           ],
         ),
       ),
     );
   }
 
-  Widget passwordTextFormField() {
+  Widget passwordTextFiled(TextEditingController controller) {
     return Obx(
       () => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
         child: TextFormField(
-          controller: _controller.passController,
+          controller: controller,
           cursorColor: Colors.blue[200],
-          validator: (value) => value.isNotEmpty && value.length >= 6
-              ? null
-              : "Enter valid password (min length: 6)",
           decoration: InputDecoration(
             prefixIcon: Icon(
-              Icons.lock,
+              Icons.email,
               color: Colors.blue[500],
               size: 20,
             ),

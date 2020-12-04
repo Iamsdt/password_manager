@@ -3,4 +3,7 @@ class DbConstant {
   static const String CATEGORIES = "Categories";
   static const String CARDS = "Cards";
   static const String NOTES = "Notes";
+
+  //master pass
+  static const String MASTERPASS = "MasterPass";
 }

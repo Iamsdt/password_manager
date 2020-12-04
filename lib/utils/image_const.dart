@@ -10,5 +10,5 @@ class ImageConst {
   static const String PASSWORD_ICON = _base + "password.svg";
   static const String GOOGLE_ICON = _base + "google.svg";
   static const String FACEBOOK_IMG = _base + "fblogo.jpg";
-  static const String GOOGLE_IMG = _base + "fblogo.jpg";
+  static const String GOOGLE_IMG = _base + "google.png";
 }

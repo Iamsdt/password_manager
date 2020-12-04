@@ -1,16 +1,22 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
+import 'package:password_manager/db/store.dart';
 import 'package:password_manager/repo/auth_layer.dart';
 import 'package:password_manager/repo/auth_results.dart';
+import 'package:password_manager/ui/auth/check_master_password.dart';
+import 'package:password_manager/ui/auth/master_pass_ui.dart';
+import 'package:password_manager/ui/auth/verify_otp.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 @lazySingleton
 class LoginController extends GetxController {
   AuthLayer _layer;
+  Store _store;
 
-  LoginController(this._layer);
+  LoginController(this._layer, this._store);
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
@@ -45,12 +51,14 @@ class LoginController extends GetxController {
       var user = value.userCredential.user;
       if (user.emailVerified) {
         //goto next page
+        nextPage();
       } else {
         SnackBarHelper.showInfo("Please very email!");
         await user.sendEmailVerification();
         SnackBarHelper.showSuccess(
             "Sent verification email, please check your inbox");
 
+        Get.to(VerifyOTP());
         //go to verification ui
       }
     } else {
@@ -74,6 +82,7 @@ class LoginController extends GetxController {
       //that's means it's ok
       //go to next master pass page
       SnackBarHelper.showSuccess("Login successful");
+      nextPage();
     } else {
       SnackBarHelper.showError(value.message);
     }
@@ -93,6 +102,45 @@ class LoginController extends GetxController {
   void closeExistingSnackBar() {
     if (Get.isSnackbarOpen) {
       Get.back();
+    }
+  }
+
+  Future<bool> checkMasterPassExists() async {
+    //show loading dialog
+    Get.dialog(
+      Center(
+        child: CircularProgressIndicator(),
+      ),
+      barrierDismissible: false,
+    );
+
+    var res = await _store.checkMasterPassword();
+
+    //hide loading dialog
+    //check dialog is showing or user close
+    if (Get.isDialogOpen) {
+      Get.back();
+    }
+
+    return res;
+  }
+
+  void verifyOTP(String otp) {
+    _layer.verifyEmailCode(otp).then((value) {
+      if (value) {
+        nextPage();
+      }
+    }).catchError((e, s) {
+      Fimber.e("Error on verify OTP", ex: e, stacktrace: s);
+    });
+  }
+
+  void nextPage() async {
+    var res = await checkMasterPassExists();
+    if (res) {
+      Get.to(CheckMasterPassUI());
+    } else {
+      Get.to(MasterPassUI());
     }
   }
 
