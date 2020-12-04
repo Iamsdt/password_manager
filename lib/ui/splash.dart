@@ -11,8 +11,8 @@ import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/envs.dart';
 import 'package:password_manager/ui/auth/check_master_password.dart';
 import 'package:password_manager/ui/auth/login_ui_page.dart';
+import 'package:password_manager/ui/auth/master_pass_ui.dart';
 import 'package:password_manager/ui/auth/verify_otp.dart';
-import 'package:password_manager/ui/main/bottom_nav.dart';
 import 'package:password_manager/utils/encrtypt.dart';
 import 'package:password_manager/utils/image_const.dart';
 
@@ -22,15 +22,9 @@ class SplashUI extends StatefulWidget {
 }
 
 class _SplashUIState extends State<SplashUI> {
-  final AppController _controller = Get.put(
-    getIt<AppController>(),
-    tag: "APP",
-    permanent: true,
-  );
-
   @override
   void initState() {
-    Timer(Duration(seconds: 1), () => _controller.handleSplashScreen());
+    Timer(Duration(seconds: 1), () => handleSplashScreen());
     super.initState();
   }
 
@@ -67,5 +61,34 @@ class _SplashUIState extends State<SplashUI> {
         ),
       ),
     );
+  }
+
+  //handle splash screen
+  void handleSplashScreen() async {
+    //before going to next PAGE INIT Encryptor
+    Encrypter encrypter =
+        initEncryptor(MyEnvironment.passKey, MyEnvironment.paddingKey);
+    //put into GetX, so that it can be accessed from across the APP
+    Get.put<Encrypter>(encrypter, tag: "ENCRYPT", permanent: true);
+
+    var user = FirebaseAuth.instance.currentUser;
+
+    //check user is null or not
+    //if null goto login page
+    if (user == null) {
+      Get.offAll(LoginPageUI());
+      return;
+    }
+
+    //check user email is verified or not
+    //if not send to verify page
+    if (!user.emailVerified) {
+      await user.sendEmailVerification();
+      Get.offAll(VerifyOTP());
+      return;
+    }
+
+    //otherwise go to master pass ui page
+    Get.offAll(CheckMasterPassUI());
   }
 }

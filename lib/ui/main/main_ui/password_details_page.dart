@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/db/model/password_model.dart';
 
 class PasswordDetailsUI extends StatelessWidget {
+  final PasswordModel model;
+
+  PasswordDetailsUI(this.model);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +86,7 @@ class PasswordDetailsUI extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  showPassbox(),
+                  showPassbox(model.userName),
                   SizedBox(
                     height: 15,
                   ),
@@ -96,7 +101,7 @@ class PasswordDetailsUI extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  showPassbox(),
+                  showPassbox(model.password),
                   SizedBox(
                     height: 20,
                   ),
@@ -113,8 +118,9 @@ class PasswordDetailsUI extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  analysisItem("87%", "Password Strength"),
-                  analysisItem("365 d", "Last update days ago"),
+                  analysisItem("${model.strength}%", "Password Strength"),
+                  analysisItem(
+                      "${model.updated.day} d", "Last update days ago"),
                 ],
               ),
             ),
@@ -176,7 +182,7 @@ class PasswordDetailsUI extends StatelessWidget {
     );
   }
 
-  Container showPassbox() {
+  Container showPassbox(String text) {
     return Container(
       child: Row(
         children: [
@@ -197,7 +203,7 @@ class PasswordDetailsUI extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "pass" * 4,
+                      text,
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,
@@ -259,7 +265,7 @@ class PasswordDetailsUI extends StatelessWidget {
           // ),
           Expanded(
             child: Text(
-              "Google",
+              model.companyName ?? "Not found",
               style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.w500,

@@ -1,8 +1,8 @@
 import 'package:encrypt/encrypt.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
+import 'package:password_manager/controller/DataStatus.dart';
+import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/generated_pass.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/db/store.dart';
@@ -11,6 +11,7 @@ import 'package:password_manager/ui/auth/check_master_password.dart';
 import 'package:password_manager/ui/auth/login_ui_page.dart';
 import 'package:password_manager/ui/auth/master_pass_ui.dart';
 import 'package:password_manager/ui/auth/verify_otp.dart';
+import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/utils/encrtypt.dart';
 import 'package:password_manager/utils/pass_generator.dart';
 import 'package:password_manager/ext/ext.dart';
@@ -22,6 +23,11 @@ class AppController extends GetxController {
   AppController(this._store);
 
   var genPassword = GeneratedPassword(generatePassword(16)).obs;
+
+  var categoryStatus =
+      DataStatus<List<CategoriesModel>>(null, DataState.INIT).obs;
+  // category cache data
+  var cache = List<CategoriesModel>();
 
   @override
   void onInit() {
@@ -53,7 +59,8 @@ class AppController extends GetxController {
     });
   }
 
-  void savePassword(String title, String userName, String pass) {
+  void savePassword(
+      CategoriesModel cat, String title, String userName, String pass) async {
     Encrypter encrypter = Get.find(tag: "ENCRYPT");
 
     var model = PasswordModel(
@@ -61,43 +68,62 @@ class AppController extends GetxController {
       userName: userName.encrypt(encrypter),
       password: pass.encrypt(encrypter),
       iconPath: "",
-      categories: "",
+      categories: cat.uuid,
+      strength: 10,
       updated: DateTime.now(),
       accessedOn: DateTime.now(),
     );
 
     // saved password
-    _store.addPassword(model);
+    var res = await _store.addPassword(model);
+    if (res) {
+      SnackBarHelper.showSuccess("Password added successfully");
+      Get.back();
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
   }
 
-  //handle splash screen
-  void handleSplashScreen() async {
-    //before going to next PAGE INIT Encryptor
-    Encrypter encrypter =
-        initEncryptor(MyEnvironment.passKey, MyEnvironment.paddingKey);
-    //put into GetX, so that it can be accessed from across the APP
-    Get.put<Encrypter>(encrypter, tag: "ENCRYPT", permanent: true);
+  // *********************************
+  // ********** Categories ***********
+  // *********************************
+  void createCategory(String text) async {
+    var model = CategoriesModel(name: text, icon: "");
+    var res = await _store.addCategories(model);
+    if (res) {
+      SnackBarHelper.showSuccess("Category added successfully");
+      //update list
+      getAllData(force: true);
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
+  }
 
-    var user = FirebaseAuth.instance.currentUser;
+  void getAllData({force = false}) async {
+    //if we have cache data, then we will show
+    //and if we force, then it will read that data again
+    if (!force && cache.isNotEmpty) {
+      categoryStatus.update((val) {
+        val.data = cache;
+        val.state = DataState.LOADED;
+      });
 
-    //check user is null or not
-    //if null goto login page
-    if (user == null) {
-      Get.to(LoginPageUI());
       return;
     }
 
-    //check user email is verified or not
-    //if not send to verify page
-    if (!user.emailVerified) {
-      await user.sendEmailVerification();
-      Get.to(VerifyOTP());
-    }
+    var cats = await _store.getCategories();
 
-    // and check user added master pass or not
-    // if yes, then send to check master pass page
-    // if not send to setup master pass page
-    var res = await _store.checkMasterPassword();
-    Get.to(res ? CheckMasterPassUI() : MasterPassUI());
+    var models = cats.docs.map((e) {
+      return CategoriesModel.fromMap(e.data());
+    }).toList();
+
+    // save to the cache
+    cache = models;
+
+    //now update
+    categoryStatus.update((val) {
+      val.data = models;
+      val.state = DataState.LOADED;
+    });
   }
 }

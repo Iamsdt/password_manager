@@ -13,27 +13,74 @@ import 'package:password_manager/ext/ext.dart';
 class Store {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void addPassword(PasswordModel model) {
-    var pass = _firestore.collection(DbConstant.PASSWORD);
-    pass.add(model.toMap()).then((value) {
-      SnackBarHelper.showSuccess("Added Successfully");
-    }).catchError((error) {
-      SnackBarHelper.showError("Something went wrong, please try again");
-    });
+  // ***********************************
+  // ************PASSWORD***************
+  // ***********************************
+
+  Future<bool> addPassword(PasswordModel model) async {
+    try {
+      var pass = _firestore.collection(DbConstant.PASSWORD);
+      await pass.doc(model.uuid).set(model.toMap());
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on categories", ex: e, stacktrace: s);
+      return false;
+    }
   }
 
-  void addCategories(CategoriesModel model) {
+  Future<bool> updatePassword(PasswordModel model) async {
+    try {
+      var pass = _firestore.collection(DbConstant.PASSWORD);
+      var options = SetOptions(merge: true);
+      await pass.doc(model.uuid).set(model.toMap(), options);
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on categories", ex: e, stacktrace: s);
+      return false;
+    }
+  }
+
+  Future<QuerySnapshot> getPassword() async {
     var pass = _firestore.collection(DbConstant.PASSWORD);
-    pass.add(model.toMap()).then((value) {
-      SnackBarHelper.showSuccess("Added Successfully");
-    }).catchError((error) {
-      SnackBarHelper.showError("Something went wrong, please try again");
-    });
+    return await pass.get();
+  }
+
+  Future<QuerySnapshot> getCategoryPassword(String categoryID) async {
+    var pass = _firestore.collection(DbConstant.PASSWORD);
+    return await pass.where("category", isEqualTo: categoryID).get();
   }
 
   void addNotes() {
     //
   }
+
+  // ***********************************
+  // ************CATEGORY***************
+  // ***********************************
+
+  Future<bool> addCategories(CategoriesModel model) async {
+    try {
+      var cat = _firestore.collection(DbConstant.CATEGORIES);
+      await cat.doc(model.uuid).set(model.toMap());
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on categories", ex: e, stacktrace: s);
+      return false;
+    }
+  }
+
+  Future<QuerySnapshot> getCategories() async {
+    var cat = _firestore.collection(DbConstant.CATEGORIES);
+    return await cat.get();
+  }
+
+  // ***********************************
+  // ************CARDS***************
+  // ***********************************
+
+  // ***********************************
+  // **********MASTER PASSWORD**********
+  // ***********************************
 
   Future<bool> addMasterPassword(String pass) async {
     try {

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/controller/DataStatus.dart';
+import 'package:password_manager/controller/categories/categories_controller.dart';
+import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
 
 class CategoriesDetails extends StatelessWidget {
-  const CategoriesDetails({Key key}) : super(key: key);
+  final String uuid;
+
+  const CategoriesDetails(this.uuid, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +51,31 @@ class CategoriesDetails extends StatelessWidget {
         ],
       ),
       body: Container(
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (BuildContext context, int index) {
-            return ListItemUI.passList();
+        child: GetX<CategoriesController>(
+          init: getIt<CategoriesController>(),
+          initState: (_) {},
+          builder: (CategoriesController ctl) {
+            var data = ctl.passwordModelStatus.value;
+            switch (data.state) {
+              case DataState.INIT:
+              case DataState.LOADING:
+                return CommonUI.showLoading();
+              case DataState.NO_INTERNET:
+                return CommonUI.showOffline();
+              case DataState.LOADED:
+                return ListView.builder(
+                  itemCount: data.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var model = data.data[index];
+                    return ListItemUI.passList(model);
+                  },
+                );
+              case DataState.FAILED:
+                return CommonUI.showFailed(
+                    "Something went wrong! Please try again");
+              default:
+                return Container();
+            }
           },
         ),
       ),

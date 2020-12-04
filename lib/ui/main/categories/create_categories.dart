@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:password_manager/controller/categories/categories_controller.dart';
+import 'package:password_manager/controller/app_controller.dart';
 
 class CreateCategories {
-  static void showDialog(CategoriesController controller) {
+  static void showDialog(AppController controller) {
     var text = "";
 
     Get.defaultDialog(
@@ -28,8 +28,6 @@ class CreateCategories {
         ),
         confirm: MaterialButton(
           onPressed: () {
-            print("OK");
-            print(text);
             controller.createCategory(text);
             Get.back();
           },
@@ -37,7 +35,6 @@ class CreateCategories {
         ),
         cancel: MaterialButton(
           onPressed: () {
-            print("Cancel");
             Get.back();
           },
           child: Text("CANCEL"),

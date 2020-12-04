@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:encrypt/encrypt.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:password_manager/utils/encrtypt.dart';
 
@@ -8,11 +9,12 @@ class PasswordModel {
   String companyName;
   String userName;
   String password;
-  String strength;
+  int strength;
   String iconPath;
   String categories;
   DateTime updated;
   DateTime accessedOn;
+  String uuid;
 
   PasswordModel({
     this.companyName,
@@ -23,7 +25,10 @@ class PasswordModel {
     this.categories,
     this.updated,
     this.accessedOn,
-  });
+    this.uuid,
+  }) {
+    this.uuid = Uuid().v4();
+  }
 
   PasswordModel copyWith({
     String companyName,
@@ -34,6 +39,7 @@ class PasswordModel {
     String categories,
     DateTime updated,
     DateTime accessedOn,
+    String uuid,
   }) {
     return PasswordModel(
       companyName: companyName ?? this.companyName,
@@ -44,6 +50,7 @@ class PasswordModel {
       categories: categories ?? this.categories,
       updated: updated ?? this.updated,
       accessedOn: accessedOn ?? this.accessedOn,
+      uuid: uuid ?? this.uuid,
     );
   }
 
@@ -54,9 +61,10 @@ class PasswordModel {
       'password': password,
       'strength': strength,
       'iconPath': iconPath,
-      'categories': categories,
+      'category': categories,
       'updated': updated?.millisecondsSinceEpoch,
       'accessedOn': accessedOn?.millisecondsSinceEpoch,
+      'uuid': uuid,
     };
   }
 
@@ -69,9 +77,10 @@ class PasswordModel {
       password: map['password'],
       strength: map['strength'],
       iconPath: map['iconPath'],
-      categories: map['categories'],
+      categories: map['category'],
       updated: DateTime.fromMillisecondsSinceEpoch(map['updated']),
       accessedOn: DateTime.fromMillisecondsSinceEpoch(map['accessedOn']),
+      uuid: map['uuid'],
     );
   }
 
@@ -82,7 +91,7 @@ class PasswordModel {
 
   @override
   String toString() {
-    return 'PasswordModel(companyName: $companyName, userName: $userName, password: $password, strength: $strength, iconPath: $iconPath, categories: $categories, updated: $updated, accessedOn: $accessedOn)';
+    return 'PasswordModel(companyName: $companyName, userName: $userName, password: $password, strength: $strength, iconPath: $iconPath, categories: $categories, updated: $updated, accessedOn: $accessedOn, uuid: $uuid)';
   }
 
   @override
@@ -97,7 +106,8 @@ class PasswordModel {
         o.iconPath == iconPath &&
         o.categories == categories &&
         o.updated == updated &&
-        o.accessedOn == accessedOn;
+        o.accessedOn == accessedOn &&
+        o.uuid == uuid;
   }
 
   @override
@@ -109,36 +119,37 @@ class PasswordModel {
         iconPath.hashCode ^
         categories.hashCode ^
         updated.hashCode ^
-        accessedOn.hashCode;
+        accessedOn.hashCode ^
+        uuid.hashCode;
   }
 
-  PasswordModel encrypt(Encrypter en) {
-    return PasswordModel(
-      companyName: encryptString(en, this.companyName),
-      userName: encryptString(en, this.userName),
-      password: encryptString(en, this.password),
-      strength: this.strength,
-      iconPath: this.iconPath,
-      categories: this.categories,
-      updated: this.updated,
-      accessedOn: this.accessedOn,
-    );
-  }
+  // PasswordModel encrypt(Encrypter en) {
+  //   return PasswordModel(
+  //     companyName: encryptString(en, this.companyName),
+  //     userName: encryptString(en, this.userName),
+  //     password: encryptString(en, this.password),
+  //     strength: this.strength,
+  //     iconPath: this.iconPath,
+  //     categories: this.categories,
+  //     updated: this.updated,
+  //     accessedOn: this.accessedOn,
+  //   );
+  // }
 
-  PasswordModel decrypt(Encrypter en) {
-    this.companyName = decryptString(en, this.companyName);
-    this.userName = decryptString(en, this.userName);
-    this.password = decryptString(en, this.password);
+  // PasswordModel decrypt(Encrypter en) {
+  //   this.companyName = decryptString(en, this.companyName);
+  //   this.userName = decryptString(en, this.userName);
+  //   this.password = decryptString(en, this.password);
 
-    return PasswordModel(
-      companyName: this.companyName,
-      userName: this.userName,
-      password: this.password,
-      strength: this.strength,
-      iconPath: this.iconPath,
-      categories: this.categories,
-      updated: this.updated,
-      accessedOn: this.accessedOn,
-    );
-  }
+  //   return PasswordModel(
+  //     companyName: this.companyName,
+  //     userName: this.userName,
+  //     password: this.password,
+  //     strength: this.strength,
+  //     iconPath: this.iconPath,
+  //     categories: this.categories,
+  //     updated: this.updated,
+  //     accessedOn: this.accessedOn,
+  //   );
+  // }
 }

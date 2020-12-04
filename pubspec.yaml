@@ -27,6 +27,9 @@ dependencies:
   encrypt: ^4.1.0
   flutter_dotenv: ^2.1.0
 
+  # uuid
+  uuid: ^2.2.2
+
   # di
   injectable: ^1.0.5
   get_it: ^5.0.1

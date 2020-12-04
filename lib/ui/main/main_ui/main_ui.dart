@@ -1,8 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:password_manager/controller/DataStatus.dart';
+import 'package:password_manager/controller/home/home_controller.dart';
+import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
 
 class HomePageUI extends StatelessWidget {
+  final HomeController controller = Get.put(getIt<HomeController>());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,16 +69,59 @@ class HomePageUI extends StatelessWidget {
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (ctx, pos) {
-                return Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 10),
-                  child: ListItemUI.passList(),
+          GetX<HomeController>(
+            init: controller,
+            initState: (_) {
+              controller.getAllData();
+            },
+            builder: (_) {
+              var data = controller.passwordModelStatus.value;
+
+              if (data.state == DataState.LOADED) {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (ctx, pos) {
+                      var model = data.data[pos];
+                      return Container(
+                        margin: EdgeInsets.only(top: 10, bottom: 10),
+                        child: ListItemUI.passList(model),
+                      );
+                    },
+                    childCount: data.data.length,
+                  ),
                 );
-              },
-              childCount: 100,
-            ),
+              } else {
+                return SliverToBoxAdapter(
+                  child: CommonUI.showLoading(),
+                );
+              }
+
+              // switch (data.state) {
+              //   case DataState.INIT:
+              //   case DataState.LOADING:
+              //     return CommonUI.showLoading();
+              //   case DataState.NO_INTERNET:
+              //     return CommonUI.showOffline();
+              //   case DataState.LOADED:
+              //     return SliverList(
+              //       delegate: SliverChildBuilderDelegate(
+              //         (ctx, pos) {
+              //           var model = data.data[pos];
+              //           return Container(
+              //             margin: EdgeInsets.only(top: 10, bottom: 10),
+              //             child: ListItemUI.passList(model),
+              //           );
+              //         },
+              //         childCount: data.data.length,
+              //       ),
+              //     );
+              //   case DataState.FAILED:
+              //     return CommonUI.showFailed(
+              //         "Something went wrong! Please try again");
+              //   default:
+              //     return Container();
+              // }
+            },
           ),
           SliverToBoxAdapter(
             child: SizedBox(

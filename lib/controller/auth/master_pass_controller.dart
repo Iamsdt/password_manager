@@ -28,7 +28,7 @@ class MasterPassController extends GetxController {
 
     var res = await store.addMasterPassword(pass1);
     if (res) {
-      Get.to(BottomNavUI());
+      Get.offAll(BottomNavUI());
     } else {
       SnackBarHelper.showError("Something went wrong, please try again");
     }
