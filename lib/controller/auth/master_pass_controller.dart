@@ -20,8 +20,7 @@ class MasterPassController extends GetxController {
   void updatePassword() async {
     var pass1 = passController.text;
     var pass2 = conPassController.text;
-
-Authentication    //if two password not matched, return
+    //if two password not matched, return
     if (pass1 != pass2) {
       SnackBarHelper.showError("Password did not match");
       return;
