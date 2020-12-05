@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/db/model/password_model.dart';
+import 'package:password_manager/utils/utils.dart';
 
 class PasswordDetailsUI extends StatelessWidget {
   final PasswordModel model;
@@ -47,7 +48,7 @@ class PasswordDetailsUI extends StatelessWidget {
         ],
       ),
       body: Container(
-        child: Column(
+        child: ListView(
           children: [
             SizedBox(
               height: 15,
@@ -119,8 +120,8 @@ class PasswordDetailsUI extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   analysisItem("${model.strength}%", "Password Strength"),
-                  analysisItem(
-                      "${model.updated.day} d", "Last update days ago"),
+                  analysisItem("${Utils.getPassUpdatedDay(model.updated)} d",
+                      "Last update days ago"),
                 ],
               ),
             ),
@@ -205,7 +206,7 @@ class PasswordDetailsUI extends StatelessWidget {
                     child: Text(
                       text,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         color: Colors.black,
                       ),
                     ),

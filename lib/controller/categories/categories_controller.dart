@@ -15,7 +15,6 @@ class CategoriesController extends GetxController {
 
   void getAllData(String categoryID) async {
     var cats = await _store.getCategoryPassword(categoryID);
-
     var models = cats.docs.map((e) {
       return PasswordModel.fromMap(e.data());
     }).toList();

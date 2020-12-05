@@ -9,6 +9,7 @@ import 'package:injectable/injectable.dart';
 
 import '../controller/app_controller.dart';
 import '../repo/auth_layer.dart';
+import '../controller/card/card_controller.dart';
 import '../controller/categories/categories_controller.dart';
 import '../controller/auth/check_master_pass_controller.dart';
 import '../controller/home/home_controller.dart';
@@ -30,6 +31,7 @@ GetIt $initGetIt(
   gh.lazySingleton<SignupController>(() => SignupController(get<AuthLayer>()));
   gh.lazySingleton<Store>(() => Store());
   gh.lazySingleton<AppController>(() => AppController(get<Store>()));
+  gh.lazySingleton<CardController>(() => CardController(get<Store>()));
   gh.lazySingleton<CategoriesController>(
       () => CategoriesController(get<Store>()));
   gh.lazySingleton<CheckMasterPassController>(

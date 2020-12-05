@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,9 +7,11 @@ import 'package:password_manager/controller/home/home_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class HomePageUI extends StatelessWidget {
   final HomeController controller = Get.put(getIt<HomeController>());
+  final Encrypter encrypter = Get.find(tag: "ENCRYPT");
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +85,12 @@ class HomePageUI extends StatelessWidget {
                   delegate: SliverChildBuilderDelegate(
                     (ctx, pos) {
                       var model = data.data[pos];
+                      var modelDe = model.copyWith(
+                          userName: model.userName.decrypt(encrypter),
+                          password: model.password.decrypt(encrypter));
                       return Container(
                         margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: ListItemUI.passList(model),
+                        child: ListItemUI.passList(modelDe),
                       );
                     },
                     childCount: data.data.length,

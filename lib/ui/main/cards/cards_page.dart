@@ -1,11 +1,17 @@
-import 'package:credit_card/credit_card_model.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
-import 'package:credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/controller/DataStatus.dart';
+import 'package:password_manager/controller/card/card_controller.dart';
+import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/main/cards/card_input_form.dart';
+import 'package:password_manager/ui/shared/common_ui.dart';
+import 'package:password_manager/ui/shared/my_card_widget.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class CardPageUI extends StatelessWidget {
-  const CardPageUI({Key key}) : super(key: key);
+  final CardController controller = Get.put(getIt<CardController>());
+  final Encrypter encrypter = Get.find(tag: "ENCRYPT");
 
   @override
   Widget build(BuildContext context) {
@@ -73,27 +79,82 @@ class CardPageUI extends StatelessWidget {
               height: 20,
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (ctx, pos) {
-                bool status = false;
-                return InkWell(
-                  onTap: () {
-                    //todo click
-                    status = !status;
-                  },
-                  child: CreditCardWidget(
-                    cardNumber: "4242424242424242",
-                    expiryDate: "10/12",
-                    cardHolderName: "Test Data",
-                    cvvCode: "121",
-                    showBackView: status,
+          GetX<CardController>(
+            init: controller,
+            initState: (_) {
+              controller.getAllData();
+            },
+            builder: (_) {
+              var data = controller.cardModelStatus.value;
+              if (data.state == DataState.LOADED) {
+                if (data.data.isEmpty) {
+                  return SliverToBoxAdapter(
+                    child: Container(
+                      padding: EdgeInsets.only(top: 50),
+                      child: CommonUI.showFailed(
+                        "No cards found",
+                      ),
+                    ),
+                  );
+                }
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (ctx, pos) {
+                      var model = data.data[pos];
+                      var modelDe = model.copyWith(
+                        cardNumber: model.cardNumber.decrypt(encrypter),
+                        cvc: model.cvc.decrypt(encrypter),
+                      );
+                      return Container(
+                        margin: EdgeInsets.only(top: 10, bottom: 10),
+                        child: MyCardWidget(modelDe),
+                      );
+                    },
+                    childCount: data.data.length,
                   ),
                 );
-              },
-              childCount: 10,
-            ),
+              } else {
+                return SliverToBoxAdapter(
+                  child: CommonUI.showLoading(),
+                );
+              }
+
+              // switch (data.state) {
+              //   case DataState.INIT:
+              //   case DataState.LOADING:
+              //     return CommonUI.showLoading();
+              //   case DataState.NO_INTERNET:
+              //     return CommonUI.showOffline();
+              //   case DataState.LOADED:
+              //     return SliverList(
+              //       delegate: SliverChildBuilderDelegate(
+              //         (ctx, pos) {
+              //           var model = data.data[pos];
+              //           return Container(
+              //             margin: EdgeInsets.only(top: 10, bottom: 10),
+              //             child: ListItemUI.passList(model),
+              //           );
+              //         },
+              //         childCount: data.data.length,
+              //       ),
+              //     );
+              //   case DataState.FAILED:
+              //     return CommonUI.showFailed(
+              //         "Something went wrong! Please try again");
+              //   default:
+              //     return Container();
+              // }
+            },
           ),
+          // SliverList(
+          //   delegate: SliverChildBuilderDelegate(
+          //     (ctx, pos) {
+          //       var model =
+          //       return MyCardWidget();
+          //     },
+          //     childCount: 10,
+          //   ),
+          // ),
           SliverToBoxAdapter(
             child: SizedBox(
               height: 30,

@@ -4,6 +4,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/db/db_constant.dart';
+import 'package:password_manager/db/model/cards_model.dart';
 import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
@@ -77,6 +78,22 @@ class Store {
   // ***********************************
   // ************CARDS***************
   // ***********************************
+
+  Future<bool> addCards(CardsModel model) async {
+    try {
+      var card = _firestore.collection(DbConstant.CARDS);
+      await card.doc(model.uuid).set(model.toMap());
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on categories", ex: e, stacktrace: s);
+      return false;
+    }
+  }
+
+  Future<QuerySnapshot> getCards() async {
+    var card = _firestore.collection(DbConstant.CARDS);
+    return await card.get();
+  }
 
   // ***********************************
   // **********MASTER PASSWORD**********

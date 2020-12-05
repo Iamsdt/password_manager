@@ -3,6 +3,8 @@ import 'package:credit_card/credit_card_model.dart';
 import 'package:credit_card/credit_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/controller/card/card_controller.dart';
+import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 class CardInputPage extends StatefulWidget {
   const CardInputPage({Key key}) : super(key: key);
@@ -12,6 +14,7 @@ class CardInputPage extends StatefulWidget {
 }
 
 class _CardInputPageState extends State<CardInputPage> {
+  final CardController controller = Get.find();
   CreditCardModel _model;
 
   @override
@@ -86,5 +89,13 @@ class _CardInputPageState extends State<CardInputPage> {
         ],
       ),
     );
+  }
+
+  void saveCard() async {
+    var res = await controller.addCard(_model);
+    if (res) {
+      //update list
+      Get.back(closeOverlays: true);
+    }
   }
 }

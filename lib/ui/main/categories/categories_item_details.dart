@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -6,11 +7,13 @@ import 'package:password_manager/controller/categories/categories_controller.dar
 import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class CategoriesDetails extends StatelessWidget {
+  final Encrypter encrypter = Get.find(tag: "ENCRYPT");
   final String uuid;
 
-  const CategoriesDetails(this.uuid, {Key key}) : super(key: key);
+  CategoriesDetails(this.uuid);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,9 @@ class CategoriesDetails extends StatelessWidget {
       body: Container(
         child: GetX<CategoriesController>(
           init: getIt<CategoriesController>(),
-          initState: (_) {},
+          initState: (_) {
+            getIt<CategoriesController>().getAllData(uuid);
+          },
           builder: (CategoriesController ctl) {
             var data = ctl.passwordModelStatus.value;
             switch (data.state) {
@@ -63,11 +68,18 @@ class CategoriesDetails extends StatelessWidget {
               case DataState.NO_INTERNET:
                 return CommonUI.showOffline();
               case DataState.LOADED:
+                if (data.data.isEmpty) {
+                  return CommonUI.showFailed("No saved password found");
+                }
+
                 return ListView.builder(
                   itemCount: data.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     var model = data.data[index];
-                    return ListItemUI.passList(model);
+                    var modelDe = model.copyWith(
+                        userName: model.userName.decrypt(encrypter),
+                        password: model.password.decrypt(encrypter));
+                    return ListItemUI.passList(modelDe);
                   },
                 );
               case DataState.FAILED:

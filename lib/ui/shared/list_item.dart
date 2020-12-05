@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/ui/main/main_ui/password_details_page.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class ListItemUI {
   static ListTile passList(PasswordModel model) {
@@ -23,7 +24,7 @@ class ListItemUI {
         ),
       ),
       subtitle: Text(
-        "Last updated: ${model.accessedOn.toString()}",
+        "Last updated: ${model.accessedOn.readableString()}",
         style: TextStyle(
           fontSize: 16.0,
           fontWeight: FontWeight.w500,

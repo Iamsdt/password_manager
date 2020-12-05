@@ -1,114 +1,109 @@
 import 'dart:convert';
 
 import 'package:encrypt/encrypt.dart';
+import 'package:uuid/uuid.dart';
+
 import 'package:password_manager/utils/encrtypt.dart';
 
 class CardsModel {
+  String uuid;
   String cardNumber;
   String name;
   String expDate;
   String cvc;
 
   DateTime createdDate;
+  DateTime updatedDate;
 
-  CardsModel(
+  CardsModel({
+    this.uuid,
     this.cardNumber,
     this.name,
     this.expDate,
     this.cvc,
     this.createdDate,
-  );
+    this.updatedDate,
+  }) {
+    this.uuid = Uuid().v4();
+  }
 
   CardsModel copyWith({
+    String uuid,
     String cardNumber,
     String name,
     String expDate,
     String cvc,
     DateTime createdDate,
+    DateTime updatedDate,
   }) {
     return CardsModel(
-      cardNumber ?? this.cardNumber,
-      name ?? this.name,
-      expDate ?? this.expDate,
-      cvc ?? this.cvc,
-      createdDate ?? this.createdDate,
+      uuid: uuid ?? this.uuid,
+      cardNumber: cardNumber ?? this.cardNumber,
+      name: name ?? this.name,
+      expDate: expDate ?? this.expDate,
+      cvc: cvc ?? this.cvc,
+      createdDate: createdDate ?? this.createdDate,
+      updatedDate: updatedDate ?? this.updatedDate,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'uuid': uuid,
       'cardNumber': cardNumber,
       'name': name,
       'expDate': expDate,
       'cvc': cvc,
       'createdDate': createdDate?.millisecondsSinceEpoch,
+      'updatedDate': updatedDate?.millisecondsSinceEpoch,
     };
   }
 
   factory CardsModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-
+  
     return CardsModel(
-      map['cardNumber'],
-      map['name'],
-      map['expDate'],
-      map['cvc'],
-      DateTime.fromMillisecondsSinceEpoch(map['createdDate']),
+      uuid: map['uuid'],
+      cardNumber: map['cardNumber'],
+      name: map['name'],
+      expDate: map['expDate'],
+      cvc: map['cvc'],
+      createdDate: DateTime.fromMillisecondsSinceEpoch(map['createdDate']),
+      updatedDate: DateTime.fromMillisecondsSinceEpoch(map['updatedDate']),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory CardsModel.fromJson(String source) =>
-      CardsModel.fromMap(json.decode(source));
+  factory CardsModel.fromJson(String source) => CardsModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'CardsModel(cardNumber: $cardNumber, name: $name, expDate: $expDate, cvc: $cvc, createdDate: $createdDate)';
+    return 'CardsModel(uuid: $uuid, cardNumber: $cardNumber, name: $name, expDate: $expDate, cvc: $cvc, createdDate: $createdDate, updatedDate: $updatedDate)';
   }
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-
+  
     return o is CardsModel &&
-        o.cardNumber == cardNumber &&
-        o.name == name &&
-        o.expDate == expDate &&
-        o.cvc == cvc &&
-        o.createdDate == createdDate;
+      o.uuid == uuid &&
+      o.cardNumber == cardNumber &&
+      o.name == name &&
+      o.expDate == expDate &&
+      o.cvc == cvc &&
+      o.createdDate == createdDate &&
+      o.updatedDate == updatedDate;
   }
 
   @override
   int get hashCode {
-    return cardNumber.hashCode ^
-        name.hashCode ^
-        expDate.hashCode ^
-        cvc.hashCode ^
-        createdDate.hashCode;
-  }
-
-  CardsModel encrypt(Encrypter en) {
-    return CardsModel(
-      encryptString(en, this.cardNumber),
-      encryptString(en, this.name),
-      this.expDate,
-      encryptString(en, this.cvc),
-      this.createdDate,
-    );
-  }
-
-  CardsModel decrypt(Encrypter en) {
-    this.cardNumber = decryptString(en, this.cardNumber);
-    this.name = decryptString(en, this.name);
-    this.cvc = decryptString(en, this.cvc);
-
-    return CardsModel(
-      this.cardNumber,
-      this.name,
-      this.expDate,
-      this.cvc,
-      this.createdDate,
-    );
+    return uuid.hashCode ^
+      cardNumber.hashCode ^
+      name.hashCode ^
+      expDate.hashCode ^
+      cvc.hashCode ^
+      createdDate.hashCode ^
+      updatedDate.hashCode;
   }
 }
