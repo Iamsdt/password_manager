@@ -69,8 +69,8 @@ class CheckMasterPassUI extends StatelessWidget {
   }
 
   Widget passwordTextFiled(TextEditingController controller) {
-    return Obx(
-      () => Material(
+    return ObxValue(
+      (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
         child: TextFormField(
@@ -78,7 +78,7 @@ class CheckMasterPassUI extends StatelessWidget {
           cursorColor: Colors.blue[200],
           decoration: InputDecoration(
             prefixIcon: Icon(
-              Icons.email,
+              Icons.lock_rounded,
               color: Colors.blue[500],
               size: 20,
             ),
@@ -89,18 +89,19 @@ class CheckMasterPassUI extends StatelessWidget {
             ),
             suffixIcon: GestureDetector(
               onTap: () {
-                _controller.showPassword();
+                data.value = !data.value;
               },
               child: Icon(
-                _controller.obscureText.value
+                data.value
                     ? Icons.visibility_off
                     : Icons.visibility,
               ),
             ),
           ),
-          obscureText: _controller.obscureText.value,
+          obscureText: data.value,
         ),
       ),
+      true.obs,
     );
   }
 }

@@ -78,8 +78,8 @@ class MasterPassUI extends StatelessWidget {
   }
 
   Widget passwordTextFiled(TextEditingController controller, String hint) {
-    return Obx(
-      () => Material(
+    return ObxValue(
+      (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
         child: TextFormField(
@@ -101,25 +101,23 @@ class MasterPassUI extends StatelessWidget {
             ),
             suffixIcon: GestureDetector(
               onTap: () {
-                _controller.showPassword();
+                data.value = !data.value;
               },
               child: Icon(
-                _controller.obscureText.value
-                    ? Icons.visibility_off
-                    : Icons.visibility,
+                data.value ? Icons.visibility_off : Icons.visibility,
               ),
             ),
           ),
-          obscureText: _controller.obscureText.value,
+          obscureText: data.value,
         ),
       ),
+      true.obs,
     );
   }
 
-
   Widget passwordTextFiled2(TextEditingController controller, String hint) {
-    return Obx(
-      () => Material(
+    return ObxValue(
+      (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
         child: TextFormField(
@@ -141,18 +139,19 @@ class MasterPassUI extends StatelessWidget {
             ),
             suffixIcon: GestureDetector(
               onTap: () {
-                _controller.showPassword();
+                data.value = !data.value;
               },
               child: Icon(
-                _controller.obscureText.value
+                data.value
                     ? Icons.visibility_off
                     : Icons.visibility,
               ),
             ),
           ),
-          obscureText: _controller.obscureText.value,
+          obscureText: data.value,
         ),
       ),
+      true.obs,
     );
   }
 }

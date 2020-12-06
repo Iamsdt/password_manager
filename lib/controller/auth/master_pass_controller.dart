@@ -15,8 +15,6 @@ class MasterPassController extends GetxController {
   final TextEditingController passController = TextEditingController();
   final TextEditingController conPassController = TextEditingController();
 
-  var obscureText = true.obs;
-
   void updatePassword() async {
     var pass1 = passController.text;
     var pass2 = conPassController.text;
@@ -32,12 +30,6 @@ class MasterPassController extends GetxController {
     } else {
       SnackBarHelper.showError("Something went wrong, please try again");
     }
-  }
-
-  void showPassword() {
-    obscureText.update((val) {
-      val = !val;
-    });
   }
 
   @override

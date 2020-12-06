@@ -22,8 +22,6 @@ class LoginController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
-  var obscureText = true.obs;
-
   void login() {
     var email = emailController.text;
     var pass = passController.text;
@@ -92,12 +90,6 @@ class LoginController extends GetxController {
   void facebookLogin() {
     SnackBarHelper.showInfo(
         "Please use google sign in or email sign in options");
-  }
-
-  void showPassword() {
-    obscureText.update((val) {
-      val = !val;
-    });
   }
 
   void closeExistingSnackBar() {

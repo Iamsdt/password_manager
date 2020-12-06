@@ -17,9 +17,7 @@ class CheckMasterPassController extends GetxController {
   CheckMasterPassController(this._store);
 
   final TextEditingController passController = TextEditingController();
-
-  var obscureText = true.obs;
-
+  
   @override
   void onInit() {
     checkMasterPassExists();
@@ -64,12 +62,6 @@ class CheckMasterPassController extends GetxController {
     if (!res) {
       Get.offAll(MasterPassUI());
     }
-  }
-
-  void showPassword() {
-    obscureText.update((val) {
-      val = !val;
-    });
   }
 
   @override

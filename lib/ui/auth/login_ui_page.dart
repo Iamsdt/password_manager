@@ -85,8 +85,8 @@ class LoginPageUI extends StatelessWidget {
   }
 
   Widget passwordTextFormField() {
-    return Obx(
-      () => Material(
+    return ObxValue(
+      (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
         child: TextFormField(
@@ -108,18 +108,17 @@ class LoginPageUI extends StatelessWidget {
             ),
             suffixIcon: GestureDetector(
               onTap: () {
-                _controller.showPassword();
+                data.value = !data.value;
               },
               child: Icon(
-                _controller.obscureText.value
-                    ? Icons.visibility_off
-                    : Icons.visibility,
+                data.value ? Icons.visibility_off : Icons.visibility,
               ),
             ),
           ),
-          obscureText: _controller.obscureText.value,
+          obscureText: data.value,
         ),
       ),
+      true.obs,
     );
   }
 }
