@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/check_master_pass_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ui/auth/recover_password.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 
 class CheckMasterPassUI extends StatelessWidget {
@@ -38,6 +39,25 @@ class CheckMasterPassUI extends StatelessWidget {
               ),
               passwordForm(),
               SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  Get.to(RecoverPasswordUI());
+                },
+                child: Container(
+                  padding: EdgeInsets.only(right: 30),
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    "Forget Master Password",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
                 height: 50,
               ),
               AuthHelper.getAuthButton("VERIFY", () {
@@ -61,47 +81,10 @@ class CheckMasterPassUI extends StatelessWidget {
       child: Form(
         child: Column(
           children: <Widget>[
-            passwordTextFiled(_controller.passController),
+            AuthHelper.passwordTextFiled(_controller.passController),
           ],
         ),
       ),
-    );
-  }
-
-  Widget passwordTextFiled(TextEditingController controller) {
-    return ObxValue(
-      (data) => Material(
-        borderRadius: BorderRadius.circular(30.0),
-        elevation: 5,
-        child: TextFormField(
-          controller: controller,
-          cursorColor: Colors.blue[200],
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.lock_rounded,
-              color: Colors.blue[500],
-              size: 20,
-            ),
-            hintText: "Password",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: GestureDetector(
-              onTap: () {
-                data.value = !data.value;
-              },
-              child: Icon(
-                data.value
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-              ),
-            ),
-          ),
-          obscureText: data.value,
-        ),
-      ),
-      true.obs,
     );
   }
 }

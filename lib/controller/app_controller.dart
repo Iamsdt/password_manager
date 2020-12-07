@@ -1,4 +1,5 @@
 import 'package:encrypt/encrypt.dart';
+import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/controller/DataStatus.dart';
@@ -6,18 +7,14 @@ import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/generated_pass.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/db/store.dart';
-import 'package:password_manager/envs.dart';
-import 'package:password_manager/ui/auth/check_master_password.dart';
-import 'package:password_manager/ui/auth/login_ui_page.dart';
-import 'package:password_manager/ui/auth/master_pass_ui.dart';
-import 'package:password_manager/ui/auth/verify_otp.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
-import 'package:password_manager/utils/encrtypt.dart';
 import 'package:password_manager/utils/pass_generator.dart';
 import 'package:password_manager/ext/ext.dart';
 
 @lazySingleton
 class AppController extends GetxController {
+  static AppController get to => Get.find(tag: "APP");
+
   final Store _store;
 
   AppController(this._store);
@@ -78,7 +75,7 @@ class AppController extends GetxController {
     var res = await _store.addPassword(model);
     if (res) {
       SnackBarHelper.showSuccess("Password added successfully");
-      Get.back();
+      Get.back(closeOverlays: true);
     } else {
       SnackBarHelper.showError("Something went wrong, please try again");
     }
@@ -125,5 +122,35 @@ class AppController extends GetxController {
       val.data = models;
       val.state = DataState.LOADED;
     });
+  }
+
+  // *********************************
+  // ****** UPDATE MASTER PASS *******
+  // *********************************
+
+  void updateMasterPassword(
+      String current, String newPass, String confirmPass) async {
+    //check both pass
+    if (newPass != confirmPass) {
+      SnackBarHelper.showError("Password not matched");
+    }
+
+    var res = await _store.getMasterPass();
+    var old = res.data()['psssword'];
+    Encrypter encrypter = Get.find(tag: "ENCRYPT");
+    var currentPass = current.encrypt(encrypter);
+
+    if (old != currentPass) {
+      SnackBarHelper.showError(
+          "Current password did not match! Please try again?");
+
+      return;
+    }
+
+    var result = await _store.addMasterPassword(newPass);
+    Fimber.i("Master pass add result $result");
+    if (!result) {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
   }
 }

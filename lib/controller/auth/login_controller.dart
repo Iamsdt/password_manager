@@ -8,6 +8,7 @@ import 'package:password_manager/db/store.dart';
 import 'package:password_manager/repo/auth_layer.dart';
 import 'package:password_manager/repo/auth_results.dart';
 import 'package:password_manager/ui/auth/check_master_password.dart';
+import 'package:password_manager/ui/auth/login_ui_page.dart';
 import 'package:password_manager/ui/auth/master_pass_ui.dart';
 import 'package:password_manager/ui/auth/verify_otp.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
@@ -62,6 +63,22 @@ class LoginController extends GetxController {
       }
     } else {
       SnackBarHelper.showError(value.message);
+    }
+  }
+
+  void recoverPassword() async {
+    var email = emailController.text;
+    try {
+      await _layer.recoverPassword(email);
+      Get.off(LoginPageUI());
+      SnackBarHelper.showSuccess("Sent recovery email, successfully");
+    } catch (e, s) {
+      if (e.code == 'user-not-found') {
+        SnackBarHelper.showError(
+            "User not found with this email adress, Plese use correct one");
+      }
+
+      Fimber.e("Error on recover email", ex: e, stacktrace: s);
     }
   }
 

@@ -1,11 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/login_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ui/auth/recover_password.dart';
 import 'package:password_manager/ui/auth/signup_page.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
-import 'package:password_manager/utils/validate_checker.dart';
 
 class LoginPageUI extends StatelessWidget {
   final LoginController _controller = Get.put(getIt<LoginController>());
@@ -28,6 +30,25 @@ class LoginPageUI extends StatelessWidget {
                 secondCliperHeight: Get.height * 0.2,
               ),
               loginForm(),
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () {
+                  Get.to(RecoverPasswordUI());
+                },
+                child: Container(
+                  padding: EdgeInsets.only(right: 30),
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    "Forget password",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 50,
               ),
@@ -68,57 +89,12 @@ class LoginPageUI extends StatelessWidget {
         autovalidateMode: AutovalidateMode.always,
         child: Column(
           children: <Widget>[
-            AuthHelper.nameTextFiled(
-              _controller.emailController,
-              "Email address",
-              Icons.email,
-              validator: (value) => Validator.isEmailValid(value)
-                  ? null
-                  : "Please enter a valid email",
-            ),
+            AuthHelper.normalTextField(_controller.emailController),
             SizedBox(height: 10),
-            passwordTextFormField(),
+            AuthHelper.passwordTextFiled(_controller.passController),
           ],
         ),
       ),
-    );
-  }
-
-  Widget passwordTextFormField() {
-    return ObxValue(
-      (data) => Material(
-        borderRadius: BorderRadius.circular(30.0),
-        elevation: 5,
-        child: TextFormField(
-          controller: _controller.passController,
-          cursorColor: Colors.blue[200],
-          validator: (value) => value.isNotEmpty && value.length >= 6
-              ? null
-              : "Enter valid password (min length: 6)",
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.lock,
-              color: Colors.blue[500],
-              size: 20,
-            ),
-            hintText: "Password",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: GestureDetector(
-              onTap: () {
-                data.value = !data.value;
-              },
-              child: Icon(
-                data.value ? Icons.visibility_off : Icons.visibility,
-              ),
-            ),
-          ),
-          obscureText: data.value,
-        ),
-      ),
-      true.obs,
     );
   }
 }

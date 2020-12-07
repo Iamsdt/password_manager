@@ -132,7 +132,7 @@ class _BottomNavUIState extends State<BottomNavUI> {
     int index,
     ValueChanged<int> onPressed,
   }) {
-    Color color = _selectedIndex == index ? Colors.orange : Colors.white;
+    Color color = _selectedIndex == index ? Colors.yellow : Colors.white;
     return Expanded(
       child: SizedBox(
         height: 70,

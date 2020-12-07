@@ -67,91 +67,18 @@ class MasterPassUI extends StatelessWidget {
         key: _formKey,
         child: Column(
           children: <Widget>[
-            passwordTextFiled(_controller.passController, "Password"),
+            AuthHelper.passwordTextFiled(
+              _controller.passController,
+              hint: "Password",
+            ),
             SizedBox(height: 10),
-            passwordTextFiled2(
-                _controller.conPassController, "Confirm password"),
+            AuthHelper.passwordTextFiled(
+              _controller.conPassController,
+              hint: "Confirm password",
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget passwordTextFiled(TextEditingController controller, String hint) {
-    return ObxValue(
-      (data) => Material(
-        borderRadius: BorderRadius.circular(30.0),
-        elevation: 5,
-        child: TextFormField(
-          controller: controller,
-          cursorColor: Colors.blue[200],
-          validator: (value) => value.isNotEmpty && value.length >= 6
-              ? null
-              : "Enter valid password (min length: 6)",
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.email,
-              color: Colors.blue[500],
-              size: 20,
-            ),
-            hintText: hint,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: GestureDetector(
-              onTap: () {
-                data.value = !data.value;
-              },
-              child: Icon(
-                data.value ? Icons.visibility_off : Icons.visibility,
-              ),
-            ),
-          ),
-          obscureText: data.value,
-        ),
-      ),
-      true.obs,
-    );
-  }
-
-  Widget passwordTextFiled2(TextEditingController controller, String hint) {
-    return ObxValue(
-      (data) => Material(
-        borderRadius: BorderRadius.circular(30.0),
-        elevation: 5,
-        child: TextFormField(
-          controller: controller,
-          cursorColor: Colors.blue[200],
-          validator: (value) => value.isNotEmpty && value.length >= 6
-              ? null
-              : "Enter valid password (min length: 6)",
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.email,
-              color: Colors.blue[500],
-              size: 20,
-            ),
-            hintText: hint,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: GestureDetector(
-              onTap: () {
-                data.value = !data.value;
-              },
-              child: Icon(
-                data.value
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-              ),
-            ),
-          ),
-          obscureText: data.value,
-        ),
-      ),
-      true.obs,
     );
   }
 }

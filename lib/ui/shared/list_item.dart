@@ -30,16 +30,16 @@ class ListItemUI {
           fontWeight: FontWeight.w500,
         ),
       ),
-      trailing: Container(
-        width: 20.0,
-        height: 20.0,
-        child: CircularProgressIndicator(
-          value: model.strength / 100.0,
-          strokeWidth: 7.0,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-          backgroundColor: Colors.red,
-        ),
-      ),
+      // trailing: Container(
+      //   width: 20.0,
+      //   height: 20.0,
+      //   child: CircularProgressIndicator(
+      //     value: model.strength / 100.0,
+      //     strokeWidth: 7.0,
+      //     valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+      //     backgroundColor: Colors.red,
+      //   ),
+      // ),
     );
   }
 }

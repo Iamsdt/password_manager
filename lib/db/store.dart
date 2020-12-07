@@ -7,7 +7,6 @@ import 'package:password_manager/db/db_constant.dart';
 import 'package:password_manager/db/model/cards_model.dart';
 import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/password_model.dart';
-import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/ext/ext.dart';
 
 @lazySingleton
@@ -139,5 +138,38 @@ class Store {
       Fimber.e("Error on checking master password", ex: e, stacktrace: s);
       return false;
     }
+  }
+
+  // ***********************************
+  // *********Security Question*********
+  // ***********************************
+
+  Future<bool> addMasterSecurityQuestion(String question, String ans) async {
+    try {
+      Encrypter encrypter = Get.find(tag: "ENCRYPT");
+      var en = ans.encrypt(encrypter);
+
+      var data = Map<String, String>();
+      data['question'] = question;
+      data['answer'] = en;
+
+      await _firestore
+          .collection(DbConstant.SECURITY_QUESTION)
+          .doc(DbConstant.SECURITY_QUESTION)
+          .set(data);
+
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on add master pass", ex: e, stacktrace: s);
+      //if error then return false
+      return false;
+    }
+  }
+
+  Future<DocumentSnapshot> getSecurityQuestion() async {
+    return await _firestore
+        .collection(DbConstant.SECURITY_QUESTION)
+        .doc("MasterPass")
+        .get();
   }
 }

@@ -1,10 +1,8 @@
 import 'package:get/state_manager.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/controller/DataStatus.dart';
-import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/db/store.dart';
-import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 @lazySingleton
 class HomeController extends GetxController {

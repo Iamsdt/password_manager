@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/shared/custom_shape.dart';
 import 'package:password_manager/utils/image_const.dart';
+import 'package:password_manager/utils/validate_checker.dart';
 
 class AuthHelper {
   static Widget getAppBar({height}) {
@@ -82,29 +83,79 @@ class AuthHelper {
   }
 
   //normal text field
-  static Widget nameTextFiled(
-      TextEditingController controller, String hintText, IconData icon,
-      {@required FormFieldValidator<String> validator}) {
+  //most of the case it will use as email password
+  static Widget normalTextField(
+    TextEditingController controller, {
+    FormFieldValidator<String> validator,
+    String hint = "Email address",
+    IconData icon = Icons.email,
+  }) {
     return Material(
       borderRadius: BorderRadius.circular(30.0),
       elevation: 5,
       child: TextFormField(
         controller: controller,
         cursorColor: Colors.blue[200],
-        validator: validator,
+        validator: validator != null
+            ? validator
+            : (value) => Validator.isEmailValid(value)
+                ? null
+                : "Please enter a valid email",
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,
             color: Colors.blue[500],
             size: 20,
           ),
-          hintText: hintText,
+          hintText: hint,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
             borderSide: BorderSide.none,
           ),
         ),
       ),
+    );
+  }
+
+  //static password filed
+  static Widget passwordTextFiled(TextEditingController editingController,
+      {String hint = "Password", FormFieldValidator<String> validator}) {
+    return ObxValue(
+      (data) => Material(
+        borderRadius: BorderRadius.circular(30.0),
+        elevation: 5,
+        child: TextFormField(
+          controller: editingController,
+          cursorColor: Colors.blue[200],
+          validator: validator != null
+              ? validator
+              : (value) => value.isNotEmpty && value.length >= 6
+                  ? null
+                  : "Enter valid password (min length: 6)",
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.lock,
+              color: Colors.blue[500],
+              size: 20,
+            ),
+            hintText: hint,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: GestureDetector(
+              onTap: () {
+                data.value = !data.value;
+              },
+              child: Icon(
+                data.value ? Icons.visibility_off : Icons.visibility,
+              ),
+            ),
+          ),
+          obscureText: data.value,
+        ),
+      ),
+      true.obs,
     );
   }
 

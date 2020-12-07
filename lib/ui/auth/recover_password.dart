@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/login_controller.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
-import 'package:password_manager/utils/validate_checker.dart';
 
 class RecoverPasswordUI extends StatelessWidget {
   final LoginController _controller = Get.find();

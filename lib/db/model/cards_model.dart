@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:encrypt/encrypt.dart';
 import 'package:uuid/uuid.dart';
-
-import 'package:password_manager/utils/encrtypt.dart';
 
 class CardsModel {
   String uuid;

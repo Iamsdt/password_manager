@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:password_manager/ui/auth/verify_otp.dart';
 import 'package:password_manager/ui/splash.dart';
 
 class MyApp extends StatelessWidget {

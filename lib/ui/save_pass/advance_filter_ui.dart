@@ -1,21 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/app_controller.dart';
 import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/shared/modal_sheet.dart';
 
-class AdvanceFilterUI extends StatefulWidget {
-  @override
-  _SavePasswordState createState() => _SavePasswordState();
-}
-
-class _SavePasswordState extends State<AdvanceFilterUI> {
-  bool isNumbers = true;
-  bool isUppercase = true;
-  bool isLowercase = true;
-  bool isSpecial = true;
-  bool prefixTextValue = false;
+class AdvanceFilterUI extends StatelessWidget {
+  var isNumbers = true.obs;
+  var isUppercase = true.obs;
+  var isLowercase = true.obs;
+  var isSpecial = true.obs;
+  var prefixTextValue = false.obs;
   String length = "16";
 
   AppController _appController = Get.find(tag: "APP");
@@ -82,29 +76,33 @@ class _SavePasswordState extends State<AdvanceFilterUI> {
                 )
               ],
             ),
-            CheckboxListTile(
-              title: Text(
-                "Add prefix text",
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+            ObxValue(
+              (data) => CheckboxListTile(
+                title: Text(
+                  "Add prefix text",
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                value: prefixTextValue.value,
+                onChanged: (value) {
+                  prefixTextValue.value = value;
+                },
               ),
-              value: prefixTextValue,
-              onChanged: (value) {
-                setState(() {
-                  prefixTextValue = value;
-                });
-              },
+              prefixTextValue,
             ),
-            Visibility(
-              visible: prefixTextValue,
-              child: Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
-                child: TextField(
-                  decoration: InputDecoration(hintText: "Prefix text"),
+            ObxValue(
+              (data) => Visibility(
+                visible: data.value,
+                child: Container(
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  child: TextField(
+                    decoration: InputDecoration(hintText: "Prefix text"),
+                  ),
                 ),
               ),
+              prefixTextValue,
             ),
             SizedBox(
               height: 50,
@@ -123,41 +121,45 @@ class _SavePasswordState extends State<AdvanceFilterUI> {
               ),
               child: Column(
                 children: [
-                  SwitchListTile(
-                    title: getTitle("Add Uppercase Letter"),
-                    value: isUppercase,
-                    onChanged: (value) {
-                      setState(() {
-                        isUppercase = value;
-                      });
-                    },
+                  ObxValue(
+                    (data) => SwitchListTile(
+                      title: getTitle("Add Uppercase Letter"),
+                      value: isUppercase.value,
+                      onChanged: (value) {
+                        isUppercase.value = value;
+                      },
+                    ),
+                    isUppercase,
                   ),
-                  SwitchListTile(
-                    title: getTitle("Add Lowercase Letter"),
-                    value: isLowercase,
-                    onChanged: (value) {
-                      setState(() {
-                        isLowercase = value;
-                      });
-                    },
+                  ObxValue(
+                    (data) => SwitchListTile(
+                      title: getTitle("Add Lowercase Letter"),
+                      value: isLowercase.value,
+                      onChanged: (value) {
+                        isLowercase.value = value;
+                      },
+                    ),
+                    isLowercase,
                   ),
-                  SwitchListTile(
-                    title: getTitle("Add Numbers"),
-                    value: isNumbers,
-                    onChanged: (value) {
-                      setState(() {
-                        isNumbers = value;
-                      });
-                    },
+                  ObxValue(
+                    (data) => SwitchListTile(
+                      title: getTitle("Add Numbers"),
+                      value: isNumbers.value,
+                      onChanged: (value) {
+                        isNumbers.value = value;
+                      },
+                    ),
+                    isNumbers,
                   ),
-                  SwitchListTile(
-                    title: getTitle("Add Special charters"),
-                    value: isSpecial,
-                    onChanged: (value) {
-                      setState(() {
-                        isSpecial = value;
-                      });
-                    },
+                  ObxValue(
+                    (data) => SwitchListTile(
+                      title: getTitle("Add Special charters"),
+                      value: isSpecial.value,
+                      onChanged: (value) {
+                        isSpecial.value = value;
+                      },
+                    ),
+                    isSpecial,
                   ),
                 ],
               ),
@@ -193,10 +195,10 @@ class _SavePasswordState extends State<AdvanceFilterUI> {
                       // _loginController.requestLogin();
                       _appController.updatePassword(
                         length: length.toInt(),
-                        isLowerCase: isLowercase,
-                        isNumbers: isNumbers,
-                        isUpperCase: isUppercase,
-                        isSpecial: isSpecial,
+                        isLowerCase: isLowercase.value,
+                        isNumbers: isNumbers.value,
+                        isUpperCase: isUppercase.value,
+                        isSpecial: isSpecial.value,
                       );
                       Get.back();
                       //show bottom sheet again

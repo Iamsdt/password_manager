@@ -63,6 +63,10 @@ class AuthLayer {
     return false;
   }
 
+  Future<void> recoverPassword(String email) async {
+    return await _auth.sendPasswordResetEmail(email: email);
+  }
+
   Future<bool> verifyEmailCode(String code) async {
     try {
       await _auth.checkActionCode(code);

@@ -119,9 +119,11 @@ class PasswordDetailsUI extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  analysisItem("${model.strength}%", "Password Strength"),
-                  analysisItem("${Utils.getPassUpdatedDay(model.updated)} d",
-                      "Last update days ago"),
+                  // analysisItem("${model.strength}%", "Password Strength"),
+                  analysisItem(
+                    "${Utils.getPassUpdatedDay(model.updated)} d",
+                    "Last update days ago",
+                  ),
                 ],
               ),
             ),

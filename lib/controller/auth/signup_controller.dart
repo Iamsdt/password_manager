@@ -24,7 +24,12 @@ class SignupController extends GetxController {
 
     _layer
         .signupWithEmail(email, pass)
-        .then((value) => analysisSingupResponse(value))
+        .then(
+          (value) => analysisSingupResponse(
+            nameController.text,
+            value,
+          ),
+        )
         .catchError((error, s) {
       Fimber.e("Error on login", ex: error, stacktrace: s);
       closeExistingSnackBar();
@@ -32,12 +37,16 @@ class SignupController extends GetxController {
     });
   }
 
-  void analysisSingupResponse(AuthResults value) async {
+  void analysisSingupResponse(String name, AuthResults value) async {
     if (value.status) {
       //that's means it's successful
       SnackBarHelper.showSuccess("Account created successful");
       //check user emil is verified or not
       var user = value.userCredential.user;
+      //update user name
+      user.updateProfile(displayName: name);
+      await user.reload();
+
       if (user.emailVerified) {
         //goto next page
         nextPage();

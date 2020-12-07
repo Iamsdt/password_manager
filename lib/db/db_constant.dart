@@ -6,4 +6,5 @@ class DbConstant {
 
   //master pass
   static const String MASTERPASS = "MasterPass";
+  static const String SECURITY_QUESTION = "SECURITY_QUESTION";
 }

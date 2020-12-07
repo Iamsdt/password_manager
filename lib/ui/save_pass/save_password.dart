@@ -96,23 +96,6 @@ class _SavePasswordState extends State<SavePasswordUI> {
             SizedBox(
               height: 50,
             ),
-            Container(
-              alignment: Alignment.topRight,
-              margin: EdgeInsets.only(left: 10, right: 10),
-              padding: EdgeInsets.all(10),
-              child: Text(
-                "+ Add Notes",
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ).materialClick(() {
-              //add notes dialogs
-            }),
-            SizedBox(
-              height: 30,
-            ),
             SaveUIHelper.saveButton(() {
               //handle button click
               if (categoriesModel != null) {
