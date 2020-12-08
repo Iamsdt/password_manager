@@ -48,7 +48,6 @@ class _SplashUIState extends State<SplashUI> {
               child: Text(
                 "Password Manager",
                 style: GoogleFonts.montserrat(
-                  color: Colors.black,
                   fontSize: 32,
                   fontWeight: FontWeight.w900,
                 ),

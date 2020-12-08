@@ -45,7 +45,10 @@ class HomePageUI extends StatelessWidget {
                   ),
                   Text(
                     "Search ...",
-                    style: TextStyle(fontSize: 20, color: Colors.black38),
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: context.theme.hintColor,
+                    ),
                   )
                 ],
               ),
@@ -63,7 +66,6 @@ class HomePageUI extends StatelessWidget {
                 'Recent Site',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: Color.fromRGBO(0, 0, 0, 1),
                   fontSize: 18,
                   letterSpacing: 0.0,
                   fontWeight: FontWeight.w500,

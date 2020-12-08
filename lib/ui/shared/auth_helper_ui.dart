@@ -8,13 +8,12 @@ import 'package:password_manager/utils/validate_checker.dart';
 
 class AuthHelper {
   static Widget getAppBar({height}) {
-    return Material(
-      child: Container(
-        height: height ?? Get.height * 0.15,
-        width: Get.width,
-        decoration: BoxDecoration(
-          gradient:
-              LinearGradient(colors: [Colors.blue[200], Colors.blueAccent]),
+    return Container(
+      height: height ?? Get.height * 0.15,
+      width: Get.width,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.blue[200], Colors.blueAccent],
         ),
       ),
     );
@@ -124,6 +123,7 @@ class AuthHelper {
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
+        color: Colors.transparent,
         child: TextFormField(
           controller: editingController,
           cursorColor: Colors.blue[200],

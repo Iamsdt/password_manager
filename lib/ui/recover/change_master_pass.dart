@@ -99,6 +99,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
+        color: Get.isDarkMode ? Colors.white30 : Colors.white,
         child: TextFormField(
           onChanged: (value) {
             onChange(value);

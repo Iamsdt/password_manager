@@ -19,7 +19,7 @@ class PasswordDetailsUI extends StatelessWidget {
           },
           child: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: Get.iconColor,
           ),
         ),
         backgroundColor: Colors.transparent,
@@ -31,7 +31,7 @@ class PasswordDetailsUI extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Icon(
                 Icons.share,
-                color: Colors.black,
+                color: Get.iconColor,
               ),
             ),
           ),
@@ -41,7 +41,7 @@ class PasswordDetailsUI extends StatelessWidget {
               padding: const EdgeInsets.only(right: 25, left: 10),
               child: Icon(
                 FontAwesomeIcons.trashAlt,
-                color: Colors.black,
+                color: Get.iconColor,
               ),
             ),
           ),
@@ -79,7 +79,6 @@ class PasswordDetailsUI extends StatelessWidget {
                   Text(
                     "Username",
                     style: TextStyle(
-                      color: Colors.black,
                       fontSize: 20.0,
                       fontWeight: FontWeight.w500,
                     ),
@@ -94,7 +93,6 @@ class PasswordDetailsUI extends StatelessWidget {
                   Text(
                     "Password",
                     style: TextStyle(
-                      color: Colors.black,
                       fontSize: 20.0,
                       fontWeight: FontWeight.w500,
                     ),

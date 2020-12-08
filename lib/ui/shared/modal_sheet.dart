@@ -13,13 +13,13 @@ class SheetUIHelper {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.white,
+          color: Get.theme.bottomSheetTheme.backgroundColor,
         ),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
-        color: Colors.white,
+        color: Get.theme.bottomSheetTheme.backgroundColor,
       ),
       padding: EdgeInsets.only(left: 10, right: 10),
       width: Get.width,
@@ -74,7 +74,6 @@ class SheetUIHelper {
                                     value.pass,
                                     style: TextStyle(
                                       fontSize: 20,
-                                      color: Colors.black38,
                                     ),
                                   );
                                 },
@@ -89,6 +88,7 @@ class SheetUIHelper {
                               },
                               child: Icon(
                                 Icons.sync,
+                                color: Get.iconColor,
                               ),
                             )
                           ],
@@ -135,6 +135,7 @@ class SheetUIHelper {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
+                      color: Get.theme.bottomSheetTheme.backgroundColor,
                       child: Row(
                         children: [
                           Icon(
@@ -155,6 +156,7 @@ class SheetUIHelper {
                       Get.off(AdvanceFilterUI());
                     }),
                     Container(
+                      color: Get.theme.bottomSheetTheme.backgroundColor,
                       child: Row(
                         children: [
                           Icon(

@@ -19,7 +19,9 @@ class CategoriesUI extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Text(
           "Categories",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: context.theme.textTheme.bodyText1.color,
+          ),
         ),
         actions: [
           InkWell(
@@ -30,7 +32,7 @@ class CategoriesUI extends StatelessWidget {
               padding: const EdgeInsets.only(right: 20.0, left: 10),
               child: Icon(
                 Icons.add,
-                color: Colors.black,
+                color: context.theme.iconTheme.color,
                 size: 32,
               ),
             ),
@@ -38,7 +40,7 @@ class CategoriesUI extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Expanded(
+        child: Container(
           child: Column(
             children: [
               SizedBox(
@@ -65,7 +67,10 @@ class CategoriesUI extends StatelessWidget {
                     ),
                     Text(
                       "Search ...",
-                      style: TextStyle(fontSize: 20, color: Colors.black38),
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: context.theme.hintColor,
+                      ),
                     )
                   ],
                 ),
@@ -118,7 +123,7 @@ class CategoriesUI extends StatelessWidget {
             child: ListTile(
               onTap: () {
                 //handle click
-                Get.to(CategoriesDetails(model.uuid));
+                // Get.to(CategoriesDetails(model.uuid));
               },
               // leading: Container(
               //   padding: EdgeInsets.all(10.0),

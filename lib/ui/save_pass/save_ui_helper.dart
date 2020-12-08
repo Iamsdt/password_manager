@@ -4,41 +4,42 @@ import 'package:password_manager/ext/ext.dart';
 
 class SaveUIHelper {
   //input form
-  static Container userInputBox(
-    TextEditingController controller,
-    String hint,
-    bool obscureText,
-    void click(),
-  ) {
-    return Container(
-      alignment: Alignment.center,
-      width: Get.width * 0.8,
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.white,
+  static Widget userInputBox(TextEditingController controller, String hint) {
+    return ObxValue(
+      (data) => Material(
+        borderRadius: BorderRadius.circular(30.0),
+        elevation: 0.0,
+        color: Get.isDarkMode ? Colors.white30 : Colors.white,
+        child: TextFormField(
+          controller: controller,
+          cursorColor: Colors.blue[200],
+          validator: (value) => value.isNotEmpty && value.length >= 6
+              ? null
+              : "Enter valid password (min length: 6)",
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.lock,
+              color: Colors.blue[500],
+              size: 20,
+            ),
+            hintText: hint,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: GestureDetector(
+              onTap: () {
+                data.value = !data.value;
+              },
+              child: Icon(
+                data.value ? Icons.visibility_off : Icons.visibility,
+              ),
+            ),
+          ),
+          obscureText: data.value,
         ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
-        color: Colors.white,
       ),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          hintText: hint,
-          suffixIcon: Icon(
-            obscureText ? Icons.visibility_off : Icons.visibility,
-            color: Colors.black,
-          ).materialClick(() {
-            //change icon
-            click();
-          }),
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-        ),
-      ),
+      false.obs,
     );
   }
 
@@ -49,7 +50,6 @@ class SaveUIHelper {
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.black,
           fontSize: 20.0,
           fontWeight: FontWeight.w500,
         ),
@@ -74,7 +74,9 @@ class SaveUIHelper {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.4),
+                color: Get.isDarkMode
+                    ? Colors.grey[900]
+                    : Colors.grey.withOpacity(0.4),
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: Offset(0, 2),

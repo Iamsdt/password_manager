@@ -25,7 +25,7 @@ class CategoriesDetails extends StatelessWidget {
           },
           child: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color:  Get.iconColor,
           ),
         ),
         backgroundColor: Colors.transparent,
@@ -37,7 +37,7 @@ class CategoriesDetails extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Icon(
                 Icons.share,
-                color: Colors.black,
+                color:  Get.iconColor,
               ),
             ),
           ),
@@ -47,7 +47,7 @@ class CategoriesDetails extends StatelessWidget {
               padding: const EdgeInsets.only(right: 25, left: 10),
               child: Icon(
                 FontAwesomeIcons.trashAlt,
-                color: Colors.black,
+                color:  Get.iconColor,
               ),
             ),
           ),

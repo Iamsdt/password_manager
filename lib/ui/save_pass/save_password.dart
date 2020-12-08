@@ -15,9 +15,6 @@ class SavePasswordUI extends StatefulWidget {
 }
 
 class _SavePasswordState extends State<SavePasswordUI> {
-  bool isPasswordObsecure = true;
-  bool isUsernameObsecure = false;
-
   var passwordController = TextEditingController();
   var userNameController = TextEditingController();
   var titleController = TextEditingController();
@@ -213,11 +210,9 @@ class _SavePasswordState extends State<SavePasswordUI> {
             height: 15,
           ),
           SaveUIHelper.userInputBox(
-              userNameController, "username", isUsernameObsecure, () {
-            setState(() {
-              isUsernameObsecure = !isUsernameObsecure;
-            });
-          }),
+            userNameController,
+            "username",
+          ),
           SizedBox(
             height: 15,
           ),
@@ -226,11 +221,9 @@ class _SavePasswordState extends State<SavePasswordUI> {
             height: 15,
           ),
           SaveUIHelper.userInputBox(
-              passwordController, "password", isPasswordObsecure, () {
-            setState(() {
-              isPasswordObsecure = !isPasswordObsecure;
-            });
-          }),
+            passwordController,
+            "password",
+          ),
           SizedBox(
             height: 20,
           ),

@@ -6,8 +6,11 @@ import 'package:get/get.dart';
 import 'package:password_manager/ui/auth/login_ui_page.dart';
 import 'package:password_manager/ui/recover/change_master_pass.dart';
 import 'package:password_manager/ui/recover/change_security_question.dart';
+import 'package:password_manager/utils/theme/theme_data.dart';
 
 class SettingsPageUi extends StatelessWidget {
+  var themeStatus = ThemeService.currentTheme.obs;
+
   SettingsPageUi({Key key}) : super(key: key);
 
   final User user = FirebaseAuth.instance.currentUser;
@@ -17,7 +20,7 @@ class SettingsPageUi extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: context.theme.bannerTheme.backgroundColor,
         elevation: 0.0,
       ),
       body: ListView(
@@ -25,7 +28,7 @@ class SettingsPageUi extends StatelessWidget {
           Container(
             height: Get.height * 0.3,
             width: Get.width,
-            color: Colors.amberAccent,
+            color: context.theme.bannerTheme.backgroundColor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -99,10 +102,16 @@ class SettingsPageUi extends StatelessWidget {
               ),
             ),
           ),
-          SwitchListTile(
-            title: Text("Use dark Theme"),
-            value: false,
-            onChanged: (value) {},
+          ObxValue(
+            (data) => SwitchListTile(
+              title: Text("Use dark Theme"),
+              value: themeStatus.value,
+              onChanged: (value) {
+                themeStatus.value = value;
+                ThemeService.switchTheme();
+              },
+            ),
+            themeStatus,
           ),
           SizedBox(height: 20),
           ListTile(

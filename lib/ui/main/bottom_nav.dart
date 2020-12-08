@@ -60,6 +60,7 @@ class _BottomNavUIState extends State<BottomNavUI> {
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.sync,
+          color: Colors.white,
         ),
         onPressed: () {
           Get.bottomSheet(SheetUIHelper.showGenerateUI());

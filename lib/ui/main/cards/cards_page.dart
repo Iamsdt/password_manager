@@ -21,7 +21,9 @@ class CardPageUI extends StatelessWidget {
         elevation: 0.0,
         title: Text(
           "My Cards",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: context.theme.textTheme.bodyText1.color,
+          ),
         ),
         actions: [
           InkWell(
@@ -32,7 +34,7 @@ class CardPageUI extends StatelessWidget {
               padding: const EdgeInsets.only(right: 20.0, left: 10),
               child: Icon(
                 Icons.add,
-                color: Colors.black,
+                color: context.theme.iconTheme.color,
                 size: 32,
               ),
             ),
@@ -68,7 +70,10 @@ class CardPageUI extends StatelessWidget {
                   ),
                   Text(
                     "Search ...",
-                    style: TextStyle(fontSize: 20, color: Colors.black38),
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: context.theme.hintColor,
+                    ),
                   )
                 ],
               ),
