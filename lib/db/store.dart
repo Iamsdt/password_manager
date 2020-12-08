@@ -169,7 +169,7 @@ class Store {
   Future<DocumentSnapshot> getSecurityQuestion() async {
     return await _firestore
         .collection(DbConstant.SECURITY_QUESTION)
-        .doc("MasterPass")
+        .doc(DbConstant.SECURITY_QUESTION)
         .get();
   }
 }

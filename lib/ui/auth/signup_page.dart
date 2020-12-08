@@ -45,7 +45,7 @@ class SignupPageUI extends StatelessWidget {
               }),
               AuthHelper.loginORSignupText(
                   "Already have an account?", "Sign In", () {
-                Get.to(LoginPageUI());
+                Get.off(LoginPageUI());
               }),
               //signInTextRow(),
             ],

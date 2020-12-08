@@ -77,7 +77,7 @@ class SettingsPageUi extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Get.to(ChangeSecurityQuestionUI());
+              Get.to(ChangeSecurityQuestionUI("Update Security Question"));
             },
             title: Text(
               "Change security question",
@@ -108,7 +108,7 @@ class SettingsPageUi extends StatelessWidget {
           ListTile(
             onTap: () {
               FirebaseAuth.instance.signOut();
-              Get.to(LoginPageUI());
+              Get.offAll(LoginPageUI());
             },
             title: Text(
               "Logout",

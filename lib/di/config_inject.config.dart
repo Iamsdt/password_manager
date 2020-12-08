@@ -15,6 +15,8 @@ import '../controller/auth/check_master_pass_controller.dart';
 import '../controller/home/home_controller.dart';
 import '../controller/auth/login_controller.dart';
 import '../controller/auth/master_pass_controller.dart';
+import '../controller/auth/security_question_controller.dart';
+import '../controller/recover/security_question_controller.dart';
 import '../controller/auth/signup_controller.dart';
 import '../db/store.dart';
 
@@ -41,5 +43,9 @@ GetIt $initGetIt(
       () => LoginController(get<AuthLayer>(), get<Store>()));
   gh.lazySingleton<MasterPassController>(
       () => MasterPassController(get<Store>()));
+  gh.lazySingleton<RecoverQuestionController>(
+      () => RecoverQuestionController(get<Store>()));
+  gh.lazySingleton<SecurityQuestionController>(
+      () => SecurityQuestionController(get<Store>()));
   return get;
 }

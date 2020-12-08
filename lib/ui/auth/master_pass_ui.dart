@@ -6,7 +6,7 @@ import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 
 class MasterPassUI extends StatelessWidget {
   final MasterPassController _controller =
-      Get.put(getIt<MasterPassController>());
+      Get.put(getIt<MasterPassController>(), tag: "MASTER", permanent: true);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -68,12 +68,12 @@ class MasterPassUI extends StatelessWidget {
         child: Column(
           children: <Widget>[
             AuthHelper.passwordTextFiled(
-              _controller.passController,
+              _controller.controller1,
               hint: "Password",
             ),
             SizedBox(height: 10),
             AuthHelper.passwordTextFiled(
-              _controller.conPassController,
+              _controller.controller2,
               hint: "Confirm password",
             ),
           ],

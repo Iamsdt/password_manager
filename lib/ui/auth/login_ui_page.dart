@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/login_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
-import 'package:password_manager/ui/auth/recover_password.dart';
+import 'package:password_manager/ui/auth/recover/recover_password.dart';
 import 'package:password_manager/ui/auth/signup_page.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
@@ -68,7 +68,7 @@ class LoginPageUI extends StatelessWidget {
                 _controller.facebookLogin();
               }),
               AuthHelper.loginORSignupText("New here?", "Sign Up", () {
-                Get.to(SignupPageUI());
+                Get.off(SignupPageUI());
               }),
             ],
           ),

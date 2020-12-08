@@ -55,10 +55,9 @@ class LoginController extends GetxController {
       } else {
         SnackBarHelper.showInfo("Please very email!");
         await user.sendEmailVerification();
+        Get.to(VerifyOTP());
         SnackBarHelper.showSuccess(
             "Sent verification email, please check your inbox");
-
-        Get.to(VerifyOTP());
         //go to verification ui
       }
     } else {

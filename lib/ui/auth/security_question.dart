@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:password_manager/controller/recover/security_question_controller.dart';
-import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/controller/auth/master_pass_controller.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 
-class ChangeSecurityQuestionUI extends StatelessWidget {
-  final String title;
-
-  ChangeSecurityQuestionUI(this.title);
-
-  final SecurityQuestionController controller =
-      Get.put(getIt<SecurityQuestionController>());
+class SecurityQuestionUI extends StatelessWidget {
+  final MasterPassController controller = Get.find(tag: "MASTER");
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    //reset
     return Scaffold(
       body: Container(
         height: Get.height,
@@ -36,14 +31,14 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
-                  title,
+                  "Add Security Question",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
               ),
-              questionForm(),
+              passwordForm(),
               SizedBox(
                 height: 50,
               ),
@@ -60,7 +55,7 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
     );
   }
 
-  Widget questionForm() {
+  Widget passwordForm() {
     return Container(
       margin: EdgeInsets.only(
         left: 25,
@@ -72,21 +67,21 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
         child: Column(
           children: <Widget>[
             AuthHelper.normalTextField(
-              controller.questionController,
+              controller.controller1,
               hint: "Question",
               icon: Icons.question_answer,
               validator: (value) =>
                   value.isNotEmpty ? null : "Please add a valid question",
             ),
             SizedBox(height: 10),
-            answerTextFiled(controller.answerController),
+            passwordTextFiled(controller.controller2),
           ],
         ),
       ),
     );
   }
 
-  Widget answerTextFiled(TextEditingController editingController) {
+  Widget passwordTextFiled(TextEditingController editingController) {
     return ObxValue(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),

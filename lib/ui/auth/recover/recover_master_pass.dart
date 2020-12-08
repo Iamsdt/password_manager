@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:password_manager/controller/recover/security_question_controller.dart';
+import 'package:password_manager/controller/auth/security_question_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 
-class ChangeSecurityQuestionUI extends StatelessWidget {
-  final String title;
-
-  ChangeSecurityQuestionUI(this.title);
-
-  final SecurityQuestionController controller =
-      Get.put(getIt<SecurityQuestionController>());
+class RecoverMasterPassUI extends StatelessWidget {
+  final RecoverQuestionController controller =
+      Get.put(getIt<RecoverQuestionController>());
 
   final _formKey = GlobalKey<FormState>();
 
@@ -36,7 +32,7 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
-                  title,
+                  "Verify Security Question?",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
@@ -71,22 +67,42 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
         key: _formKey,
         child: Column(
           children: <Widget>[
-            AuthHelper.normalTextField(
-              controller.questionController,
-              hint: "Question",
-              icon: Icons.question_answer,
-              validator: (value) =>
-                  value.isNotEmpty ? null : "Please add a valid question",
-            ),
+            questionTextField(controller.controller1),
             SizedBox(height: 10),
-            answerTextFiled(controller.answerController),
+            answerTextField(controller.controller2),
           ],
         ),
       ),
     );
   }
 
-  Widget answerTextFiled(TextEditingController editingController) {
+  Widget questionTextField(TextEditingController editingController) {
+    return Material(
+      borderRadius: BorderRadius.circular(30.0),
+      elevation: 5,
+      child: TextFormField(
+        controller: editingController,
+        cursorColor: Colors.blue[200],
+        enabled: false,
+        validator: (value) =>
+            value.isNotEmpty ? null : "Please add a valid question",
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.question_answer,
+            color: Colors.blue[500],
+            size: 20,
+          ),
+          hintText: "Write question",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget answerTextField(TextEditingController editingController) {
     return ObxValue(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
