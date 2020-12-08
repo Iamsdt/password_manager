@@ -92,6 +92,7 @@ class AuthHelper {
     return Material(
       borderRadius: BorderRadius.circular(30.0),
       elevation: 5,
+      color: Get.isDarkMode ? Colors.white30 : Colors.white,
       child: TextFormField(
         controller: controller,
         cursorColor: Colors.blue[200],
@@ -123,7 +124,7 @@ class AuthHelper {
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
-        color: Colors.transparent,
+        color: Get.isDarkMode ? Colors.white30 : Colors.white,
         child: TextFormField(
           controller: editingController,
           cursorColor: Colors.blue[200],
