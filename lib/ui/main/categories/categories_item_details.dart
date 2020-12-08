@@ -71,7 +71,7 @@ class CategoriesDetails extends StatelessWidget {
                 if (data.data.isEmpty) {
                   return CommonUI.showFailed("No saved password found");
                 }
-
+                
                 return ListView.builder(
                   itemCount: data.data.length,
                   itemBuilder: (BuildContext context, int index) {
