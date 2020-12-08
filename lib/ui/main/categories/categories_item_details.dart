@@ -76,10 +76,7 @@ class CategoriesDetails extends StatelessWidget {
                   itemCount: data.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     var model = data.data[index];
-                    var modelDe = model.copyWith(
-                        userName: model.userName.decrypt(encrypter),
-                        password: model.password.decrypt(encrypter));
-                    return ListItemUI.passList(modelDe);
+                    return ListItemUI.passList(model, encrypter);
                   },
                 );
               case DataState.FAILED:

@@ -41,131 +41,114 @@ class CardPageUI extends StatelessWidget {
           )
         ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 20,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              margin: EdgeInsets.only(left: 30, right: 30),
-              padding:
-                  EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white12,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
-                color: Colors.black.withOpacity(0.1),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
               ),
-              child: Row(
-                children: [
-                  Icon(Icons.search),
-                  SizedBox(
-                    width: 20,
+              Container(
+                margin: EdgeInsets.only(left: 30, right: 30),
+                padding:
+                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white12,
                   ),
-                  Text(
-                    "Search ...",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: context.theme.hintColor,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  color: Colors.black.withOpacity(0.1),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.search),
+                    SizedBox(
+                      width: 20,
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 20,
-            ),
-          ),
-          GetX<CardController>(
-            init: controller,
-            initState: (_) {
-              controller.getAllData();
-            },
-            builder: (_) {
-              var data = controller.cardModelStatus.value;
-              if (data.state == DataState.LOADED) {
-                if (data.data.isEmpty) {
-                  return SliverToBoxAdapter(
-                    child: Container(
-                      padding: EdgeInsets.only(top: 50),
-                      child: CommonUI.showFailed(
-                        "No cards found",
+                    Text(
+                      "Search ...",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: context.theme.hintColor,
                       ),
-                    ),
-                  );
-                }
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (ctx, pos) {
-                      var model = data.data[pos];
-                      var modelDe = model.copyWith(
-                        cardNumber: model.cardNumber.decrypt(encrypter),
-                        cvc: model.cvc.decrypt(encrypter),
-                      );
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GetX<CardController>(
+                init: controller,
+                initState: (_) {
+                  controller.getAllData();
+                },
+                builder: (_) {
+                  var data = controller.cardModelStatus.value;
+                  if (data.state == DataState.LOADED) {
+                    if (data.data.isEmpty) {
                       return Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: MyCardWidget(modelDe),
+                        padding: EdgeInsets.only(top: 50),
+                        child: CommonUI.showFailed(
+                          "No cards found",
+                        ),
                       );
-                    },
-                    childCount: data.data.length,
-                  ),
-                );
-              } else {
-                return SliverToBoxAdapter(
-                  child: CommonUI.showLoading(),
-                );
-              }
+                    }
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (ctx, pos) {
+                        var model = data.data[pos];
+                        var modelDe = model.copyWith(
+                          cardNumber: model.cardNumber.decrypt(encrypter),
+                          cvc: model.cvc.decrypt(encrypter),
+                        );
+                        return Container(
+                          margin: EdgeInsets.only(top: 10, bottom: 10),
+                          child: MyCardWidget(modelDe),
+                        );
+                      },
+                      itemCount: data.data.length,
+                    );
+                  } else {
+                    return CommonUI.showLoading();
+                  }
 
-              // switch (data.state) {
-              //   case DataState.INIT:
-              //   case DataState.LOADING:
-              //     return CommonUI.showLoading();
-              //   case DataState.NO_INTERNET:
-              //     return CommonUI.showOffline();
-              //   case DataState.LOADED:
-              //     return SliverList(
-              //       delegate: SliverChildBuilderDelegate(
-              //         (ctx, pos) {
-              //           var model = data.data[pos];
-              //           return Container(
-              //             margin: EdgeInsets.only(top: 10, bottom: 10),
-              //             child: ListItemUI.passList(model),
-              //           );
-              //         },
-              //         childCount: data.data.length,
-              //       ),
-              //     );
-              //   case DataState.FAILED:
-              //     return CommonUI.showFailed(
-              //         "Something went wrong! Please try again");
-              //   default:
-              //     return Container();
-              // }
-            },
+                  // switch (data.state) {
+                  //   case DataState.INIT:
+                  //   case DataState.LOADING:
+                  //     return CommonUI.showLoading();
+                  //   case DataState.NO_INTERNET:
+                  //     return CommonUI.showOffline();
+                  //   case DataState.LOADED:
+                  //     return SliverList(
+                  //       delegate: SliverChildBuilderDelegate(
+                  //         (ctx, pos) {
+                  //           var model = data.data[pos];
+                  //           return Container(
+                  //             margin: EdgeInsets.only(top: 10, bottom: 10),
+                  //             child: ListItemUI.passList(model),
+                  //           );
+                  //         },
+                  //         childCount: data.data.length,
+                  //       ),
+                  //     );
+                  //   case DataState.FAILED:
+                  //     return CommonUI.showFailed(
+                  //         "Something went wrong! Please try again");
+                  //   default:
+                  //     return Container();
+                  // }
+                },
+              ),
+              SizedBox(
+                height: 30,
+              ),
+            ],
           ),
-          // SliverList(
-          //   delegate: SliverChildBuilderDelegate(
-          //     (ctx, pos) {
-          //       var model =
-          //       return MyCardWidget();
-          //     },
-          //     childCount: 10,
-          //   ),
-          // ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 30,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

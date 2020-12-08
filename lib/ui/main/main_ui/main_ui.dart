@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/controller/home/home_controller.dart';
+import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
-import 'package:password_manager/ext/ext.dart';
 
 class HomePageUI extends StatelessWidget {
   final HomeController controller = Get.put(getIt<HomeController>());
@@ -16,15 +16,16 @@ class HomePageUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: SizedBox(
+      body: SingleChildScrollView(
+        child: Container(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
               height: 40 + kToolbarHeight,
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
+            Container(
               margin: EdgeInsets.only(left: 30, right: 30),
               padding:
                   EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
@@ -53,14 +54,10 @@ class HomePageUI extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
+            SizedBox(
               height: 40,
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
+            Container(
               padding: EdgeInsets.only(left: 15, right: 15),
               child: Text(
                 'Recent Site',
@@ -73,70 +70,42 @@ class HomePageUI extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          GetX<HomeController>(
-            init: controller,
-            initState: (_) {
-              controller.getAllData();
-            },
-            builder: (_) {
-              var data = controller.passwordModelStatus.value;
-
-              if (data.state == DataState.LOADED) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (ctx, pos) {
-                      var model = data.data[pos];
-                      var modelDe = model.copyWith(
-                          userName: model.userName.decrypt(encrypter),
-                          password: model.password.decrypt(encrypter));
-                      return Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: ListItemUI.passList(modelDe),
-                      );
-                    },
-                    childCount: data.data.length,
-                  ),
-                );
-              } else {
-                return SliverToBoxAdapter(
-                  child: CommonUI.showLoading(),
-                );
-              }
-
-              // switch (data.state) {
-              //   case DataState.INIT:
-              //   case DataState.LOADING:
-              //     return CommonUI.showLoading();
-              //   case DataState.NO_INTERNET:
-              //     return CommonUI.showOffline();
-              //   case DataState.LOADED:
-              //     return SliverList(
-              //       delegate: SliverChildBuilderDelegate(
-              //         (ctx, pos) {
-              //           var model = data.data[pos];
-              //           return Container(
-              //             margin: EdgeInsets.only(top: 10, bottom: 10),
-              //             child: ListItemUI.passList(model),
-              //           );
-              //         },
-              //         childCount: data.data.length,
-              //       ),
-              //     );
-              //   case DataState.FAILED:
-              //     return CommonUI.showFailed(
-              //         "Something went wrong! Please try again");
-              //   default:
-              //     return Container();
-              // }
-            },
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
+            GetX<HomeController>(
+              init: controller,
+              initState: (_) {
+                controller.getAllData();
+              },
+              builder: (_) {
+                var data = controller.passwordModelStatus.value;
+                if (data.state == DataState.LOADED) {
+                  return showLoadedData(data.data);
+                } else {
+                  return CommonUI.showLoading();
+                }
+              },
+            ),
+            SizedBox(
               height: 30,
             ),
-          ),
-        ],
+          ],
+        )),
+      ),
+    );
+  }
+
+  Widget showLoadedData(List<PasswordModel> data) {
+    return Container(
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (ctx, pos) {
+          var model = data[pos];
+          return Container(
+            margin: EdgeInsets.only(top: 10, bottom: 10),
+            child: ListItemUI.passList(model, encrypter),
+          );
+        },
+        itemCount: data.length,
       ),
     );
   }

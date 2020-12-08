@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/db/model/password_model.dart';
@@ -5,11 +6,14 @@ import 'package:password_manager/ui/main/main_ui/password_details_page.dart';
 import 'package:password_manager/ext/ext.dart';
 
 class ListItemUI {
-  static ListTile passList(PasswordModel model) {
+  static ListTile passList(PasswordModel model, Encrypter encrypter) {
     return ListTile(
       contentPadding: EdgeInsets.only(left: 20, right: 20),
       onTap: () {
-        Get.to(PasswordDetailsUI(model));
+        var modelDe = model.copyWith(
+            userName: model.userName.decrypt(encrypter),
+            password: model.password.decrypt(encrypter));
+        Get.to(PasswordDetailsUI(modelDe));
       },
       // leading: Image.asset(
       //   "assets/images/google.png",
