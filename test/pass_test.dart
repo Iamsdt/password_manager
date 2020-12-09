@@ -7,4 +7,9 @@ void main() {
     print(out);
     i++;
   }
+
+  //prefix text
+  print(generatePassword(16, prefix: "Hello"));
+  print(generatePassword(16, prefix: "HI"));
+  print(generatePassword(10, prefix: "DM"));
 }
