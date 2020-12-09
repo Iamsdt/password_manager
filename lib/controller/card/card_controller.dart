@@ -78,7 +78,7 @@ class CardController extends GetxController {
       updatedDate: DateTime.now(),
       uuid: uuid,
     );
-    var res = await _store.updateCard(model);
+    var res = await _store.addCard(model, update: true);
     if (res) {
       //update list
       getAllData(force: true);

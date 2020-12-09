@@ -18,25 +18,14 @@ class Store {
   // ************PASSWORD***************
   // ***********************************
 
-  Future<bool> addPassword(PasswordModel model) async {
+  Future<bool> addPassword(PasswordModel model, {bool update = false}) async {
     try {
       var pass = _firestore.collection(DbConstant.PASSWORD);
-      await pass.doc(model.uuid).set(model.toMap());
-      return true;
-    } catch (e, s) {
-      Fimber.e("Error on add password", ex: e, stacktrace: s);
-      return false;
-    }
-  }
-
-  Future<bool> updatePassword(PasswordModel model) async {
-    try {
-      var pass = _firestore.collection(DbConstant.PASSWORD);
-      var options = SetOptions(merge: true);
+      var options = SetOptions(merge: update);
       await pass.doc(model.uuid).set(model.toMap(), options);
       return true;
     } catch (e, s) {
-      Fimber.e("Error on updating password", ex: e, stacktrace: s);
+      Fimber.e("Error on add password", ex: e, stacktrace: s);
       return false;
     }
   }
@@ -62,10 +51,11 @@ class Store {
     return await pass.where("category", isEqualTo: categoryID).get();
   }
 
-  Future<bool> addNotes(NotesModel model) async {
+  Future<bool> addNote(NotesModel model, {bool update = false}) async {
     try {
       var cat = _firestore.collection(DbConstant.NOTES);
-      await cat.doc(model.uuid).set(model.toMap());
+      var options = SetOptions(merge: update);
+      await cat.doc(model.uuid).set(model.toMap(), options);
       return true;
     } catch (e, s) {
       Fimber.e("Error on categories", ex: e, stacktrace: s);
@@ -73,19 +63,7 @@ class Store {
     }
   }
 
-  Future<bool> updateNotes(NotesModel model) async {
-    try {
-      var cat = _firestore.collection(DbConstant.NOTES);
-      var options = SetOptions(merge: true);
-      await cat.doc(model.uuid).set(model.toMap(), options);
-      return true;
-    } catch (e, s) {
-      Fimber.e("Error on update notes", ex: e, stacktrace: s);
-      return false;
-    }
-  }
-
-  Future<bool> deleteNotes(NotesModel model) async {
+  Future<bool> deleteNote(NotesModel model) async {
     try {
       var cat = _firestore.collection(DbConstant.NOTES);
       await cat.doc(model.uuid).delete();
@@ -105,8 +83,7 @@ class Store {
   // ************CATEGORY***************
   // ***********************************
 
-  Future<bool> addCategory(CategoriesModel model,
-      {bool update = false}) async {
+  Future<bool> addCategory(CategoriesModel model, {bool update = false}) async {
     try {
       var cat = _firestore.collection(DbConstant.CATEGORIES);
       var options = SetOptions(merge: update);
@@ -157,25 +134,15 @@ class Store {
   // ************CARDS***************
   // ***********************************
 
-  Future<bool> addCard(CardsModel model) async {
+  Future<bool> addCard(CardsModel model, {bool update = false}) async {
     try {
       var card = _firestore.collection(DbConstant.CARDS);
-      await card.doc(model.uuid).set(model.toMap());
-      return true;
-    } catch (e, s) {
-      Fimber.e("Error on add card", ex: e, stacktrace: s);
-      return false;
-    }
-  }
+      var options = SetOptions(merge: update);
 
-  Future<bool> updateCard(CardsModel model) async {
-    try {
-      var card = _firestore.collection(DbConstant.CARDS);
-      var options = SetOptions(merge: true);
       await card.doc(model.uuid).set(model.toMap(), options);
       return true;
     } catch (e, s) {
-      Fimber.e("Error on update card", ex: e, stacktrace: s);
+      Fimber.e("Error on add card", ex: e, stacktrace: s);
       return false;
     }
   }
@@ -208,10 +175,12 @@ class Store {
       var data = Map<String, String>();
       data['psssword'] = en;
 
+      var options = SetOptions(merge: true);
+
       await _firestore
           .collection(DbConstant.MASTERPASS)
           .doc("MasterPass")
-          .set(data);
+          .set(data, options);
 
       return true;
     } catch (e, s) {
@@ -255,10 +224,12 @@ class Store {
       data['question'] = question;
       data['answer'] = en;
 
+      var options = SetOptions(merge: true);
+
       await _firestore
           .collection(DbConstant.SECURITY_QUESTION)
           .doc(DbConstant.SECURITY_QUESTION)
-          .set(data);
+          .set(data, options);
 
       return true;
     } catch (e, s) {

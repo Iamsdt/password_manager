@@ -91,11 +91,12 @@ class AppController extends GetxController {
   Future<bool> updateSavePassword(PasswordModel model) async {
     Encrypter encrypter = Get.find(tag: "ENCRYPT");
 
-    var res = await _store.updatePassword(
+    var res = await _store.addPassword(
       model.copyWith(
         userName: model.userName.encrypt(encrypter),
         password: model.password.encrypt(encrypter),
       ),
+      update: true,
     );
 
     if (res) {
@@ -227,7 +228,7 @@ class AppController extends GetxController {
       notes: notes,
       passwordUUID: uuid,
     );
-    var res = await _store.addNotes(model);
+    var res = await _store.addNote(model);
 
     if (res) {
       if (res) {
