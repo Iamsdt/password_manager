@@ -6,7 +6,6 @@ import 'package:password_manager/db/store.dart';
 
 @lazySingleton
 class HomeController extends GetxController {
-
   static HomeController get to => Get.find();
 
   Store _store;

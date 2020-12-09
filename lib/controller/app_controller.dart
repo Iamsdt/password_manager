@@ -30,6 +30,7 @@ class AppController extends GetxController {
 
   @override
   void onInit() {
+    getAllData();
     super.onInit();
   }
 
@@ -84,6 +85,39 @@ class AppController extends GetxController {
     } else {
       SnackBarHelper.showError("Something went wrong, please try again");
     }
+  }
+
+  Future<bool> updateSavePassword(PasswordModel model) async {
+    Encrypter encrypter = Get.find(tag: "ENCRYPT");
+
+    var res = await _store.updatePassword(
+      model.copyWith(
+        userName: model.userName.encrypt(encrypter),
+        password: model.password.encrypt(encrypter),
+      ),
+    );
+    
+    if (res) {
+      SnackBarHelper.showSuccess("Password deleted successfully");
+      //update list
+      HomeController.to.getAllData(force: true);
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
+
+    return res;
+  }
+
+  Future<bool> deletePassword(PasswordModel model) async {
+    var res = await _store.deletePassword(model);
+    if (res) {
+      //update list
+      HomeController.to.getAllData(force: true);
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
+
+    return res;
   }
 
   // *********************************

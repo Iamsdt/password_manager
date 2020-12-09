@@ -23,7 +23,7 @@ class Store {
       await pass.doc(model.uuid).set(model.toMap());
       return true;
     } catch (e, s) {
-      Fimber.e("Error on categories", ex: e, stacktrace: s);
+      Fimber.e("Error on add password", ex: e, stacktrace: s);
       return false;
     }
   }
@@ -35,7 +35,18 @@ class Store {
       await pass.doc(model.uuid).set(model.toMap(), options);
       return true;
     } catch (e, s) {
-      Fimber.e("Error on categories", ex: e, stacktrace: s);
+      Fimber.e("Error on updating password", ex: e, stacktrace: s);
+      return false;
+    }
+  }
+
+  Future<bool> deletePassword(PasswordModel model) async {
+    try {
+      var pass = _firestore.collection(DbConstant.PASSWORD);
+      await pass.doc(model.uuid).delete();
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on delete password", ex: e, stacktrace: s);
       return false;
     }
   }
