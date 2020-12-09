@@ -256,7 +256,8 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                       builder: (HomeController ctl) {
                         var state = ctl.notesModelStatus.value;
                         if (state.state == DataState.LOADED) {
-                          return PasswordDetailsUIHelper.showNotesList(state.data);
+                          return PasswordDetailsUIHelper.showNotesList(
+                              state.data);
                         } else {
                           return Container();
                         }
@@ -536,8 +537,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
   void showDeleteDialog() {
     Get.defaultDialog(
       title: "Confirmation Alert",
-      middleText:
-          "Are you sure to delete this category and all the password under this category?",
+      middleText: "Are you sure to delete the password?",
       middleTextStyle: TextStyle(
         fontSize: 15,
       ),

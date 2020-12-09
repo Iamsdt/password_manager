@@ -126,9 +126,21 @@ class AppController extends GetxController {
   // *********************************
   void createCategory(String text) async {
     var model = CategoriesModel(name: text, icon: "");
-    var res = await _store.addCategories(model);
+    var res = await _store.addCategory(model);
     if (res) {
       SnackBarHelper.showSuccess("Category added successfully");
+      //update list
+      getAllData(force: true);
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
+  }
+
+  void updateCategory(String text, String uuid) async {
+    var model = CategoriesModel(name: text, icon: "", uuid: uuid);
+    var res = await _store.addCategory(model, update: true);
+    if (res) {
+      SnackBarHelper.showSuccess("Category updated successfully");
       //update list
       getAllData(force: true);
     } else {

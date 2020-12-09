@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/db/model/cards_model.dart';
+import 'package:password_manager/db/model/credit_card_model.dart';
 import 'package:password_manager/db/store.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/ext/ext.dart';
@@ -41,7 +42,7 @@ class CardController extends GetxController {
     });
   }
 
-  Future<bool> addCard(CreditCardModel card) async {
+  Future<bool> addCard(MyCreditCardModel card) async {
     final Encrypter encrypter = Get.find(tag: "ENCRYPT");
     var model = CardsModel(
       cardNumber: card.cardNumber.encrypt(encrypter),
@@ -51,9 +52,50 @@ class CardController extends GetxController {
       createdDate: DateTime.now(),
       updatedDate: DateTime.now(),
     );
-    var res = await _store.addCards(model);
+    var res = await _store.addCard(model);
     if (res) {
-      SnackBarHelper.showSuccess("Card added successfully");
+      //update list
+      getAllData(force: true);
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
+
+    //return response, so that we can close the ui
+    // from ui class
+    // maybe user can close the ui,
+    // so it will better to handle from ui
+    return res;
+  }
+
+  Future<bool> updateCard(MyCreditCardModel card, String uuid) async {
+    final Encrypter encrypter = Get.find(tag: "ENCRYPT");
+    var model = CardsModel(
+      cardNumber: card.cardNumber.encrypt(encrypter),
+      name: card.cardHolderName,
+      cvc: card.cvvCode.encrypt(encrypter),
+      expDate: card.expiryDate,
+      createdDate: DateTime.now(),
+      updatedDate: DateTime.now(),
+      uuid: uuid,
+    );
+    var res = await _store.updateCard(model);
+    if (res) {
+      //update list
+      getAllData(force: true);
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
+
+    //return response, so that we can close the ui
+    // from ui class
+    // maybe user can close the ui,
+    // so it will better to handle from ui
+    return res;
+  }
+
+  Future<bool> deleteCard(String uuid) async {
+    var res = await _store.deleteCard(uuid);
+    if (res) {
       //update list
       getAllData(force: true);
     } else {

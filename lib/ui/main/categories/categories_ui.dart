@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/controller/app_controller.dart';
@@ -126,28 +127,42 @@ class CategoriesUI extends StatelessWidget {
           var model = data[pos];
           return Container(
             margin: EdgeInsets.only(top: 5, right: 15, left: 20),
-            child: ListTile(
-              onTap: () {
-                //handle click
-                Get.to(CategoriesDetails(model.uuid, model.name));
-              },
-              // leading: Container(
-              //   padding: EdgeInsets.all(10.0),
-              //   decoration: BoxDecoration(
-              //     border: Border.all(
-              //       color: Colors.white12,
-              //     ),
-              //     borderRadius: BorderRadius.all(
-              //       Radius.circular(50),
-              //     ),
-              //     color: Colors.black.withOpacity(0.1),
-              //   ),
-              //   child: Icon(
-              //     Icons.share,
-              //   ),
-              // ),
-              title: Text(model.name ?? ""),
-              trailing: Icon(Icons.arrow_forward_ios),
+            child: Slidable(
+              actionPane: SlidableDrawerActionPane(),
+              actionExtentRatio: 0.25,
+              child: ListTile(
+                onTap: () {
+                  //handle click
+                  Get.to(CategoriesDetails(model.uuid, model.name));
+                },
+                // leading: Container(
+                //   padding: EdgeInsets.all(10.0),
+                //   decoration: BoxDecoration(
+                //     border: Border.all(
+                //       color: Colors.white12,
+                //     ),
+                //     borderRadius: BorderRadius.all(
+                //       Radius.circular(50),
+                //     ),
+                //     color: Colors.black.withOpacity(0.1),
+                //   ),
+                //   child: Icon(
+                //     Icons.share,
+                //   ),
+                // ),
+                title: Text(model.name ?? ""),
+                trailing: Icon(Icons.arrow_forward_ios),
+              ),
+              actions: <Widget>[
+                IconSlideAction(
+                  caption: 'Edit',
+                  color: Colors.blue,
+                  icon: Icons.edit,
+                  onTap: () {
+                    //todo add edit options
+                  },
+                ),
+              ],
             ),
           );
         },

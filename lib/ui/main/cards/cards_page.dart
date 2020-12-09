@@ -28,7 +28,7 @@ class CardPageUI extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(CardInputPage());
+              Get.to(CardInputPage("Add new cards", false, null));
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0, left: 10),
@@ -105,9 +105,14 @@ class CardPageUI extends StatelessWidget {
                           cardNumber: model.cardNumber.decrypt(encrypter),
                           cvc: model.cvc.decrypt(encrypter),
                         );
-                        return Container(
-                          margin: EdgeInsets.only(top: 10, bottom: 10),
-                          child: MyCardWidget(modelDe),
+                        return InkWell(
+                          onLongPress: () {
+                            Get.to(CardInputPage("Add new cards", false, modelDe));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 10, bottom: 10),
+                            child: MyCardWidget(modelDe),
+                          ),
                         );
                       },
                       itemCount: data.data.length,

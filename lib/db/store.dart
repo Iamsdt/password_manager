@@ -105,13 +105,15 @@ class Store {
   // ************CATEGORY***************
   // ***********************************
 
-  Future<bool> addCategories(CategoriesModel model) async {
+  Future<bool> addCategory(CategoriesModel model,
+      {bool update = false}) async {
     try {
       var cat = _firestore.collection(DbConstant.CATEGORIES);
-      await cat.doc(model.uuid).set(model.toMap());
+      var options = SetOptions(merge: update);
+      await cat.doc(model.uuid).set(model.toMap(), options);
       return true;
     } catch (e, s) {
-      Fimber.e("Error on categories", ex: e, stacktrace: s);
+      Fimber.e("Error on add category", ex: e, stacktrace: s);
       return false;
     }
   }
@@ -155,13 +157,36 @@ class Store {
   // ************CARDS***************
   // ***********************************
 
-  Future<bool> addCards(CardsModel model) async {
+  Future<bool> addCard(CardsModel model) async {
     try {
       var card = _firestore.collection(DbConstant.CARDS);
       await card.doc(model.uuid).set(model.toMap());
       return true;
     } catch (e, s) {
-      Fimber.e("Error on categories", ex: e, stacktrace: s);
+      Fimber.e("Error on add card", ex: e, stacktrace: s);
+      return false;
+    }
+  }
+
+  Future<bool> updateCard(CardsModel model) async {
+    try {
+      var card = _firestore.collection(DbConstant.CARDS);
+      var options = SetOptions(merge: true);
+      await card.doc(model.uuid).set(model.toMap(), options);
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on update card", ex: e, stacktrace: s);
+      return false;
+    }
+  }
+
+  Future<bool> deleteCard(String uuid) async {
+    try {
+      var card = _firestore.collection(DbConstant.CARDS);
+      await card.doc(uuid).delete();
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on delete card", ex: e, stacktrace: s);
       return false;
     }
   }
