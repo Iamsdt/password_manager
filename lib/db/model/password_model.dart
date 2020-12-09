@@ -24,14 +24,16 @@ class PasswordModel {
     this.accessedOn,
     this.uuid,
   }) {
-    this.uuid = Uuid().v4();
+    if (this.uuid == null) {
+      this.uuid = Uuid().v4();
+    }
   }
 
   PasswordModel copyWith({
     String companyName,
     String userName,
     String password,
-    String strength,
+    int strength,
     String iconPath,
     String categories,
     DateTime updated,

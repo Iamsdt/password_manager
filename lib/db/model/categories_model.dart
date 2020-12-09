@@ -12,7 +12,9 @@ class CategoriesModel {
     this.icon,
     this.uuid,
   }) {
-    this.uuid = Uuid().v4();
+    if (this.uuid == null) {
+      this.uuid = Uuid().v4();
+    }
   }
 
   
