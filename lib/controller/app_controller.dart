@@ -3,6 +3,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/controller/DataStatus.dart';
+import 'package:password_manager/controller/home/home_controller.dart';
 import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/generated_pass.dart';
 import 'package:password_manager/db/model/password_model.dart';
@@ -10,6 +11,7 @@ import 'package:password_manager/db/store.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/utils/pass_generator.dart';
 import 'package:password_manager/ext/ext.dart';
+import 'package:password_manager/utils/utils.dart';
 
 @lazySingleton
 class AppController extends GetxController {
@@ -36,13 +38,15 @@ class AppController extends GetxController {
       bool isLowerCase = true,
       bool isUpperCase = true,
       bool isNumbers = true,
-      bool isSpecial = true}) {
+      bool isSpecial = true,
+      String prefix = ""}) {
     var pass = generatePassword(
       length,
       isLowerCase: isLowerCase,
       isUpperCase: isUpperCase,
       isNumbers: isNumbers,
       isSpecial: isSpecial,
+      prefix: prefix,
     );
 
     print(pass);
@@ -66,7 +70,7 @@ class AppController extends GetxController {
       password: pass.encrypt(encrypter),
       iconPath: "",
       categories: cat.uuid,
-      strength: 10,
+      strength: Utils.analysisPassword(pass),
       updated: DateTime.now(),
       accessedOn: DateTime.now(),
     );
@@ -74,8 +78,9 @@ class AppController extends GetxController {
     // saved password
     var res = await _store.addPassword(model);
     if (res) {
+      Get.back();
       SnackBarHelper.showSuccess("Password added successfully");
-      Get.back(closeOverlays: true);
+      HomeController.to.getAllData(force: true);
     } else {
       SnackBarHelper.showError("Something went wrong, please try again");
     }

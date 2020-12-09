@@ -1,4 +1,4 @@
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/db/model/password_model.dart';
@@ -6,6 +6,9 @@ import 'package:password_manager/db/store.dart';
 
 @lazySingleton
 class HomeController extends GetxController {
+
+  static HomeController get to => Get.find();
+
   Store _store;
 
   HomeController(this._store);

@@ -1,0 +1,28 @@
+// todo Main Screen
+1. IF list is empty, show empty message //done
+2. Search
+3. After adding any new password, update the list //done
+
+// Main List Details
+1. Edit Functionalities
+2. Delete features
+3. Share password
+4. Add notes options
+5. Show password strength
+6. Show user Categories
+
+
+//Categories
+1. IF list is empty, show empty message //done
+2. Search
+
+// Cards UI
+1. Search
+
+
+//Advance Filter
+1. Add prefix options //done
+
+
+// Setting UI
+// Export Password

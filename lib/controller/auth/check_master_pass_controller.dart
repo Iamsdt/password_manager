@@ -17,7 +17,7 @@ class CheckMasterPassController extends GetxController {
   CheckMasterPassController(this._store);
 
   final TextEditingController passController = TextEditingController();
-  
+
   @override
   void onInit() {
     checkMasterPassExists();
@@ -31,6 +31,7 @@ class CheckMasterPassController extends GetxController {
     Fimber.i("Current password $current");
     var old = res.data()['psssword'];
     if (old == current) {
+      passController.text = "";
       Get.offAll(BottomNavUI());
     } else {
       SnackBarHelper.showError("Password did not match, please try again!");

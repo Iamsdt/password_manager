@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/check_master_pass_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/auth/recover/recover_master_pass.dart';
-import 'package:password_manager/ui/auth/recover/recover_password.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 
 class CheckMasterPassUI extends StatelessWidget {

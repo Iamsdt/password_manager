@@ -112,6 +112,12 @@ class CategoriesUI extends StatelessWidget {
   }
 
   Widget showLoadedData(List<CategoriesModel> data) {
+    if (data.isEmpty) {
+      return CommonUI.showFailed(
+        "No Category found",
+      );
+    }
+
     return Container(
       child: ListView.builder(
         shrinkWrap: true,
