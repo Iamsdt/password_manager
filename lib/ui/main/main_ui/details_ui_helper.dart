@@ -3,6 +3,10 @@ import 'package:password_manager/db/model/notes.dart';
 
 class PasswordDetailsUIHelper {
   static Widget showNotesList(List<NotesModel> notes) {
+    if (notes.isEmpty) {
+      return Container();
+    }
+
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),

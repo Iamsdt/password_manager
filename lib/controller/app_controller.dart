@@ -6,6 +6,7 @@ import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/controller/home/home_controller.dart';
 import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/generated_pass.dart';
+import 'package:password_manager/db/model/notes.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/db/store.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
@@ -209,5 +210,21 @@ class AppController extends GetxController {
   // *********************************
   // ********** Notes ****************
   // *********************************
-  void saveNotes(String uuid, String notes) {}
+  void saveNotes(String uuid, String notes) async {
+    var model = NotesModel(
+      notes: notes,
+      passwordUUID: uuid,
+    );
+    var res = await _store.addNotes(model);
+
+    if (res) {
+      if (res) {
+        SnackBarHelper.showSuccess("Note added successfully");
+        //update list
+        HomeController.to.getNotes(uuid);
+      } else {
+        SnackBarHelper.showError("Something went wrong, please try again");
+      }
+    }
+  }
 }

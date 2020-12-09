@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/app_controller.dart';
+import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 class CreateNotes {
   static void showDialog(AppController controller, String uuid) {
@@ -68,7 +69,12 @@ class CreateNotes {
                     ),
                     child: MaterialButton(
                       onPressed: () {
-                        controller.saveNotes(uuid, text);
+                        if (text.isNotEmpty) {
+                          controller.saveNotes(uuid, text);
+                          Get.back();
+                        } else {
+                          SnackBarHelper.showError("Name is empty");
+                        }
                       },
                       child: Container(
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),

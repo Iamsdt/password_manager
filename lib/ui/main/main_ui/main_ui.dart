@@ -10,7 +10,8 @@ import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
 
 class HomePageUI extends StatelessWidget {
-  final HomeController controller = Get.put(getIt<HomeController>());
+  final HomeController controller =
+      Get.put(getIt<HomeController>(), permanent: true);
   final Encrypter encrypter = Get.find(tag: "ENCRYPT");
 
   @override

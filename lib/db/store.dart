@@ -96,6 +96,11 @@ class Store {
     }
   }
 
+  Future<QuerySnapshot> getNotes(String uuid) async {
+    var pass = _firestore.collection(DbConstant.NOTES);
+    return await pass.where("passwordUUID", isEqualTo: uuid).get();
+  }
+
   // ***********************************
   // ************CATEGORY***************
   // ***********************************

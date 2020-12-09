@@ -16,6 +16,10 @@ class NotesModel {
     if (this.uuid == null) {
       this.uuid = Uuid().v4();
     }
+
+    if (this.updatedDate == null) {
+      this.updatedDate = DateTime.now();
+    }
   }
 
   NotesModel copyWith({

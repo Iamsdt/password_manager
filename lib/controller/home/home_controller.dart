@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/controller/DataStatus.dart';
+import 'package:password_manager/db/model/notes.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/db/store.dart';
 
@@ -14,6 +15,8 @@ class HomeController extends GetxController {
 
   var passwordModelStatus =
       DataStatus<List<PasswordModel>>(null, DataState.INIT).obs;
+
+  var notesModelStatus = DataStatus<List<NotesModel>>(null, DataState.INIT).obs;
 
   var cache = List<PasswordModel>();
 
@@ -40,6 +43,19 @@ class HomeController extends GetxController {
 
     //now update
     passwordModelStatus.update((val) {
+      val.data = models;
+      val.state = DataState.LOADED;
+    });
+  }
+
+  void getNotes(String uuid) async {
+    var cats = await _store.getNotes(uuid);
+
+    var models = cats.docs.map((e) {
+      return NotesModel.fromMap(e.data());
+    }).toList();
+
+    notesModelStatus.update((val) {
       val.data = models;
       val.state = DataState.LOADED;
     });

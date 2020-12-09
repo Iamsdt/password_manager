@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/controller/app_controller.dart';
+import 'package:password_manager/controller/home/home_controller.dart';
 import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/notes.dart';
 import 'package:password_manager/db/model/password_model.dart';
@@ -56,6 +58,10 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
   @override
   void initState() {
     super.initState();
+
+    //gets all notes
+    HomeController.to.getNotes(widget.model.uuid);
+
     titleController.text = widget.model.companyName;
     usernameController.text = widget.model.userName;
     passwordController.text = widget.model.password;
@@ -245,7 +251,17 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                         CreateNotes.showDialog(controller, widget.model.uuid);
                       }),
                     ),
-                    PasswordDetailsUIHelper.showNotesList(List()),
+                    GetX<HomeController>(
+                      init: HomeController.to,
+                      builder: (HomeController ctl) {
+                        var state = ctl.notesModelStatus.value;
+                        if (state.state == DataState.LOADED) {
+                          return PasswordDetailsUIHelper.showNotesList(state.data);
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
                   ],
                 ),
               )
