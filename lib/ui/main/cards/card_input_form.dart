@@ -4,6 +4,7 @@ import 'package:credit_card/credit_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/card/card_controller.dart';
+import 'package:password_manager/ui/main/cards/my_card_form.dart';
 
 class CardInputPage extends StatefulWidget {
   const CardInputPage({Key key}) : super(key: key);
@@ -31,12 +32,9 @@ class _CardInputPageState extends State<CardInputPage> {
         backgroundColor: Colors.transparent,
         title: Text(
           "Add new cards",
-          style: TextStyle(
-            color: Colors.black,
-          ),
         ),
         iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+          color: Get.iconColor, //change your color here
         ),
       ),
       body: ListView(
@@ -53,8 +51,9 @@ class _CardInputPageState extends State<CardInputPage> {
                 _model.isCvvFocused, //true when you want to show cvv(back) view
           ),
           Container(
-            child: CreditCardForm(
+            child: MyCreditCardForm(
               themeColor: Colors.red,
+              textColor: Get.isDarkMode ? Colors.white : Colors.black,
               onCreditCardModelChange: (CreditCardModel data) {
                 setState(() {
                   _model = data;
@@ -71,7 +70,9 @@ class _CardInputPageState extends State<CardInputPage> {
               RaisedButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0),
-                  side: BorderSide(color: Colors.blue),
+                  side: BorderSide(
+                    color: Colors.blue,
+                  ),
                 ),
                 padding: const EdgeInsets.all(8.0),
                 textColor: Colors.white,
@@ -84,6 +85,9 @@ class _CardInputPageState extends State<CardInputPage> {
                 ),
               ),
             ],
+          ),
+          SizedBox(
+            height: 30,
           ),
         ],
       ),
