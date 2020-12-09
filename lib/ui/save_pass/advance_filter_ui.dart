@@ -10,6 +10,7 @@ class AdvanceFilterUI extends StatelessWidget {
   var isLowercase = true.obs;
   var isSpecial = true.obs;
   var prefixTextValue = false.obs;
+  String prefix = "";
   String length = "16";
 
   AppController _appController = Get.find(tag: "APP");
@@ -99,6 +100,9 @@ class AdvanceFilterUI extends StatelessWidget {
                   margin: EdgeInsets.only(left: 15, right: 15),
                   child: TextField(
                     decoration: InputDecoration(hintText: "Prefix text"),
+                    onChanged: (value) {
+                      prefix = value;
+                    },
                   ),
                 ),
               ),
@@ -201,6 +205,7 @@ class AdvanceFilterUI extends StatelessWidget {
                         isNumbers: isNumbers.value,
                         isUpperCase: isUppercase.value,
                         isSpecial: isSpecial.value,
+                        prefix: prefix,
                       );
                       Get.back();
                       //show bottom sheet again
