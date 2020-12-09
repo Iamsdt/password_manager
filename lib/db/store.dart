@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:password_manager/db/db_constant.dart';
 import 'package:password_manager/db/model/cards_model.dart';
 import 'package:password_manager/db/model/categories_model.dart';
+import 'package:password_manager/db/model/notes.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/ext/ext.dart';
 
@@ -40,10 +41,10 @@ class Store {
     }
   }
 
-  Future<bool> deletePassword(PasswordModel model) async {
+  Future<bool> deletePassword(String uuid) async {
     try {
       var pass = _firestore.collection(DbConstant.PASSWORD);
-      await pass.doc(model.uuid).delete();
+      await pass.doc(uuid).delete();
       return true;
     } catch (e, s) {
       Fimber.e("Error on delete password", ex: e, stacktrace: s);
@@ -61,8 +62,38 @@ class Store {
     return await pass.where("category", isEqualTo: categoryID).get();
   }
 
-  void addNotes() {
-    //
+  Future<bool> addNotes(NotesModel model) async {
+    try {
+      var cat = _firestore.collection(DbConstant.NOTES);
+      await cat.doc(model.uuid).set(model.toMap());
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on categories", ex: e, stacktrace: s);
+      return false;
+    }
+  }
+
+  Future<bool> updateNotes(NotesModel model) async {
+    try {
+      var cat = _firestore.collection(DbConstant.NOTES);
+      var options = SetOptions(merge: true);
+      await cat.doc(model.uuid).set(model.toMap(), options);
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on update notes", ex: e, stacktrace: s);
+      return false;
+    }
+  }
+
+  Future<bool> deleteNotes(NotesModel model) async {
+    try {
+      var cat = _firestore.collection(DbConstant.NOTES);
+      await cat.doc(model.uuid).delete();
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on delete notes", ex: e, stacktrace: s);
+      return false;
+    }
   }
 
   // ***********************************
@@ -83,6 +114,36 @@ class Store {
   Future<QuerySnapshot> getCategories() async {
     var cat = _firestore.collection(DbConstant.CATEGORIES);
     return await cat.get();
+  }
+
+  Future<bool> deleteCategory(String uuid) async {
+    try {
+      var pass = _firestore.collection(DbConstant.CATEGORIES);
+      await pass.doc(uuid).delete();
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on delete category", ex: e, stacktrace: s);
+      return false;
+    }
+  }
+
+  Future<bool> deleteCategoryPasswords(String uuid) async {
+    try {
+      var pass = _firestore.collection(DbConstant.PASSWORD);
+      var list = await pass.where("category", isEqualTo: uuid).get();
+
+      for (QueryDocumentSnapshot doc in list.docs) {
+        if (doc.exists) {
+          var uuid = doc.data()['uuid'];
+          await pass.doc(uuid).delete();
+        }
+      }
+
+      return true;
+    } catch (e, s) {
+      Fimber.e("Error on delete category", ex: e, stacktrace: s);
+      return false;
+    }
   }
 
   // ***********************************

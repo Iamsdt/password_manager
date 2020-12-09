@@ -8,6 +8,8 @@ import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/notes.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/ui/main/categories/create_categories.dart';
+import 'package:password_manager/ui/main/main_ui/details_ui_helper.dart';
+import 'package:password_manager/ui/main/main_ui/helper/create_notes.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/utils/utils.dart';
@@ -91,7 +93,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
           ),
           InkWell(
             onTap: () {
-              deletePassword();
+              showDeleteDialog();
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 25, left: 10),
@@ -166,7 +168,8 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                     SizedBox(
                       height: 15,
                     ),
-                    showPassbox(Icons.person, usernameController, (value) {
+                    showPassbox(Icons.person, usernameController, false,
+                        (value) {
                       // nothing to do
                     }),
                     SizedBox(
@@ -182,7 +185,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                     SizedBox(
                       height: 15,
                     ),
-                    showPassbox(Icons.lock, passwordController, (value) {
+                    showPassbox(Icons.lock, passwordController, true, (value) {
                       var res = Utils.analysisPassword(value);
                       setState(() {
                         strength = res;
@@ -203,8 +206,9 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    strengthItem(strength, "Password Strength"),
-                    analysisItem(
+                    PasswordDetailsUIHelper.strengthItem(
+                        strength, "Password Strength"),
+                    PasswordDetailsUIHelper.analysisItem(
                       "${Utils.getPassUpdatedDay(widget.model.updated)} d",
                       "Last update days ago",
                     ),
@@ -236,9 +240,12 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                       alignment: Alignment.topRight,
                       child: Text(
                         "+ Add Notes",
-                      ),
+                      ).materialClick(() {
+                        //click add notes
+                        CreateNotes.showDialog(controller, widget.model.uuid);
+                      }),
                     ),
-                    showNotesList(List()),
+                    PasswordDetailsUIHelper.showNotesList(List()),
                   ],
                 ),
               )
@@ -249,6 +256,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
     );
   }
 
+  //show category drop down
   Container buildCategoryDropdown() {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20),
@@ -304,142 +312,6 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
     );
   }
 
-  Widget showNotesList(List<NotesModel> notes) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: notes.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Text(
-          "Notes:\n" + "This is an example notes" * 10,
-        );
-      },
-    );
-  }
-
-  Column analysisItem(String status, String title) {
-    return Column(
-      children: [
-        Text(
-          status,
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 14,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column strengthItem(int value, String title) {
-    return Column(
-      children: [
-        Text(
-          getStrength(value),
-          style: TextStyle(
-            fontSize: 32,
-            color: getStrengthColor(value),
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 14,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Container showPassbox(IconData icon, TextEditingController controller,
-      void onChanged(String value)) {
-    return Container(
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-                color: Get.isDarkMode ? Colors.grey[900] : Colors.white,
-              ),
-              child: ObxValue(
-                (data) => TextFormField(
-                  controller: controller,
-                  readOnly: !edidtable,
-                  onChanged: (value) {
-                    onChanged(value);
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      icon,
-                      color: Colors.blue[500],
-                      size: 20,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        data.value = !data.value;
-                      },
-                      child: Icon(
-                        data.value ? Icons.visibility_off : Icons.visibility,
-                      ),
-                    ),
-                  ),
-                  obscureText: data.value,
-                ),
-                false.obs,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          InkWell(
-            onTap: () {
-              //hello
-              Clipboard.setData(new ClipboardData(text: controller.text));
-            },
-            child: Container(
-              padding: const EdgeInsets.only(
-                  left: 10, right: 10, top: 10, bottom: 10),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blue,
-                ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
-                ),
-                color: Colors.blue,
-              ),
-              child: Text(
-                "COPY",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Container topTitle() {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20.0),
@@ -482,26 +354,90 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
     );
   }
 
-  String getStrength(int value) {
-    if (value >= 80)
-      return "STRONG";
-    else if (value >= 60)
-      return "MEDIUM";
-    else if (value >= 40)
-      return "FAIR";
-    else
-      return "POOR";
-  }
-
-  Color getStrengthColor(int value) {
-    if (value >= 80)
-      return Colors.green;
-    else if (value >= 60)
-      return Colors.cyan;
-    else if (value >= 40)
-      return Colors.yellow;
-    else
-      return Colors.red;
+  Container showPassbox(
+    IconData icon,
+    TextEditingController controller,
+    bool isShowPassword,
+    void onChanged(String value),
+  ) {
+    return Container(
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.white,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                color: Get.isDarkMode ? Colors.grey[900] : Colors.white,
+              ),
+              child: ObxValue(
+                (data) => TextFormField(
+                  controller: controller,
+                  readOnly: !edidtable,
+                  onChanged: (value) {
+                    onChanged(value);
+                  },
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      icon,
+                      color: Colors.blue[500],
+                      size: 20,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        data.value = !data.value;
+                      },
+                      child: Icon(
+                        data.value ? Icons.visibility_off : Icons.visibility,
+                      ),
+                    ),
+                  ),
+                  obscureText: data.value,
+                ),
+                isShowPassword.obs,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          InkWell(
+            onTap: () {
+              //hello
+              Clipboard.setData(new ClipboardData(text: controller.text));
+            },
+            child: Container(
+              padding: const EdgeInsets.only(
+                  left: 10, right: 10, top: 10, bottom: 10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.blue,
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                color: Colors.blue,
+              ),
+              child: Text(
+                "COPY",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget showSavedButton(bool show) {
@@ -579,6 +515,24 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
       Get.back(closeOverlays: true);
       SnackBarHelper.showSuccess("Password deleted successfully");
     }
+  }
+
+  void showDeleteDialog() {
+    Get.defaultDialog(
+      title: "Confirmation Alert",
+      middleText:
+          "Are you sure to delete this category and all the password under this category?",
+      middleTextStyle: TextStyle(
+        fontSize: 15,
+      ),
+      confirmTextColor: Colors.white,
+      onConfirm: () {
+        deletePassword();
+      },
+      onCancel: () {
+        // Get.back();
+      },
+    );
   }
 
   @override

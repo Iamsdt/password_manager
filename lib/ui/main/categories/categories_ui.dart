@@ -129,7 +129,7 @@ class CategoriesUI extends StatelessWidget {
             child: ListTile(
               onTap: () {
                 //handle click
-                Get.to(CategoriesDetails(model.uuid));
+                Get.to(CategoriesDetails(model.uuid, model.name));
               },
               // leading: Container(
               //   padding: EdgeInsets.all(10.0),

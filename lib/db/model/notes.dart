@@ -1,24 +1,34 @@
 import 'dart:convert';
-
-import 'package:encrypt/encrypt.dart';
-import 'package:password_manager/utils/encrtypt.dart';
+import 'package:uuid/uuid.dart';
 
 class NotesModel {
   String notes;
   DateTime updatedDate;
+  String uuid;
+  String passwordUUID;
 
-  NotesModel(
+  NotesModel({
     this.notes,
     this.updatedDate,
-  );
+    this.uuid,
+    this.passwordUUID,
+  }) {
+    if (this.uuid == null) {
+      this.uuid = Uuid().v4();
+    }
+  }
 
   NotesModel copyWith({
     String notes,
     DateTime updatedDate,
+    String uuid,
+    String passwordUUID,
   }) {
     return NotesModel(
-      notes ?? this.notes,
-      updatedDate ?? this.updatedDate,
+      notes: notes ?? this.notes,
+      updatedDate: updatedDate ?? this.updatedDate,
+      uuid: uuid ?? this.uuid,
+      passwordUUID: passwordUUID ?? this.passwordUUID,
     );
   }
 
@@ -26,6 +36,8 @@ class NotesModel {
     return {
       'notes': notes,
       'updatedDate': updatedDate?.millisecondsSinceEpoch,
+      'uuid': uuid,
+      'passwordUUID': passwordUUID,
     };
   }
 
@@ -33,8 +45,10 @@ class NotesModel {
     if (map == null) return null;
 
     return NotesModel(
-      map['notes'],
-      DateTime.fromMillisecondsSinceEpoch(map['updatedDate']),
+      notes: map['notes'],
+      updatedDate: DateTime.fromMillisecondsSinceEpoch(map['updatedDate']),
+      uuid: map['uuid'],
+      passwordUUID: map['passwordUUID'],
     );
   }
 
@@ -44,30 +58,26 @@ class NotesModel {
       NotesModel.fromMap(json.decode(source));
 
   @override
-  String toString() => 'NotesModel(notes: $notes, updatedDate: $updatedDate)';
+  String toString() {
+    return 'NotesModel(notes: $notes, updatedDate: $updatedDate, uuid: $uuid, passwordUUID: $passwordUUID)';
+  }
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is NotesModel && o.notes == notes && o.updatedDate == updatedDate;
+    return o is NotesModel &&
+        o.notes == notes &&
+        o.updatedDate == updatedDate &&
+        o.uuid == uuid &&
+        o.passwordUUID == passwordUUID;
   }
 
   @override
-  int get hashCode => notes.hashCode ^ updatedDate.hashCode;
-
-  NotesModel encrypt(Encrypter en) {
-    return NotesModel(
-      encryptString(en, this.notes),
-      this.updatedDate,
-    );
-  }
-
-  NotesModel decrypt(Encrypter en) {
-    this.notes = decryptString(en, this.notes);
-    return NotesModel(
-      this.notes,
-      this.updatedDate,
-    );
+  int get hashCode {
+    return notes.hashCode ^
+        updatedDate.hashCode ^
+        uuid.hashCode ^
+        passwordUUID.hashCode;
   }
 }

@@ -95,8 +95,11 @@ class HomePageUI extends StatelessWidget {
 
   Widget showLoadedData(List<PasswordModel> data) {
     if (data.isEmpty) {
-      return CommonUI.showFailed(
-        "No saved password found",
+      return Container(
+        margin: EdgeInsets.only(top: 50),
+        child: CommonUI.showFailed(
+          "No saved password found",
+        ),
       );
     }
 

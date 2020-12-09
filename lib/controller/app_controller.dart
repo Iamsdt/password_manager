@@ -96,7 +96,7 @@ class AppController extends GetxController {
         password: model.password.encrypt(encrypter),
       ),
     );
-    
+
     if (res) {
       SnackBarHelper.showSuccess("Password deleted successfully");
       //update list
@@ -109,7 +109,7 @@ class AppController extends GetxController {
   }
 
   Future<bool> deletePassword(PasswordModel model) async {
-    var res = await _store.deletePassword(model);
+    var res = await _store.deletePassword(model.uuid);
     if (res) {
       //update list
       HomeController.to.getAllData(force: true);
@@ -163,6 +163,19 @@ class AppController extends GetxController {
     });
   }
 
+  Future<bool> deleteCategory(String uuid) async {
+    var res1 = await _store.deleteCategory(uuid);
+    var res2 = await _store.deleteCategoryPasswords(uuid);
+    if (res1 && res2) {
+      //update list
+      getAllData(force: true);
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
+
+    return res1 && res2;
+  }
+
   // *********************************
   // ****** UPDATE MASTER PASS *******
   // *********************************
@@ -192,4 +205,9 @@ class AppController extends GetxController {
       SnackBarHelper.showError("Something went wrong, please try again");
     }
   }
+
+  // *********************************
+  // ********** Notes ****************
+  // *********************************
+  void saveNotes(String uuid, String notes) {}
 }
