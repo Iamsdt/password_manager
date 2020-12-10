@@ -159,7 +159,12 @@ class CategoriesUI extends StatelessWidget {
                   color: Colors.blue,
                   icon: Icons.edit,
                   onTap: () {
-                    //todo add edit options
+                    CreateCategories.showDialog(
+                      controller,
+                      initText: model.name,
+                      uuid: model.uuid,
+                      edit: true,
+                    );
                   },
                 ),
               ],

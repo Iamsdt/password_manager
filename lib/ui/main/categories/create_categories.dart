@@ -4,7 +4,12 @@ import 'package:password_manager/controller/app_controller.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 class CreateCategories {
-  static void showDialog(AppController controller) {
+  static void showDialog(
+    AppController controller, {
+    String initText = "",
+    String uuid = "",
+    bool edit = false,
+  }) {
     var text = "";
 
     Get.bottomSheet(
@@ -30,6 +35,7 @@ class CreateCategories {
                       color: Get.isDarkMode ? Colors.grey[900] : Colors.white,
                     ),
                     child: TextFormField(
+                      initialValue: initText,
                       onChanged: (value) {
                         text = value;
                       },
@@ -68,8 +74,13 @@ class CreateCategories {
                     child: MaterialButton(
                       onPressed: () {
                         if (text.isNotEmpty) {
-                          controller.createCategory(text);
-                          Get.back();
+                          if (edit) {
+                            controller.updateCategory(text, uuid);
+                            Get.back();
+                          } else {
+                            controller.createCategory(text);
+                            Get.back();
+                          }
                         } else {
                           SnackBarHelper.showError("Name is empty");
                         }
@@ -77,7 +88,7 @@ class CreateCategories {
                       child: Container(
                         padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                         child: Text(
-                          "SAVE",
+                          edit ? "UPDATE" : "SAVE",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
