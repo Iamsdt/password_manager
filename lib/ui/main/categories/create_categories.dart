@@ -10,7 +10,7 @@ class CreateCategories {
     String uuid = "",
     bool edit = false,
   }) {
-    var text = "";
+    var text = initText;
 
     Get.bottomSheet(
       Container(

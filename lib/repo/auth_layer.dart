@@ -90,6 +90,7 @@ class AuthLayer {
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
       googleAuth = await googleUser.authentication;
     } catch (e, s) {
+      Fimber.e("Something went wrong on google account", ex: e, stacktrace: s);
       return AuthResults(null, "Something went wrong please try again?", false);
     }
 
@@ -105,6 +106,8 @@ class AuthLayer {
           await FirebaseAuth.instance.signInWithCredential(credential);
       return AuthResults(userCredential, "", true);
     } on FirebaseAuthException catch (e, s) {
+      Fimber.e("Something went wrong on google firebase account creation",
+          ex: e, stacktrace: s);
       var message = "";
       switch (e.code) {
         case "account-exists-with-different-credential":

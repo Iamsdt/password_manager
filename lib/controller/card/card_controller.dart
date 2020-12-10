@@ -1,4 +1,3 @@
-import 'package:credit_card/credit_card_model.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';

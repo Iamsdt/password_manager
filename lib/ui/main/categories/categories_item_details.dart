@@ -8,7 +8,6 @@ import 'package:password_manager/controller/categories/categories_controller.dar
 import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
-import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 class CategoriesDetails extends StatelessWidget {

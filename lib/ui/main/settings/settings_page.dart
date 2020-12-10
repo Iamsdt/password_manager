@@ -9,7 +9,7 @@ import 'package:password_manager/ui/recover/change_security_question.dart';
 import 'package:password_manager/utils/theme/theme_data.dart';
 
 class SettingsPageUi extends StatelessWidget {
-  var themeStatus = ThemeService.currentTheme.obs;
+  final RxBool themeStatus = ThemeService.currentTheme.obs;
 
   SettingsPageUi({Key key}) : super(key: key);
 
