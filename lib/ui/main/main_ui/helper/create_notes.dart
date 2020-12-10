@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:password_manager/controller/app_controller.dart';
+import 'package:password_manager/controller/home/home_controller.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 class CreateNotes {
-  static void showDialog(AppController controller, String uuid) {
-    var text = "";
+  static void showDialog(
+    String uuid, {
+    String noteUUID = "",
+    String initValue = "",
+    bool edit = false,
+  }) {
+    var text = initValue;
 
     Get.bottomSheet(
       Container(
@@ -30,6 +35,7 @@ class CreateNotes {
                       color: Get.isDarkMode ? Colors.grey[900] : Colors.white,
                     ),
                     child: TextFormField(
+                      initialValue: initValue,
                       onChanged: (value) {
                         text = value;
                       },
@@ -70,16 +76,21 @@ class CreateNotes {
                     child: MaterialButton(
                       onPressed: () {
                         if (text.isNotEmpty) {
-                          controller.saveNotes(uuid, text);
-                          Get.back();
+                          if (edit) {
+                            HomeController.to.updateNote(uuid, text, noteUUID);
+                            Get.back();
+                          } else {
+                            HomeController.to.saveNote(uuid, text);
+                            Get.back();
+                          }
                         } else {
-                          SnackBarHelper.showError("Name is empty");
+                          SnackBarHelper.showError("Text is empty");
                         }
                       },
                       child: Container(
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                         child: Text(
-                          "SAVE",
+                          edit ? "UPDATE" : "SAVE",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

@@ -63,10 +63,10 @@ class Store {
     }
   }
 
-  Future<bool> deleteNote(NotesModel model) async {
+  Future<bool> deleteNote(String uuid) async {
     try {
       var cat = _firestore.collection(DbConstant.NOTES);
-      await cat.doc(model.uuid).delete();
+      await cat.doc(uuid).delete();
       return true;
     } catch (e, s) {
       Fimber.e("Error on delete notes", ex: e, stacktrace: s);

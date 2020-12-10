@@ -4,6 +4,7 @@ import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/db/model/notes.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/db/store.dart';
+import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 @lazySingleton
 class HomeController extends GetxController {
@@ -48,6 +49,10 @@ class HomeController extends GetxController {
     });
   }
 
+  // *********************************
+  // ********** Notes ****************
+  // *********************************
+
   void getNotes(String uuid) async {
     var cats = await _store.getNotes(uuid);
 
@@ -59,5 +64,55 @@ class HomeController extends GetxController {
       val.data = models;
       val.state = DataState.LOADED;
     });
+  }
+
+  void saveNote(String uuid, String notes) async {
+    var model = NotesModel(
+      notes: notes,
+      passwordUUID: uuid,
+    );
+    var res = await _store.addNote(model);
+
+    if (res) {
+      if (res) {
+        SnackBarHelper.showSuccess("Note added successfully");
+        //update list
+        getNotes(uuid);
+      } else {
+        SnackBarHelper.showError("Something went wrong, please try again");
+      }
+    }
+  }
+
+  void updateNote(String uuid, String notes, String noteUUID) async {
+    var model = NotesModel(
+      notes: notes,
+      passwordUUID: uuid,
+      uuid: noteUUID,
+    );
+    var res = await _store.addNote(model, update: true);
+
+    if (res) {
+      if (res) {
+        SnackBarHelper.showSuccess("Note updated successfully");
+        //update list
+        getNotes(uuid);
+      } else {
+        SnackBarHelper.showError("Something went wrong, please try again");
+      }
+    }
+  }
+
+  void deleteNote(String uuid) async {
+    var res = await _store.deleteNote(uuid);
+    if (res) {
+      if (res) {
+        SnackBarHelper.showSuccess("Note delete successfully");
+        //update list
+        getNotes(uuid);
+      } else {
+        SnackBarHelper.showError("Something went wrong, please try again");
+      }
+    }
   }
 }

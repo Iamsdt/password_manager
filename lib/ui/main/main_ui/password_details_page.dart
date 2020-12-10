@@ -7,12 +7,10 @@ import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/controller/app_controller.dart';
 import 'package:password_manager/controller/home/home_controller.dart';
 import 'package:password_manager/db/model/categories_model.dart';
-import 'package:password_manager/db/model/notes.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/ui/main/categories/create_categories.dart';
 import 'package:password_manager/ui/main/main_ui/details_ui_helper.dart';
 import 'package:password_manager/ui/main/main_ui/helper/create_notes.dart';
-import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/utils/utils.dart';
 import 'package:password_manager/ext/ext.dart';
@@ -120,7 +118,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
               ),
               topTitle(),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               edidtable
                   ? Container(
@@ -143,7 +141,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
               ),
               buildCategoryDropdown(),
               SizedBox(
-                height: 50,
+                height: 30,
               ),
               Container(
                 margin: EdgeInsets.only(left: 10, right: 10),
@@ -248,7 +246,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                         "+ Add Notes",
                       ).materialClick(() {
                         //click add notes
-                        CreateNotes.showDialog(controller, widget.model.uuid);
+                        CreateNotes.showDialog(widget.model.uuid);
                       }),
                     ),
                     GetX<HomeController>(
@@ -265,7 +263,10 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                     ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),
