@@ -21,7 +21,10 @@ class CardsModel {
     this.createdDate,
     this.updatedDate,
   }) {
-    this.uuid = Uuid().v4();
+    //if uuid is null then create one
+    if (this.uuid == null) {
+      this.uuid = Uuid().v4();
+    }
   }
 
   CardsModel copyWith({
@@ -58,7 +61,7 @@ class CardsModel {
 
   factory CardsModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
-  
+
     return CardsModel(
       uuid: map['uuid'],
       cardNumber: map['cardNumber'],
@@ -72,7 +75,8 @@ class CardsModel {
 
   String toJson() => json.encode(toMap());
 
-  factory CardsModel.fromJson(String source) => CardsModel.fromMap(json.decode(source));
+  factory CardsModel.fromJson(String source) =>
+      CardsModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -82,25 +86,25 @@ class CardsModel {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
+
     return o is CardsModel &&
-      o.uuid == uuid &&
-      o.cardNumber == cardNumber &&
-      o.name == name &&
-      o.expDate == expDate &&
-      o.cvc == cvc &&
-      o.createdDate == createdDate &&
-      o.updatedDate == updatedDate;
+        o.uuid == uuid &&
+        o.cardNumber == cardNumber &&
+        o.name == name &&
+        o.expDate == expDate &&
+        o.cvc == cvc &&
+        o.createdDate == createdDate &&
+        o.updatedDate == updatedDate;
   }
 
   @override
   int get hashCode {
     return uuid.hashCode ^
-      cardNumber.hashCode ^
-      name.hashCode ^
-      expDate.hashCode ^
-      cvc.hashCode ^
-      createdDate.hashCode ^
-      updatedDate.hashCode;
+        cardNumber.hashCode ^
+        name.hashCode ^
+        expDate.hashCode ^
+        cvc.hashCode ^
+        createdDate.hashCode ^
+        updatedDate.hashCode;
   }
 }

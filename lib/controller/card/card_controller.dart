@@ -1,4 +1,5 @@
 import 'package:encrypt/encrypt.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/controller/DataStatus.dart';
@@ -13,6 +14,9 @@ class CardController extends GetxController {
   final Store _store;
 
   CardController(this._store);
+
+  //focasing node
+  var focusNode = FocusNode();
 
   var cache = List<CardsModel>();
 
@@ -106,5 +110,38 @@ class CardController extends GetxController {
     // maybe user can close the ui,
     // so it will better to handle from ui
     return res;
+  }
+
+  //filter list
+  void filterList(String value) {
+    if (cache == null || cache?.isEmpty == true) {
+      return;
+    }
+
+    if (value == "") {
+      cardModelStatus.update((val) {
+        val.data = cache;
+        val.state = DataState.LOADED;
+      });
+    }
+
+    var filtered = cache
+        .where((e) => e.name.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+
+    cardModelStatus.update((val) {
+      val.data = filtered;
+      val.state = DataState.LOADED;
+    });
+  }
+
+  void removeFocus() {
+    focusNode.unfocus();
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
   }
 }

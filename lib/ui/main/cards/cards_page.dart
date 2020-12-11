@@ -61,93 +61,27 @@ class CardPageUI extends StatelessWidget {
                   ),
                   color: Colors.black.withOpacity(0.1),
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.search),
-                    SizedBox(
-                      width: 20,
+                child: TextFormField(
+                  onChanged: (value) {
+                    controller.filterList(value);
+                  },
+                  focusNode: controller.focusNode,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.blue[500],
                     ),
-                    Text(
-                      "Search ...",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: context.theme.hintColor,
-                      ),
-                    )
-                  ],
+                    hintText: "Search ... (card holder name)",
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              GetX<CardController>(
-                init: controller,
-                initState: (_) {
-                  controller.getAllData();
-                },
-                builder: (_) {
-                  var data = controller.cardModelStatus.value;
-                  if (data.state == DataState.LOADED) {
-                    if (data.data.isEmpty) {
-                      return Container(
-                        padding: EdgeInsets.only(top: 50),
-                        child: CommonUI.showFailed(
-                          "No cards found",
-                        ),
-                      );
-                    }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (ctx, pos) {
-                        var model = data.data[pos];
-                        var modelDe = model.copyWith(
-                          cardNumber: model.cardNumber.decrypt(encrypter),
-                          cvc: model.cvc.decrypt(encrypter),
-                        );
-                        return InkWell(
-                          onLongPress: () {
-                            Get.to(CardInputPage("Add new cards", false, modelDe));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(top: 10, bottom: 10),
-                            child: MyCardWidget(modelDe),
-                          ),
-                        );
-                      },
-                      itemCount: data.data.length,
-                    );
-                  } else {
-                    return CommonUI.showLoading();
-                  }
-
-                  // switch (data.state) {
-                  //   case DataState.INIT:
-                  //   case DataState.LOADING:
-                  //     return CommonUI.showLoading();
-                  //   case DataState.NO_INTERNET:
-                  //     return CommonUI.showOffline();
-                  //   case DataState.LOADED:
-                  //     return SliverList(
-                  //       delegate: SliverChildBuilderDelegate(
-                  //         (ctx, pos) {
-                  //           var model = data.data[pos];
-                  //           return Container(
-                  //             margin: EdgeInsets.only(top: 10, bottom: 10),
-                  //             child: ListItemUI.passList(model),
-                  //           );
-                  //         },
-                  //         childCount: data.data.length,
-                  //       ),
-                  //     );
-                  //   case DataState.FAILED:
-                  //     return CommonUI.showFailed(
-                  //         "Something went wrong! Please try again");
-                  //   default:
-                  //     return Container();
-                  // }
-                },
-              ),
+              showCardList(),
               SizedBox(
                 height: 30,
               ),
@@ -155,6 +89,79 @@ class CardPageUI extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  //show card list
+  GetX<CardController> showCardList() {
+    return GetX<CardController>(
+      init: controller,
+      initState: (_) {
+        controller.getAllData();
+      },
+      builder: (_) {
+        var data = controller.cardModelStatus.value;
+        if (data.state == DataState.LOADED) {
+          if (data.data.isEmpty) {
+            return Container(
+              padding: EdgeInsets.only(top: 50),
+              child: CommonUI.showFailed(
+                "No cards found",
+              ),
+            );
+          }
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (ctx, pos) {
+              var model = data.data[pos];
+              var modelDe = model.copyWith(
+                cardNumber: model.cardNumber.decrypt(encrypter),
+                cvc: model.cvc.decrypt(encrypter),
+              );
+              return InkWell(
+                onLongPress: () {
+                  Get.to(CardInputPage("Update Card", true, modelDe));
+                  controller.removeFocus();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                  child: MyCardWidget(modelDe),
+                ),
+              );
+            },
+            itemCount: data.data.length,
+          );
+        } else {
+          return CommonUI.showLoading();
+        }
+
+        // switch (data.state) {
+        //   case DataState.INIT:
+        //   case DataState.LOADING:
+        //     return CommonUI.showLoading();
+        //   case DataState.NO_INTERNET:
+        //     return CommonUI.showOffline();
+        //   case DataState.LOADED:
+        //     return SliverList(
+        //       delegate: SliverChildBuilderDelegate(
+        //         (ctx, pos) {
+        //           var model = data.data[pos];
+        //           return Container(
+        //             margin: EdgeInsets.only(top: 10, bottom: 10),
+        //             child: ListItemUI.passList(model),
+        //           );
+        //         },
+        //         childCount: data.data.length,
+        //       ),
+        //     );
+        //   case DataState.FAILED:
+        //     return CommonUI.showFailed(
+        //         "Something went wrong! Please try again");
+        //   default:
+        //     return Container();
+        // }
+      },
     );
   }
 }

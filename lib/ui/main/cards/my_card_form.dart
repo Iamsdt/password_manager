@@ -6,10 +6,10 @@ import 'package:flutter/widgets.dart';
 class MyCreditCardForm extends StatefulWidget {
   const MyCreditCardForm({
     Key key,
-    this.cardNumber,
-    this.expiryDate,
-    this.cardHolderName,
-    this.cvvCode,
+    this.cardNumber = "",
+    this.expiryDate = "",
+    this.cardHolderName = "",
+    this.cvvCode = "",
     @required this.onCreditCardModelChange,
     this.themeColor,
     this.textColor = Colors.black,
@@ -76,6 +76,10 @@ class _CreditCardFormState extends State<MyCreditCardForm> {
 
     cvvFocusNode.addListener(textFieldFocusDidChange);
 
+    if (widget.cardNumber.isNotEmpty) {
+      _cardNumberController.text = widget.cardNumber;
+    }
+
     _cardNumberController.addListener(() {
       setState(() {
         cardNumber = _cardNumberController.text;
@@ -83,6 +87,10 @@ class _CreditCardFormState extends State<MyCreditCardForm> {
         onCreditCardModelChange(creditCardModel);
       });
     });
+
+    if (widget.expiryDate.isNotEmpty) {
+      _expiryDateController.text = widget.expiryDate;
+    }
 
     _expiryDateController.addListener(() {
       setState(() {
@@ -92,6 +100,10 @@ class _CreditCardFormState extends State<MyCreditCardForm> {
       });
     });
 
+    if (widget.cardHolderName.isNotEmpty) {
+      _cardHolderNameController.text = widget.cardHolderName;
+    }
+
     _cardHolderNameController.addListener(() {
       setState(() {
         cardHolderName = _cardHolderNameController.text;
@@ -99,6 +111,10 @@ class _CreditCardFormState extends State<MyCreditCardForm> {
         onCreditCardModelChange(creditCardModel);
       });
     });
+
+    if (widget.cvvCode.isNotEmpty) {
+      _cvvCodeController.text = widget.cvvCode;
+    }
 
     _cvvCodeController.addListener(() {
       setState(() {

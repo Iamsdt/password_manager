@@ -1,4 +1,5 @@
 import 'package:encrypt/encrypt.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
@@ -20,6 +21,10 @@ class AppController extends GetxController {
   final Store _store;
 
   AppController(this._store);
+
+  //controll focus for category search text field
+  //explanination on *** home_controller.dart ***
+  var focusNode = FocusNode();
 
   var genPassword = GeneratedPassword(generatePassword(16)).obs;
 
@@ -122,6 +127,36 @@ class AppController extends GetxController {
   }
 
   // *********************************
+  // ****** UPDATE MASTER PASS *******
+  // *********************************
+
+  void updateMasterPassword(
+      String current, String newPass, String confirmPass) async {
+    //check both pass
+    if (newPass != confirmPass) {
+      SnackBarHelper.showError("Password not matched");
+    }
+
+    var res = await _store.getMasterPass();
+    var old = res.data()['psssword'];
+    Encrypter encrypter = Get.find(tag: "ENCRYPT");
+    var currentPass = current.encrypt(encrypter);
+
+    if (old != currentPass) {
+      SnackBarHelper.showError(
+          "Current password did not match! Please try again?");
+
+      return;
+    }
+
+    var result = await _store.addMasterPassword(newPass);
+    Fimber.i("Master pass add result $result");
+    if (!result) {
+      SnackBarHelper.showError("Something went wrong, please try again");
+    }
+  }
+
+  // *********************************
   // ********** Categories ***********
   // *********************************
   void createCategory(String text) async {
@@ -189,33 +224,37 @@ class AppController extends GetxController {
     return res1 && res2;
   }
 
-  // *********************************
-  // ****** UPDATE MASTER PASS *******
-  // *********************************
 
-  void updateMasterPassword(
-      String current, String newPass, String confirmPass) async {
-    //check both pass
-    if (newPass != confirmPass) {
-      SnackBarHelper.showError("Password not matched");
-    }
-
-    var res = await _store.getMasterPass();
-    var old = res.data()['psssword'];
-    Encrypter encrypter = Get.find(tag: "ENCRYPT");
-    var currentPass = current.encrypt(encrypter);
-
-    if (old != currentPass) {
-      SnackBarHelper.showError(
-          "Current password did not match! Please try again?");
-
+  //filter categories list
+  void filterList(String value) {
+    if (cache == null || cache?.isEmpty == true) {
       return;
     }
 
-    var result = await _store.addMasterPassword(newPass);
-    Fimber.i("Master pass add result $result");
-    if (!result) {
-      SnackBarHelper.showError("Something went wrong, please try again");
+    if (value == "") {
+      categoryStatus.update((val) {
+        val.data = cache;
+        val.state = DataState.LOADED;
+      });
     }
+
+    var filtered = cache
+        .where((e) => e.name.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+
+    categoryStatus.update((val) {
+      val.data = filtered;
+      val.state = DataState.LOADED;
+    });
+  }
+
+  void removeFocus() {
+    focusNode.unfocus();
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
   }
 }

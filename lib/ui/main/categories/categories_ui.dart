@@ -60,20 +60,21 @@ class CategoriesUI extends StatelessWidget {
                   ),
                   color: Colors.black.withOpacity(0.1),
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.search),
-                    SizedBox(
-                      width: 20,
+                child: TextFormField(
+                  onChanged: (value) {
+                    controller.filterList(value);
+                  },
+                  focusNode: controller.focusNode,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.blue[500],
                     ),
-                    Text(
-                      "Search ...",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: context.theme.hintColor,
-                      ),
-                    )
-                  ],
+                    hintText: "Search ...",
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
@@ -134,6 +135,7 @@ class CategoriesUI extends StatelessWidget {
                 onTap: () {
                   //handle click
                   Get.to(CategoriesDetails(model.uuid, model.name));
+                  controller.removeFocus();
                 },
                 // leading: Container(
                 //   padding: EdgeInsets.all(10.0),

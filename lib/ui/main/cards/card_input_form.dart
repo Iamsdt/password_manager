@@ -66,7 +66,7 @@ class _CardInputPageState extends State<CardInputPage> {
           widget.update
               ? InkWell(
                   onTap: () {
-                    // showDeleteDialog();
+                    showDeleteDialog();
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(right: 25, left: 10),
@@ -111,7 +111,7 @@ class _CardInputPageState extends State<CardInputPage> {
               textColor: Get.isDarkMode ? Colors.white : Colors.black,
               onCreditCardModelChange: (CreditCardModel data) {
                 setState(() {
-                  _model = _model = MyCreditCardModel(
+                  _model = MyCreditCardModel(
                     cardHolderName: data.cardHolderName,
                     cardNumber: data.cardNumber,
                     cvvCode: data.cvvCode,
@@ -175,10 +175,10 @@ class _CardInputPageState extends State<CardInputPage> {
   }
 
   void deleteCard() async {
-    var res = await controller.addCard(_model);
+    var res = await controller.deleteCard(widget.cardsModel.uuid);
     if (res) {
       //update list
-      Get.back();
+      Get.back(closeOverlays: true);
       SnackBarHelper.showSuccess("Card deleted successfully");
     }
   }

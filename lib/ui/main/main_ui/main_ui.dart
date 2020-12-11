@@ -28,8 +28,7 @@ class HomePageUI extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(left: 30, right: 30),
-              padding:
-                  EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              padding: EdgeInsets.only(left: 20, right: 20),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.white12,
@@ -39,20 +38,21 @@ class HomePageUI extends StatelessWidget {
                 ),
                 color: Colors.black.withOpacity(0.1),
               ),
-              child: Row(
-                children: [
-                  Icon(Icons.search),
-                  SizedBox(
-                    width: 20,
+              child: TextFormField(
+                onChanged: (value) {
+                  controller.filterList(value);
+                },
+                focusNode: controller.focusNode,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.blue[500],
                   ),
-                  Text(
-                    "Search ...",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: context.theme.hintColor,
-                    ),
-                  )
-                ],
+                  hintText: "Search ...",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
+                ),
               ),
             ),
             SizedBox(

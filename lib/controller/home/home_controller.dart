@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/controller/DataStatus.dart';
@@ -13,6 +14,13 @@ class HomeController extends GetxController {
   Store _store;
 
   HomeController(this._store);
+
+  //focus node, to control text filed focus
+  //reason of using here
+  // it's using in a stateless widget
+  //to prevent memory leak,
+  // focus node needs to dispose
+  var focusNode = FocusNode();
 
   var passwordModelStatus =
       DataStatus<List<PasswordModel>>(null, DataState.INIT).obs;
@@ -114,5 +122,38 @@ class HomeController extends GetxController {
         SnackBarHelper.showError("Something went wrong, please try again");
       }
     }
+  }
+
+  //filter list
+  void filterList(String value) {
+    if (cache == null || cache?.isEmpty == true) {
+      return;
+    }
+
+    if (value == "") {
+      passwordModelStatus.update((val) {
+        val.data = cache;
+        val.state = DataState.LOADED;
+      });
+    }
+
+    var filtered = cache
+        .where((e) => e.companyName.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+
+    passwordModelStatus.update((val) {
+      val.data = filtered;
+      val.state = DataState.LOADED;
+    });
+  }
+
+  void removeFocus() {
+    focusNode.unfocus();
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
   }
 }

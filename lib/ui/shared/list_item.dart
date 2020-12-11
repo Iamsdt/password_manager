@@ -1,6 +1,7 @@
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/controller/home/home_controller.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/ui/main/main_ui/password_details_page.dart';
 import 'package:password_manager/ext/ext.dart';
@@ -14,6 +15,8 @@ class ListItemUI {
             userName: model.userName.decrypt(encrypter),
             password: model.password.decrypt(encrypter));
         Get.to(PasswordDetailsUI(modelDe));
+        //remove foucus
+        HomeController.to.removeFocus();
       },
       // leading: Image.asset(
       //   "assets/images/google.png",
