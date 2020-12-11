@@ -5,10 +5,14 @@ import 'package:get/get.dart';
 import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/controller/app_controller.dart';
 import 'package:password_manager/controller/categories/categories_controller.dart';
+import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ui/main/main_ui/password_details_page.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
+import 'package:search_page/search_page.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class CategoriesDetails extends StatelessWidget {
   final Encrypter encrypter = Get.find(tag: "ENCRYPT");
@@ -36,12 +40,12 @@ class CategoriesDetails extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              // showDialog();
+              showSearchPage(context);
             },
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Icon(
-                Icons.share,
+                Icons.search,
                 color: Get.iconColor,
               ),
             ),
@@ -64,7 +68,7 @@ class CategoriesDetails extends StatelessWidget {
         child: GetX<CategoriesController>(
           init: getIt<CategoriesController>(),
           initState: (_) {
-            getIt<CategoriesController>().getAllData(uuid);
+            CategoriesController.to.getAllData(uuid);
           },
           builder: (CategoriesController ctl) {
             var data = ctl.passwordModelStatus.value;
@@ -121,6 +125,55 @@ class CategoriesDetails extends StatelessWidget {
       onCancel: () {
         // Get.back();
       },
+    );
+  }
+
+  void showSearchPage(BuildContext context) {
+    var data = CategoriesController.to.passwordModelStatus.value.data;
+
+    //cehck data
+    if (data == null || data?.isEmpty == true) {
+      SnackBarHelper.showError("Empty password list");
+      return;
+    }
+
+    showSearch(
+      context: context,
+      delegate: SearchPage<PasswordModel>(
+        items: data,
+        searchLabel: 'Search password',
+        suggestion: Center(
+          child: Text('Filter password by name'),
+        ),
+        failure: Center(
+          child: Text('No password found :('),
+        ),
+        filter: (model) => [
+          model.companyName,
+        ],
+        builder: (model) => ListTile(
+          onTap: () {
+            var modelDe = model.copyWith(
+                userName: model.userName.decrypt(encrypter),
+                password: model.password.decrypt(encrypter));
+            Get.to(PasswordDetailsUI(modelDe));
+          },
+          title: Text(
+            model.companyName ?? "",
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          subtitle: Text(
+            "Last updated: ${model.accessedOn.readableString()}",
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

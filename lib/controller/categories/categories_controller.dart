@@ -6,6 +6,8 @@ import 'package:password_manager/db/store.dart';
 
 @lazySingleton
 class CategoriesController extends GetxController {
+  static CategoriesController get to => Get.find();
+
   Store _store;
 
   CategoriesController(this._store);
