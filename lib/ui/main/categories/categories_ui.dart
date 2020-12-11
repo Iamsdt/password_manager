@@ -49,8 +49,7 @@ class CategoriesUI extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(left: 30, right: 30),
-                padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                padding: EdgeInsets.only(left: 20, right: 20),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.white12,
@@ -66,6 +65,8 @@ class CategoriesUI extends StatelessWidget {
                   },
                   focusNode: controller.focusNode,
                   decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     prefixIcon: Icon(
                       Icons.search,
                       color: Colors.blue[500],

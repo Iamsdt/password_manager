@@ -51,7 +51,7 @@ class CardPageUI extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(left: 30, right: 30),
                 padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    EdgeInsets.only(left: 10, right: 10),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.white12,
@@ -67,6 +67,8 @@ class CardPageUI extends StatelessWidget {
                   },
                   focusNode: controller.focusNode,
                   decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     prefixIcon: Icon(
                       Icons.search,
                       color: Colors.blue[500],
