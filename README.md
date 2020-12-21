@@ -4,9 +4,9 @@ An easy configurable and highly secure open source password manager.
 
 
 
-you can easily config this project and make your own personal password manager,
+You can easily config this project and make your own personal password manager,
 
-all the info will be saved into your firebase firestone database as encrypted. There step required
+all the info will be saved into your firebase firestone database with encryption. There step required
 
 1. Connect with your Firebase account
 2. Create your own .env file with password
@@ -20,9 +20,18 @@ all the info will be saved into your firebase firestone database as encrypted. T
 
 
 
-### Screenshot
-|Screenshot 1|   Screenshot 2   |   Screenshot 3   |
-| ---- | ---- | ---- |
-|   <img src = './img/s1.png' />   |   <img src = './img/s2.png' />   |   <img src = './img/s3.png' />   |
+### Screenshots
 
+**(Dark)**
 
+|MasterPass Verify UI|   Home UI   |   Profile UI   |   Card UI   |   Password Gen UI   |
+| ---- | ---- | ---- | ---- | ---- |
+|   <img src ='/img/d.png'/>   |   <img src='/img/d1.png' />   |   <img src ='/img/d3.png' />   |   <img src = '/img/d4.png' />   |   <img src ="/img/d5.png" />   |
+
+**(Light)**
+
+| Login UI                    | Home Page UI               | Profile UI                   | Credit Card UI              | Password Gen UI             |
+| --------------------------- | -------------------------- | ---------------------------- | --------------------------- | --------------------------- |
+| <img src = "/img/l6.png" /> | <img src = "/img/l1.png"/> | <img src = "/img/l3.png"  /> | <img src = "/img/l4.png" /> | <img src = "/img/l5.png" /> |
+
+## Flutter Archicturechare
