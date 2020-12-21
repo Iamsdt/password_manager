@@ -18,9 +18,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
-  font_awesome_flutter: ^8.10.0
-  flutter_svg: ^0.19.1
-  get_storage: ^1.3.2
+  font_awesome_flutter: ^8.11.0
+  flutter_svg:
   flutter_fimber: ^0.4.4
 
   # environment and encrypt
@@ -32,27 +31,28 @@ dependencies:
 
   # di
   injectable: ^1.0.5
-  get_it: ^5.0.1
+  get_it: ^5.0.3
 
   # ui
   credit_card: ^0.1.8
   google_fonts: ^1.1.1
 
   # state management
-  get: ^3.17.1
+  get: ^3.23.1
+  get_storage: ^1.3.2
 
   # firebase
-  firebase_core: ^0.5.2
+  firebase_core: ^0.5.3
   # iso required
-  firebase_crashlytics: ^0.2.3
+  firebase_crashlytics: ^0.2.4
   #  firebase_analytics: ^6.2.0
 
   # auth
-  firebase_auth: ^0.18.3
+  firebase_auth: ^0.18.4+1
   google_sign_in: ^4.5.6
   #  flutter_facebook_auth: ^0.3.3
   #  sign_in_with_apple: ^2.5.4
-  cloud_firestore: ^0.14.3
+  cloud_firestore: ^0.14.4
 
   flutter_slidable: ^0.5.7
 
@@ -65,7 +65,7 @@ dev_dependencies:
     sdk: flutter
 
   # code generator
-  build_runner: ^1.10.6
+  build_runner: ^1.10.11
 
   # test
   injectable_generator: ^1.0.6

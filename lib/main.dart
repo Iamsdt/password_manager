@@ -21,6 +21,8 @@ void main() async {
   //now init get storage
   await GetStorage.init();
 
+  // ScreenUtil.init(designSize: Size(750, 1334), allowFontScaling: false);
+
   //run app
   runApp(MyApp());
 }

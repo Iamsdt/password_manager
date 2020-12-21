@@ -12,55 +12,55 @@ import 'package:password_manager/ui/shared/list_item.dart';
 class HomePageUI extends StatelessWidget {
   final HomeController controller =
       Get.put(getIt<HomeController>(), permanent: true);
+
   final Encrypter encrypter = Get.find(tag: "ENCRYPT");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 40 + kToolbarHeight,
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: EdgeInsets.only(
+              top: 40 + kToolbarHeight,
+              bottom: 20,
             ),
-            Container(
-              margin: EdgeInsets.only(left: 30, right: 30),
-              padding: EdgeInsets.only(left: 10, right: 10),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white12,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
-                color: Colors.black.withOpacity(0.1),
-              ),
-              child: TextFormField(
-                onChanged: (value) {
-                  controller.filterList(value);
-                },
-                focusNode: controller.focusNode,
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.blue[500],
+            sliver: SliverToBoxAdapter(
+              child: Container(
+                margin: EdgeInsets.only(left: 30, right: 30),
+                padding: EdgeInsets.only(left: 10, right: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white12,
                   ),
-                  hintText: "Search ...",
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  color: Colors.black.withOpacity(0.1),
+                ),
+                child: TextFormField(
+                  onChanged: (value) {
+                    controller.filterList(value);
+                  },
+                  focusNode: controller.focusNode,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.blue[500],
+                    ),
+                    hintText: "Search ...",
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 40,
-            ),
-            Container(
+          ),
+          SliverToBoxAdapter(
+            child: Container(
               padding: EdgeInsets.only(left: 15, right: 15),
               child: Text(
                 'Recent Site',
@@ -73,51 +73,59 @@ class HomePageUI extends StatelessWidget {
                 ),
               ),
             ),
-            GetX<HomeController>(
-              init: controller,
-              initState: (_) {
-                controller.getAllData();
-              },
-              builder: (_) {
-                var data = controller.passwordModelStatus.value;
-                if (data.state == DataState.LOADED) {
-                  return showLoadedData(data.data);
-                } else {
-                  return CommonUI.showLoading();
-                }
-              },
-            ),
-            SizedBox(
-              height: 30,
-            ),
-          ],
-        )),
+          ),
+          GetX<HomeController>(
+            init: controller,
+            initState: (_) {
+              controller.getAllData();
+            },
+            builder: (_) {
+              var data = controller.passwordModelStatus.value;
+              if (data.state == DataState.LOADED) {
+                return showLoadedData(data.data);
+              } else {
+                return getSliver(
+                  CommonUI.showLoading(),
+                );
+              }
+            },
+          ),
+          SliverPadding(
+            padding: EdgeInsets.only(top: 20),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget getSliver(Widget child) {
+    return SliverToBoxAdapter(
+      child: child,
     );
   }
 
   Widget showLoadedData(List<PasswordModel> data) {
     if (data.isEmpty) {
-      return Container(
-        margin: EdgeInsets.only(top: 50),
-        child: CommonUI.showFailed(
-          "No saved password found",
+      return getSliver(
+        Container(
+          margin: EdgeInsets.only(top: 50),
+          child: CommonUI.showFailed(
+            "No saved password found",
+          ),
         ),
       );
     }
 
-    return Container(
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (ctx, pos) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (ctx, pos) {
           var model = data[pos];
           return Container(
             margin: EdgeInsets.only(top: 10, bottom: 10),
             child: ListItemUI.passList(model, encrypter),
           );
         },
-        itemCount: data.length,
+        childCount: data.length,
       ),
     );
   }

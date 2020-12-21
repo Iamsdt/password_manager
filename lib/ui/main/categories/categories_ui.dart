@@ -40,14 +40,12 @@ class CategoriesUI extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Container(
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            sliver: SliverToBoxAdapter(
+              child: Container(
                 margin: EdgeInsets.only(left: 30, right: 30),
                 padding: EdgeInsets.only(left: 20, right: 20),
                 decoration: BoxDecoration(
@@ -78,55 +76,55 @@ class CategoriesUI extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              GetX<AppController>(
-                init: controller,
-                initState: (_) {
-                  controller.getAllData();
-                },
-                builder: (_) {
-                  var data = controller.categoryStatus.value;
-                  switch (data.state) {
-                    case DataState.INIT:
-                    case DataState.LOADING:
-                      return CommonUI.showLoading();
-                    case DataState.NO_INTERNET:
-                      return CommonUI.showOffline();
-                    case DataState.LOADED:
-                      return showLoadedData(data.data);
-                    case DataState.FAILED:
-                      return CommonUI.showFailed(
-                          "Something went wrong! Please try again");
-                    default:
-                      return Container();
-                  }
-                },
-              ),
-              SizedBox(
-                height: 30,
-              )
-            ],
+            ),
           ),
-        ),
+          GetX<AppController>(
+            init: controller,
+            initState: (_) {
+              controller.getAllData();
+            },
+            builder: (_) {
+              var data = controller.categoryStatus.value;
+              switch (data.state) {
+                case DataState.INIT:
+                case DataState.LOADING:
+                  return getSliver(CommonUI.showLoading());
+                case DataState.LOADED:
+                  return showLoadedData(data.data);
+                case DataState.FAILED:
+                  return getSliver(CommonUI.showFailed(
+                      "Something went wrong! Please try again"));
+                default:
+                  return getSliver(Container());
+              }
+            },
+          ),
+        ],
       ),
+    );
+  }
+
+  //conver to sliver
+  Widget getSliver(Widget child) {
+    return SliverToBoxAdapter(
+      child: child,
     );
   }
 
   Widget showLoadedData(List<CategoriesModel> data) {
     if (data.isEmpty) {
-      return CommonUI.showFailed(
-        "No Category found",
+      return getSliver(
+        CommonUI.showFailed(
+          "No Category found",
+        ),
       );
     }
 
-    return Container(
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (ctx, pos) {
-          var model = data[pos];
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (ctx, pos) {
+          var model = data[0];
+          print("Building position: $pos");
           return Container(
             margin: EdgeInsets.only(top: 5, right: 15, left: 20),
             child: Slidable(
@@ -174,7 +172,7 @@ class CategoriesUI extends StatelessWidget {
             ),
           );
         },
-        itemCount: data.length,
+        childCount: 1000,
       ),
     );
   }

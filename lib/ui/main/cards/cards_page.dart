@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/controller/card/card_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/main/cards/card_input_form.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/my_card_widget.dart';
-import 'package:password_manager/ext/ext.dart';
 
 class CardPageUI extends StatelessWidget {
   final CardController controller = Get.put(getIt<CardController>());
@@ -41,17 +41,14 @@ class CardPageUI extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Container(
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            sliver: SliverToBoxAdapter(
+              child: Container(
                 margin: EdgeInsets.only(left: 30, right: 30),
-                padding:
-                    EdgeInsets.only(left: 10, right: 10),
+                padding: EdgeInsets.only(left: 10, right: 10),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.white12,
@@ -80,22 +77,16 @@ class CardPageUI extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              showCardList(),
-              SizedBox(
-                height: 30,
-              ),
-            ],
+            ),
           ),
-        ),
+          showCardList(),
+        ],
       ),
     );
   }
 
   //show card list
-  GetX<CardController> showCardList() {
+  Widget showCardList() {
     return GetX<CardController>(
       init: controller,
       initState: (_) {
@@ -105,64 +96,43 @@ class CardPageUI extends StatelessWidget {
         var data = controller.cardModelStatus.value;
         if (data.state == DataState.LOADED) {
           if (data.data.isEmpty) {
-            return Container(
-              padding: EdgeInsets.only(top: 50),
-              child: CommonUI.showFailed(
-                "No cards found",
+            return SliverToBoxAdapter(
+              child: Container(
+                padding: EdgeInsets.only(top: 50),
+                child: CommonUI.showFailed(
+                  "No cards found",
+                ),
               ),
             );
           }
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (ctx, pos) {
-              var model = data.data[pos];
-              var modelDe = model.copyWith(
-                cardNumber: model.cardNumber.decrypt(encrypter),
-                cvc: model.cvc.decrypt(encrypter),
-              );
-              return InkWell(
-                onLongPress: () {
-                  Get.to(CardInputPage("Update Card", true, modelDe));
-                  controller.removeFocus();
-                },
-                child: Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 10),
-                  child: MyCardWidget(modelDe),
-                ),
-              );
-            },
-            itemCount: data.data.length,
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (ctx, pos) {
+                var model = data.data[pos];
+                var modelDe = model.copyWith(
+                  cardNumber: model.cardNumber.decrypt(encrypter),
+                  cvc: model.cvc.decrypt(encrypter),
+                );
+
+                return InkWell(
+                  onLongPress: () {
+                    Get.to(CardInputPage("Update Card", true, modelDe));
+                    controller.removeFocus();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top: 10, bottom: 10),
+                    child: MyCardWidget(modelDe),
+                  ),
+                );
+              },
+              childCount: data.data.length,
+            ),
           );
         } else {
-          return CommonUI.showLoading();
+          return SliverToBoxAdapter(
+            child: CommonUI.showLoading(),
+          );
         }
-
-        // switch (data.state) {
-        //   case DataState.INIT:
-        //   case DataState.LOADING:
-        //     return CommonUI.showLoading();
-        //   case DataState.NO_INTERNET:
-        //     return CommonUI.showOffline();
-        //   case DataState.LOADED:
-        //     return SliverList(
-        //       delegate: SliverChildBuilderDelegate(
-        //         (ctx, pos) {
-        //           var model = data.data[pos];
-        //           return Container(
-        //             margin: EdgeInsets.only(top: 10, bottom: 10),
-        //             child: ListItemUI.passList(model),
-        //           );
-        //         },
-        //         childCount: data.data.length,
-        //       ),
-        //     );
-        //   case DataState.FAILED:
-        //     return CommonUI.showFailed(
-        //         "Something went wrong! Please try again");
-        //   default:
-        //     return Container();
-        // }
       },
     );
   }

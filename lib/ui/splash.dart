@@ -21,7 +21,7 @@ class SplashUI extends StatefulWidget {
 class _SplashUIState extends State<SplashUI> {
   @override
   void initState() {
-    Timer(Duration(seconds: 1), () => handleSplashScreen());
+    Timer(Duration(seconds: 10), () => handleSplashScreen());
     super.initState();
   }
 
