@@ -63,7 +63,7 @@ class _SplashUIState extends State<SplashUI> {
   void handleSplashScreen() async {
     //before going to next PAGE INIT Encryptor
     Encrypter encrypter =
-        initEncryptor(MyEnvironment.passKey, MyEnvironment.paddingKey);
+        initEncryptor(MyEnvironment.passKey);
     //put into GetX, so that it can be accessed from across the APP
     Get.put<Encrypter>(encrypter, tag: "ENCRYPT", permanent: true);
 

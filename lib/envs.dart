@@ -8,8 +8,6 @@ class MyEnvironment {
   static bool _isLive = false;
   static String get passKey => DotEnv().env['PASS'];
 
-  static String get paddingKey => DotEnv().env['PADDING'];
-
   //get length for generating IV
   static String get length => DotEnv().env['LEN'];
 

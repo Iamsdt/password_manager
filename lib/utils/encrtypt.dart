@@ -16,8 +16,8 @@ String decryptString(Encrypter encryptor, String text, {int length = 16}) {
 }
 
 //create encryptor
-Encrypter initEncryptor(String pass, String padding) {
+Encrypter initEncryptor(String pass) {
   final key = Key.fromUtf8(pass);
-  final encryptor = Encrypter(AES(key, mode: AESMode.sic, padding: padding));
+  final encryptor = Encrypter(AES(key, mode: AESMode.sic));
   return encryptor;
 }
