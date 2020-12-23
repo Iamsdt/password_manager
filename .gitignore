@@ -54,3 +54,4 @@ pubspec.lock
 
 .gtm/
 .vscode
+.env
