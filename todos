@@ -1,28 +1,3 @@
-// todo Main Screen
-1. IF list is empty, show empty message //done
-2. Search
-3. After adding any new password, update the list //done
-
-// Main List Details
-1. Edit Functionalities //dones
-2. Delete features //done 
-3. Share password //done
-4. Add notes options
-5. Show password strength //done 
-6. Show user Categories //done
-
-
-//Categories
-1. IF list is empty, show empty message //done
-2. Search
-
-// Cards UI
-1. Search
-
-
-//Advance Filter
-1. Add prefix options //done
-
-
-// Setting UI
-// Export Password
+Todo:
+    1. Add firebase firestone document limit
+    2. Design firebase query limit
