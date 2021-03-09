@@ -49,7 +49,6 @@ class _CardInputPageState extends State<CardInputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
