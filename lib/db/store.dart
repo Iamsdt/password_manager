@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
@@ -20,7 +21,7 @@ class Store {
 
   Future<bool> addPassword(PasswordModel model, {bool update = false}) async {
     try {
-      var pass = _firestore.collection(DbConstant.PASSWORD);
+      var pass = getCollection(DbConstant.PASSWORD);
       var options = SetOptions(merge: update);
       await pass.doc(model.uuid).set(model.toMap(), options);
       return true;
@@ -32,7 +33,7 @@ class Store {
 
   Future<bool> deletePassword(String uuid) async {
     try {
-      var pass = _firestore.collection(DbConstant.PASSWORD);
+      var pass = getCollection(DbConstant.PASSWORD);
       await pass.doc(uuid).delete();
       return true;
     } catch (e, s) {
@@ -42,20 +43,20 @@ class Store {
   }
 
   Future<QuerySnapshot> getPassword() async {
-    var pass = _firestore.collection(DbConstant.PASSWORD);
+    var pass = getCollection(DbConstant.PASSWORD);
     return await pass.get();
   }
 
   Future<QuerySnapshot> getCategoryPassword(String categoryID) async {
-    var pass = _firestore.collection(DbConstant.PASSWORD);
+    var pass = getCollection(DbConstant.PASSWORD);
     return await pass.where("category", isEqualTo: categoryID).get();
   }
 
   Future<bool> addNote(NotesModel model, {bool update = false}) async {
     try {
-      var cat = _firestore.collection(DbConstant.NOTES);
+      var note = getCollection(DbConstant.NOTES);
       var options = SetOptions(merge: update);
-      await cat.doc(model.uuid).set(model.toMap(), options);
+      await note.doc(model.uuid).set(model.toMap(), options);
       return true;
     } catch (e, s) {
       Fimber.e("Error on categories", ex: e, stacktrace: s);
@@ -65,8 +66,8 @@ class Store {
 
   Future<bool> deleteNote(String uuid) async {
     try {
-      var cat = _firestore.collection(DbConstant.NOTES);
-      await cat.doc(uuid).delete();
+      var note = getCollection(DbConstant.NOTES);
+      await note.doc(uuid).delete();
       return true;
     } catch (e, s) {
       Fimber.e("Error on delete notes", ex: e, stacktrace: s);
@@ -75,8 +76,8 @@ class Store {
   }
 
   Future<QuerySnapshot> getNotes(String uuid) async {
-    var pass = _firestore.collection(DbConstant.NOTES);
-    return await pass.where("passwordUUID", isEqualTo: uuid).get();
+    var note = getCollection(DbConstant.NOTES);
+    return await note.where("passwordUUID", isEqualTo: uuid).get();
   }
 
   // ***********************************
@@ -85,7 +86,7 @@ class Store {
 
   Future<bool> addCategory(CategoriesModel model, {bool update = false}) async {
     try {
-      var cat = _firestore.collection(DbConstant.CATEGORIES);
+      var cat = getCollection(DbConstant.CATEGORIES);
       var options = SetOptions(merge: update);
       await cat.doc(model.uuid).set(model.toMap(), options);
       return true;
@@ -96,14 +97,14 @@ class Store {
   }
 
   Future<QuerySnapshot> getCategories() async {
-    var cat = _firestore.collection(DbConstant.CATEGORIES);
+    var cat = getCollection(DbConstant.CATEGORIES);
     return await cat.get();
   }
 
   Future<bool> deleteCategory(String uuid) async {
     try {
-      var pass = _firestore.collection(DbConstant.CATEGORIES);
-      await pass.doc(uuid).delete();
+      var cat = getCollection(DbConstant.CATEGORIES);
+      await cat.doc(uuid).delete();
       return true;
     } catch (e, s) {
       Fimber.e("Error on delete category", ex: e, stacktrace: s);
@@ -113,7 +114,7 @@ class Store {
 
   Future<bool> deleteCategoryPasswords(String uuid) async {
     try {
-      var pass = _firestore.collection(DbConstant.PASSWORD);
+      var pass = getCollection(DbConstant.PASSWORD);
       var list = await pass.where("category", isEqualTo: uuid).get();
 
       for (QueryDocumentSnapshot doc in list.docs) {
@@ -136,7 +137,7 @@ class Store {
 
   Future<bool> addCard(CardsModel model, {bool update = false}) async {
     try {
-      var card = _firestore.collection(DbConstant.CARDS);
+      var card = getCollection(DbConstant.CARDS);
       var options = SetOptions(merge: update);
 
       await card.doc(model.uuid).set(model.toMap(), options);
@@ -149,7 +150,7 @@ class Store {
 
   Future<bool> deleteCard(String uuid) async {
     try {
-      var card = _firestore.collection(DbConstant.CARDS);
+      var card = getCollection(DbConstant.CARDS);
       await card.doc(uuid).delete();
       return true;
     } catch (e, s) {
@@ -159,7 +160,7 @@ class Store {
   }
 
   Future<QuerySnapshot> getCards() async {
-    var card = _firestore.collection(DbConstant.CARDS);
+    var card = getCollection(DbConstant.CARDS);
     return await card.get();
   }
 
@@ -177,8 +178,7 @@ class Store {
 
       var options = SetOptions(merge: true);
 
-      await _firestore
-          .collection(DbConstant.MASTERPASS)
+      await getCollection(DbConstant.MASTERPASS)
           .doc("MasterPass")
           .set(data, options);
 
@@ -191,18 +191,13 @@ class Store {
   }
 
   Future<DocumentSnapshot> getMasterPass() async {
-    return await _firestore
-        .collection(DbConstant.MASTERPASS)
-        .doc("MasterPass")
-        .get();
+    return await getCollection(DbConstant.MASTERPASS).doc("MasterPass").get();
   }
 
   Future<bool> checkMasterPassword() async {
     try {
-      var data = await _firestore
-          .collection(DbConstant.MASTERPASS)
-          .doc("MasterPass")
-          .get();
+      var data =
+          await getCollection(DbConstant.MASTERPASS).doc("MasterPass").get();
 
       return data.exists;
     } catch (e, s) {
@@ -226,8 +221,7 @@ class Store {
 
       var options = SetOptions(merge: true);
 
-      await _firestore
-          .collection(DbConstant.SECURITY_QUESTION)
+      await getCollection(DbConstant.SECURITY_QUESTION)
           .doc(DbConstant.SECURITY_QUESTION)
           .set(data, options);
 
@@ -240,9 +234,16 @@ class Store {
   }
 
   Future<DocumentSnapshot> getSecurityQuestion() async {
-    return await _firestore
-        .collection(DbConstant.SECURITY_QUESTION)
+    return await getCollection(DbConstant.SECURITY_QUESTION)
         .doc(DbConstant.SECURITY_QUESTION)
         .get();
+  }
+
+  CollectionReference getCollection(String collectionName) {
+    var user = FirebaseAuth.instance.currentUser;
+    return _firestore
+        .collection(DbConstant.USER)
+        .doc(user.uid)
+        .collection(collectionName);
   }
 }

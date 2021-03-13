@@ -1,4 +1,7 @@
 class DbConstant {
+  //user collection
+  static const String USER = "Users";
+
   static const String PASSWORD = "Password";
   static const String CATEGORIES = "Categories";
   static const String CARDS = "Cards";
