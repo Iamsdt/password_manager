@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Password Manager',
       debugShowCheckedModeBanner: false,
-      showPerformanceOverlay: true,
+      showPerformanceOverlay: false,
       themeMode: ThemeService.theme,
       darkTheme: Themes.dark,
       theme: Themes.light,
