@@ -35,7 +35,7 @@ class SettingsPageUi extends StatelessWidget {
                 CircleAvatar(
                   radius: 50,
                   child: Text(
-                    "${user.displayName}".substring(0, 2),
+                    "${user.email}".substring(0, 2),
                     style: TextStyle(
                       fontSize: 48,
                     ),
@@ -43,7 +43,7 @@ class SettingsPageUi extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "${user.displayName}",
+                  "${user.email}",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -117,6 +117,7 @@ class SettingsPageUi extends StatelessWidget {
           ListTile(
             onTap: () {
               FirebaseAuth.instance.signOut();
+              Get.reset(clearFactory: true);
               Get.offAll(LoginPageUI());
             },
             title: Text(

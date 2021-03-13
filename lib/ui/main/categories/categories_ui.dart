@@ -123,7 +123,7 @@ class CategoriesUI extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (ctx, pos) {
-          var model = data[0];
+          var model = data[pos];
           print("Building position: $pos");
           return Container(
             margin: EdgeInsets.only(top: 5, right: 15, left: 20),
@@ -172,7 +172,7 @@ class CategoriesUI extends StatelessWidget {
             ),
           );
         },
-        childCount: 1000,
+        childCount: data.length,
       ),
     );
   }
