@@ -55,9 +55,9 @@ class CheckMasterPassController extends GetxController {
 
     //hide loading dialog
     //check dialog is showing or user close
-    if (Get.isDialogOpen) {
-      Get.back();
-    }
+    // if (Get.isDialogOpen) {
+    //   Get.back();
+    // }
 
     //if not exists then create once
     if (!res) {
