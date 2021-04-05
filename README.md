@@ -1,22 +1,15 @@
 # Password Manager
 
-An easy configurable and highly secure open source password manager.
+An easy configurable and highly secure open source personal password manager.
 
 
 
-You can easily config this project and make your own personal password manager,
+### Motivation
 
-all the info will be saved into your firebase firestone database with encryption. There step required
+My intention of this project, to build a personal password manager. Anyone can you this project and generate his own personal mobile app. All the password will be saved into your own **Firebase** **Firestone** database with encryption. You need just 3 steps -
 
-1. Connect with your Firebase account
-2. Create your own .env file with password
-3. Generate app with flutter
-
-
-
-### Encryption Algorithm
-
-- AES with PKCS7 padding
+1. Create Firebase project and Enable Firebase **Firestone** Database for the project
+2. Generate **App** with flutter
 
 
 
@@ -34,4 +27,21 @@ all the info will be saved into your firebase firestone database with encryption
 | --------------------------- | -------------------------- | ---------------------------- | --------------------------- | --------------------------- |
 | <img src = "/img/l6.png" /> | <img src = "/img/l1.png"/> | <img src = "/img/l3.png"  /> | <img src = "/img/l4.png" /> | <img src = "/img/l5.png" /> |
 
-## Flutter Archicturechare
+
+
+## Flutter Architecture
+
+### Encryption Algorithm
+
+- AES with PKCS7 padding
+
+State Management: GetX
+
+
+
+# How can I create my version?
+
+1. Create Firebase account
+2. Enable Firestone
+3. 
+
