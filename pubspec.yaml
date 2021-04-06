@@ -35,6 +35,7 @@ dependencies:
 
   # ui
   # credit_card: 
+  flutter_credit_card: ^2.0.0
   google_fonts: ^2.0.0 
 
   # state management

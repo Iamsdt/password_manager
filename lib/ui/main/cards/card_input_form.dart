@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/credit_card_form.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/card/card_controller.dart';
 import 'package:password_manager/db/model/cards_model.dart';
 import 'package:password_manager/db/model/credit_card_model.dart';
-import 'package:password_manager/ui/main/cards/my_card_form.dart';
-import 'package:password_manager/ui/shared/card.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 class CardInputPage extends StatefulWidget {
@@ -22,6 +22,8 @@ class CardInputPage extends StatefulWidget {
 class _CardInputPageState extends State<CardInputPage> {
   final CardController controller = Get.find();
   late MyCreditCardModel _model;
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -95,21 +97,19 @@ class _CardInputPageState extends State<CardInputPage> {
               expiryDate: _model.expiryDate,
               cardHolderName: _model.cardHolderName,
               cvvCode: _model.cvvCode,
-              showBackView: _model
-                  .isCvvFocused, //true when you want to show cvv(back) view
+              showBackView: _model.isCvvFocused,
             ),
           ),
           Container(
-            child: MyCreditCardForm(
+            child: CreditCardForm(
+              formKey: _formKey,
               cardHolderName: _model.cardHolderName,
               cardNumber: _model.cardNumber,
               cvvCode: _model.cvvCode,
               expiryDate: _model.expiryDate,
-              themeColor: Colors.red,
+              themeColor: Colors.blue,
               textColor: Get.isDarkMode ? Colors.white : Colors.black,
-              onCreditCardModelChange: (CreditCardModel? data) {
-                if (data == null) return;
-
+              onCreditCardModelChange: (CreditCardModel data) {
                 setState(() {
                   _model = MyCreditCardModel(
                     cardHolderName: data.cardHolderName,
@@ -120,6 +120,33 @@ class _CardInputPageState extends State<CardInputPage> {
                   );
                 });
               },
+              cardNumberDecoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Card Number',
+                hintText: 'XXXX XXXX XXXX XXXX',
+                labelStyle: Get.theme.textTheme.bodyText1,
+                hintStyle: Get.theme.textTheme.bodyText1,
+              ),
+              expiryDateDecoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Expired Date',
+                hintText: 'XX/XX',
+                labelStyle: Get.theme.textTheme.bodyText1,
+                hintStyle: Get.theme.textTheme.bodyText1,
+              ),
+              cvvCodeDecoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'CVV',
+                hintText: 'XXX',
+                labelStyle: Get.theme.textTheme.bodyText1,
+                hintStyle: Get.theme.textTheme.bodyText1,
+              ),
+              cardHolderDecoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Card Holder',
+                labelStyle: Get.theme.textTheme.bodyText1,
+                hintStyle: Get.theme.textTheme.bodyText1,
+              ),
             ),
           ),
           SizedBox(
@@ -185,6 +212,11 @@ class _CardInputPageState extends State<CardInputPage> {
   }
 
   void saveCard() async {
+    if (_formKey.currentState?.validate() != true) {
+      SnackBarHelper.showError("Card information is not valid");
+      return;
+    }
+
     var res = await controller.addCard(_model);
     if (res) {
       //update list

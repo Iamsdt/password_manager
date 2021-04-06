@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:password_manager/db/model/cards_model.dart';
-import 'package:password_manager/ui/shared/card.dart';
 
 class MyCardWidget extends StatefulWidget {
   final CardsModel model;
@@ -31,6 +31,8 @@ class _MyCardWidgetState extends State<MyCardWidget> {
         cardHolderName: widget.model.name,
         cvvCode: widget.model.cvc,
         showBackView: status,
+        obscureCardNumber: false,
+        obscureCardCvv: false,
       ),
     );
   }
