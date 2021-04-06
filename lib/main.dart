@@ -7,6 +7,8 @@ import 'package:password_manager/my_app.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   //load env variables
   await DotEnv.load(fileName: ".env");
 

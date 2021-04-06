@@ -4,7 +4,7 @@ class Utils {
 
     var res = now.difference(old);
 
-    return res.inDays ?? 0;
+    return res.inDays;
   }
 
   // As of now it's pretty straightforward way

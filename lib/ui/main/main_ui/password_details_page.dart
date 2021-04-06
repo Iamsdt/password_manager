@@ -294,8 +294,8 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
             init: controller,
             builder: (_) {
               var value = controller.categoryStatus.value;
-              Fimber.i("Categories List ${value.data?.length}");
-              if (value.data == null || value.data?.isEmpty == true) {
+              Fimber.i("Categories List ${value.data.length}");
+              if (value.data.isEmpty == true) {
                 return Container();
               }
 

@@ -164,9 +164,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         gradient: backgroundGradientColor,
       ),
       margin: const EdgeInsets.all(16),
-      width: widget.width ?? width,
-      height: widget.height ??
-          (orientation == Orientation.portrait ? height / 4 : height / 2),
+      width: widget.width == 0 ? width : widget.width,
+      height: widget.height == 0
+          ? (orientation == Orientation.portrait ? height / 4 : height / 2)
+          : widget.height,
       child: Stack(
         children: <Widget>[
           getRandomBackground(widget.height, widget.width),
@@ -309,7 +310,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: Text(
-                    widget.cardNumber.isEmpty || widget.cardNumber == null
+                    widget.cardNumber.isEmpty
                         ? 'XXXX XXXX XXXX XXXX'
                         : widget.cardNumber,
                     style: widget.textStyle ?? defaultTextStyle,
@@ -337,7 +338,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                           width: 16,
                         ),
                         Text(
-                          widget.expiryDate.isEmpty || widget.expiryDate == null
+                          widget.expiryDate.isEmpty
                               ? 'MM/YY'
                               : widget.expiryDate,
                           style: widget.textStyle ?? defaultTextStyle,
@@ -351,8 +352,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                     padding:
                         const EdgeInsets.only(left: 16, right: 16, bottom: 16),
                     child: Text(
-                      widget.cardHolderName.isEmpty ||
-                              widget.cardHolderName == null
+                      widget.cardHolderName.isEmpty
                           ? 'CARD HOLDER'
                           : widget.cardHolderName,
                       maxLines: 1,

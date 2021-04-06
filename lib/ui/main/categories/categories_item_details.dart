@@ -132,7 +132,7 @@ class CategoriesDetails extends StatelessWidget {
     var data = CategoriesController.to.passwordModelStatus.value.data;
 
     //cehck data
-    if (data == null || data?.isEmpty == true) {
+    if (data.isEmpty == true) {
       SnackBarHelper.showError("Empty password list");
       return;
     }
@@ -159,7 +159,7 @@ class CategoriesDetails extends StatelessWidget {
             Get.to(PasswordDetailsUI(modelDe));
           },
           title: Text(
-            model.companyName ?? "",
+            model.companyName,
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.w500,

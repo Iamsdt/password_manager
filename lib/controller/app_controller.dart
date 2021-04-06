@@ -117,7 +117,7 @@ class AppController extends GetxController {
 
   Future<bool> deletePassword(PasswordModel model) async {
     var uuid = model.uuid;
-    if (uuid == null) return false;
+    if (uuid.isEmpty) return false;
     var res = await _store.deletePassword(uuid);
     if (res) {
       //update list
