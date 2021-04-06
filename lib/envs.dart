@@ -3,7 +3,7 @@ import 'package:flutter_fimber/flutter_fimber.dart';
 
 class MyEnvironment {
   static bool _isLive = false;
-  static String get passKey => env['VAR_NAME'] ?? "";
+  static String get passKey => env['PASS'] ?? "";
 
   static void initLogger() {
     if (!_isLive) {
