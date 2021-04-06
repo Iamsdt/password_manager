@@ -23,7 +23,7 @@ class _SavePasswordState extends State<SavePasswordUI> {
 
   int _value = 1;
 
-  CategoriesModel categoriesModel;
+  CategoriesModel? categoriesModel;
 
   @override
   void initState() {
@@ -96,7 +96,7 @@ class _SavePasswordState extends State<SavePasswordUI> {
             SaveUIHelper.saveButton(() {
               //handle button click
               if (categoriesModel != null) {
-                controller.savePassword(categoriesModel, titleController.text,
+                controller.savePassword(categoriesModel!, titleController.text,
                     userNameController.text, passwordController.text);
               } else {
                 SnackBarHelper.showError("Select category");
@@ -127,15 +127,15 @@ class _SavePasswordState extends State<SavePasswordUI> {
             init: controller,
             builder: (_) {
               var value = controller.categoryStatus.value;
-              Fimber.i("Categories List ${value.data?.length}");
-              if (value.data == null || value.data?.isEmpty == true) {
+              Fimber.i("Categories List ${value.data.length}");
+              if (value.data.isEmpty) {
                 return Container();
               }
 
               categoriesModel = value.data[0];
 
               return DropdownButtonHideUnderline(
-                child: DropdownButton(
+                child: DropdownButton<int>(
                   value: _value,
                   items: value.data.map((e) {
                     var index = value.data.indexOf(e);
@@ -147,9 +147,9 @@ class _SavePasswordState extends State<SavePasswordUI> {
                   }).toList(),
                   onChanged: (pos) {
                     setState(() {
-                      _value = pos;
+                      _value = pos ?? 1;
                       Fimber.i("Drop down value changed $_value");
-                      categoriesModel = value.data[pos - 1];
+                      categoriesModel = value.data[_value - 1];
                     });
                   },
                 ),

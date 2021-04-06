@@ -20,8 +20,8 @@ class SecurityQuestionController extends GetxController {
     Encrypter encrypter = Get.find(tag: "ENCRYPT");
     var data = await _store.getSecurityQuestion();
     if (data.exists) {
-      var question = data.data()['question'];
-      var ans = data.data()['answer'];
+      var question = data.data()?['question'];
+      var ans = data.data()?['answer'];
       questionController.text = question;
       answerController.text = ans.toString().decrypt(encrypter);
     }

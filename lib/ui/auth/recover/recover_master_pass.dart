@@ -44,7 +44,7 @@ class RecoverMasterPassUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("UPDATE", () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState?.validate() == true) {
                   controller.updateSecurityQuestion();
                 }
               }),
@@ -85,7 +85,7 @@ class RecoverMasterPassUI extends StatelessWidget {
         cursorColor: Colors.blue[200],
         enabled: false,
         validator: (value) =>
-            value.isNotEmpty ? null : "Please add a valid question",
+            value?.isNotEmpty == true ? null : "Please add a valid question",
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.question_answer,
@@ -103,7 +103,7 @@ class RecoverMasterPassUI extends StatelessWidget {
   }
 
   Widget answerTextField(TextEditingController editingController) {
-    return ObxValue(
+    return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
@@ -111,7 +111,7 @@ class RecoverMasterPassUI extends StatelessWidget {
           controller: editingController,
           cursorColor: Colors.blue[200],
           validator: (value) =>
-              value.isNotEmpty ? null : "Please add a valid answer",
+              value?.isNotEmpty == null ? null : "Please add a valid answer",
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.chat_sharp,

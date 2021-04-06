@@ -48,7 +48,7 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("UPDATE", () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState?.validate() == true) {
                   controller.updateSecurityQuestion();
                 }
               }),
@@ -71,13 +71,11 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
         key: _formKey,
         child: Column(
           children: <Widget>[
-            AuthHelper.normalTextField(
-              controller.questionController,
-              hint: "Question",
-              icon: Icons.question_answer,
-              validator: (value) =>
-                  value.isNotEmpty ? null : "Please add a valid question",
-            ),
+            AuthHelper.normalTextField(controller.questionController,
+                hint: "Question", icon: Icons.question_answer, validator: (v) {
+              var value = v ?? "";
+              return value.isNotEmpty ? null : "Please add a valid question";
+            }),
             SizedBox(height: 10),
             answerTextFiled(controller.answerController),
           ],
@@ -87,7 +85,7 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
   }
 
   Widget answerTextFiled(TextEditingController editingController) {
-    return ObxValue(
+    return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
@@ -95,8 +93,10 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
         child: TextFormField(
           controller: editingController,
           cursorColor: Colors.blue[200],
-          validator: (value) =>
-              value.isNotEmpty ? null : "Please add a valid answer",
+          validator: (v) {
+            var value = v ?? "";
+            return value.isNotEmpty ? null : "Please add a valid answer";
+          },
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.chat_sharp,

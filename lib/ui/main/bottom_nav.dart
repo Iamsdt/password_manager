@@ -23,12 +23,12 @@ class _BottomNavUIState extends State<BottomNavUI> {
 
   int _selectedIndex = 0;
 
-  List<Widget> pages;
+  late List<Widget> pages;
 
-  HomePageUI _homePageUI;
-  CategoriesUI _categoriesUI;
-  CardPageUI _cardPageUI;
-  SettingsPageUi _settingsPageUi;
+  late HomePageUI _homePageUI;
+  late CategoriesUI _categoriesUI;
+  late CardPageUI _cardPageUI;
+  late SettingsPageUi _settingsPageUi;
 
   @override
   void initState() {
@@ -128,10 +128,10 @@ class _BottomNavUIState extends State<BottomNavUI> {
   }
 
   Widget _buildTabItem({
-    IconData icon,
-    String text,
-    int index,
-    ValueChanged<int> onPressed,
+    required IconData icon,
+    required String text,
+    required int index,
+    required ValueChanged<int> onPressed,
   }) {
     Color color = _selectedIndex == index ? Colors.yellow : Colors.white;
     return Expanded(

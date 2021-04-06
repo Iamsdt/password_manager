@@ -1,16 +1,16 @@
-import 'package:credit_card/credit_card_model.dart';
-import 'package:credit_card/flutter_credit_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:password_manager/db/model/credit_card_model.dart';
+import 'package:password_manager/ui/shared/card.dart';
 
 class MyCreditCardForm extends StatefulWidget {
   const MyCreditCardForm({
-    Key key,
+    Key? key,
     this.cardNumber = "",
     this.expiryDate = "",
     this.cardHolderName = "",
     this.cvvCode = "",
-    @required this.onCreditCardModelChange,
+    required this.onCreditCardModelChange,
     this.themeColor,
     this.textColor = Colors.black,
     this.cursorColor,
@@ -20,25 +20,25 @@ class MyCreditCardForm extends StatefulWidget {
   final String expiryDate;
   final String cardHolderName;
   final String cvvCode;
-  final void Function(CreditCardModel) onCreditCardModelChange;
-  final Color themeColor;
+  final void Function(CreditCardModel?) onCreditCardModelChange;
+  final Color? themeColor;
   final Color textColor;
-  final Color cursorColor;
+  final Color? cursorColor;
 
   @override
   _CreditCardFormState createState() => _CreditCardFormState();
 }
 
 class _CreditCardFormState extends State<MyCreditCardForm> {
-  String cardNumber;
-  String expiryDate;
-  String cardHolderName;
-  String cvvCode;
+  String cardNumber = "";
+  String expiryDate = "";
+  String cardHolderName = "";
+  String cvvCode = "";
   bool isCvvFocused = false;
-  Color themeColor;
+  Color themeColor = Colors.blue;
 
-  void Function(CreditCardModel) onCreditCardModelChange;
-  CreditCardModel creditCardModel;
+  late void Function(CreditCardModel?) onCreditCardModelChange;
+  CreditCardModel? creditCardModel;
 
   final MaskedTextController _cardNumberController =
       MaskedTextController(mask: '0000 0000 0000 0000');
@@ -52,15 +52,15 @@ class _CreditCardFormState extends State<MyCreditCardForm> {
   FocusNode cvvFocusNode = FocusNode();
 
   void textFieldFocusDidChange() {
-    creditCardModel.isCvvFocused = cvvFocusNode.hasFocus;
+    creditCardModel?.isCvvFocused = cvvFocusNode.hasFocus;
     onCreditCardModelChange(creditCardModel);
   }
 
   void createCreditCardModel() {
-    cardNumber = widget.cardNumber ?? '';
-    expiryDate = widget.expiryDate ?? '';
-    cardHolderName = widget.cardHolderName ?? '';
-    cvvCode = widget.cvvCode ?? '';
+    cardNumber = widget.cardNumber;
+    expiryDate = widget.expiryDate;
+    cardHolderName = widget.cardHolderName;
+    cvvCode = widget.cvvCode;
 
     creditCardModel = CreditCardModel(
         cardNumber, expiryDate, cardHolderName, cvvCode, isCvvFocused);
@@ -83,7 +83,7 @@ class _CreditCardFormState extends State<MyCreditCardForm> {
     _cardNumberController.addListener(() {
       setState(() {
         cardNumber = _cardNumberController.text;
-        creditCardModel.cardNumber = cardNumber;
+        creditCardModel?.cardNumber = cardNumber;
         onCreditCardModelChange(creditCardModel);
       });
     });
@@ -95,7 +95,7 @@ class _CreditCardFormState extends State<MyCreditCardForm> {
     _expiryDateController.addListener(() {
       setState(() {
         expiryDate = _expiryDateController.text;
-        creditCardModel.expiryDate = expiryDate;
+        creditCardModel?.expiryDate = expiryDate;
         onCreditCardModelChange(creditCardModel);
       });
     });
@@ -107,7 +107,7 @@ class _CreditCardFormState extends State<MyCreditCardForm> {
     _cardHolderNameController.addListener(() {
       setState(() {
         cardHolderName = _cardHolderNameController.text;
-        creditCardModel.cardHolderName = cardHolderName;
+        creditCardModel?.cardHolderName = cardHolderName;
         onCreditCardModelChange(creditCardModel);
       });
     });
@@ -119,7 +119,7 @@ class _CreditCardFormState extends State<MyCreditCardForm> {
     _cvvCodeController.addListener(() {
       setState(() {
         cvvCode = _cvvCodeController.text;
-        creditCardModel.cvvCode = cvvCode;
+        creditCardModel?.cvvCode = cvvCode;
         onCreditCardModelChange(creditCardModel);
       });
     });

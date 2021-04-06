@@ -8,19 +8,19 @@ class MyCreditCardModel {
   bool isCvvFocused = false;
 
   MyCreditCardModel({
-    this.cardNumber,
-    this.expiryDate,
-    this.cardHolderName,
-    this.cvvCode,
-    this.isCvvFocused,
+    required this.cardNumber,
+    required this.expiryDate,
+    required this.cardHolderName,
+    required this.cvvCode,
+    required this.isCvvFocused,
   });
 
   MyCreditCardModel copyWith({
-    String cardNumber,
-    String expiryDate,
-    String cardHolderName,
-    String cvvCode,
-    bool isCvvFocused,
+    String? cardNumber,
+    String? expiryDate,
+    String? cardHolderName,
+    String? cvvCode,
+    bool? isCvvFocused,
   }) {
     return MyCreditCardModel(
       cardNumber: cardNumber ?? this.cardNumber,
@@ -41,15 +41,13 @@ class MyCreditCardModel {
     };
   }
 
-  factory MyCreditCardModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
+  factory MyCreditCardModel.fromMap(Map<String, dynamic>? map) {
     return MyCreditCardModel(
-      cardNumber: map['cardNumber'],
-      expiryDate: map['expiryDate'],
-      cardHolderName: map['cardHolderName'],
-      cvvCode: map['cvvCode'],
-      isCvvFocused: map['isCvvFocused'],
+      cardNumber: map?['cardNumber'] ?? "",
+      expiryDate: map?['expiryDate'] ?? "",
+      cardHolderName: map?['cardHolderName'] ?? "",
+      cvvCode: map?['cvvCode'] ?? "",
+      isCvvFocused: map?['isCvvFocused'] ?? "",
     );
   }
 
@@ -64,15 +62,15 @@ class MyCreditCardModel {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is MyCreditCardModel &&
-        o.cardNumber == cardNumber &&
-        o.expiryDate == expiryDate &&
-        o.cardHolderName == cardHolderName &&
-        o.cvvCode == cvvCode &&
-        o.isCvvFocused == isCvvFocused;
+    return other is MyCreditCardModel &&
+        other.cardNumber == cardNumber &&
+        other.expiryDate == expiryDate &&
+        other.cardHolderName == cardHolderName &&
+        other.cvvCode == cvvCode &&
+        other.isCvvFocused == isCvvFocused;
   }
 
   @override
@@ -83,4 +81,15 @@ class MyCreditCardModel {
         cvvCode.hashCode ^
         isCvvFocused.hashCode;
   }
+}
+
+class CreditCardModel {
+  CreditCardModel(this.cardNumber, this.expiryDate, this.cardHolderName,
+      this.cvvCode, this.isCvvFocused);
+
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
+  bool isCvvFocused = false;
 }

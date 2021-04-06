@@ -22,7 +22,7 @@ class CardPageUI extends StatelessWidget {
         title: Text(
           "My Cards",
           style: TextStyle(
-            color: context.theme.textTheme.bodyText1.color,
+            color: context.theme.textTheme.bodyText1?.color,
           ),
         ),
         actions: [

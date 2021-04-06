@@ -46,8 +46,8 @@ class MasterPassController extends GetxController {
 
     var data = await store.getSecurityQuestion();
     if (data.exists) {
-      var question = data.data()['question'];
-      var ans = data.data()['answer'];
+      var question = data.data()?['question'] ?? "";
+      var ans = data.data()?['answer'] ?? "";
       controller1.text = question;
       controller2.text = ans.toString().decrypt(encrypter);
     }

@@ -26,12 +26,12 @@ class AppController extends GetxController {
   //explanination on *** home_controller.dart ***
   var focusNode = FocusNode();
 
-  var genPassword = GeneratedPassword(generatePassword(16)).obs;
+  var genPassword = GeneratedPassword(pass: generatePassword(16)).obs;
 
   var categoryStatus =
-      DataStatus<List<CategoriesModel>>(null, DataState.INIT).obs;
+      DataStatus<List<CategoriesModel>>([], DataState.INIT).obs;
   // category cache data
-  var cache = List<CategoriesModel>();
+  List<CategoriesModel> cache = [];
 
   @override
   void onInit() {
@@ -58,6 +58,7 @@ class AppController extends GetxController {
     print(pass);
 
     genPassword.update((val) {
+      if (val == null) return;
       val.pass = pass;
       val.isLowerCase = isLowerCase;
       val.isUpperCase = isUpperCase;
@@ -115,7 +116,9 @@ class AppController extends GetxController {
   }
 
   Future<bool> deletePassword(PasswordModel model) async {
-    var res = await _store.deletePassword(model.uuid);
+    var uuid = model.uuid;
+    if (uuid == null) return false;
+    var res = await _store.deletePassword(uuid);
     if (res) {
       //update list
       HomeController.to.getAllData(force: true);
@@ -138,7 +141,7 @@ class AppController extends GetxController {
     }
 
     var res = await _store.getMasterPass();
-    var old = res.data()['psssword'];
+    var old = res.data()?['psssword'];
     Encrypter encrypter = Get.find(tag: "ENCRYPT");
     var currentPass = current.encrypt(encrypter);
 
@@ -188,8 +191,8 @@ class AppController extends GetxController {
     //and if we force, then it will read that data again
     if (!force && cache.isNotEmpty) {
       categoryStatus.update((val) {
-        val.data = cache;
-        val.state = DataState.LOADED;
+        val?.data = cache;
+        val?.state = DataState.LOADED;
       });
 
       return;
@@ -198,7 +201,7 @@ class AppController extends GetxController {
     var cats = await _store.getCategories();
 
     var models = cats.docs.map((e) {
-      return CategoriesModel.fromMap(e.data());
+      return CategoriesModel.fromMap(e.data()!);
     }).toList();
 
     // save to the cache
@@ -206,8 +209,8 @@ class AppController extends GetxController {
 
     //now update
     categoryStatus.update((val) {
-      val.data = models;
-      val.state = DataState.LOADED;
+      val?.data = models;
+      val?.state = DataState.LOADED;
     });
   }
 
@@ -224,17 +227,16 @@ class AppController extends GetxController {
     return res1 && res2;
   }
 
-
   //filter categories list
   void filterList(String value) {
-    if (cache == null || cache?.isEmpty == true) {
+    if (cache.isEmpty == true) {
       return;
     }
 
     if (value == "") {
       categoryStatus.update((val) {
-        val.data = cache;
-        val.state = DataState.LOADED;
+        val?.data = cache;
+        val?.state = DataState.LOADED;
       });
     }
 
@@ -243,8 +245,8 @@ class AppController extends GetxController {
         .toList();
 
     categoryStatus.update((val) {
-      val.data = filtered;
-      val.state = DataState.LOADED;
+      val?.data = filtered;
+      val?.state = DataState.LOADED;
     });
   }
 

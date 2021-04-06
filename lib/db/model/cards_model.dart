@@ -13,28 +13,27 @@ class CardsModel {
   DateTime updatedDate;
 
   CardsModel({
-    this.uuid,
-    this.cardNumber,
-    this.name,
-    this.expDate,
-    this.cvc,
-    this.createdDate,
-    this.updatedDate,
+    this.uuid = "",
+    required this.cardNumber,
+    required this.name,
+    required this.expDate,
+    required this.cvc,
+    required this.createdDate,
+    required this.updatedDate,
   }) {
-    //if uuid is null then create one
-    if (this.uuid == null) {
+    if (this.uuid.isEmpty) {
       this.uuid = Uuid().v4();
     }
   }
 
   CardsModel copyWith({
-    String uuid,
-    String cardNumber,
-    String name,
-    String expDate,
-    String cvc,
-    DateTime createdDate,
-    DateTime updatedDate,
+    String? uuid,
+    String? cardNumber,
+    String? name,
+    String? expDate,
+    String? cvc,
+    DateTime? createdDate,
+    DateTime? updatedDate,
   }) {
     return CardsModel(
       uuid: uuid ?? this.uuid,
@@ -54,22 +53,24 @@ class CardsModel {
       'name': name,
       'expDate': expDate,
       'cvc': cvc,
-      'createdDate': createdDate?.millisecondsSinceEpoch,
-      'updatedDate': updatedDate?.millisecondsSinceEpoch,
+      'createdDate': createdDate.millisecondsSinceEpoch,
+      'updatedDate': updatedDate.millisecondsSinceEpoch,
     };
   }
 
-  factory CardsModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
+  factory CardsModel.fromMap(Map<String, dynamic>? map) {
     return CardsModel(
-      uuid: map['uuid'],
-      cardNumber: map['cardNumber'],
-      name: map['name'],
-      expDate: map['expDate'],
-      cvc: map['cvc'],
-      createdDate: DateTime.fromMillisecondsSinceEpoch(map['createdDate']),
-      updatedDate: DateTime.fromMillisecondsSinceEpoch(map['updatedDate']),
+      uuid: map?['uuid'] ?? "",
+      cardNumber: map?['cardNumber'] ?? "",
+      name: map?['name'] ?? "",
+      expDate: map?['expDate'] ?? "",
+      cvc: map?['cvc'] ?? "",
+      createdDate: map?["createdDate"] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map?['createdDate'])
+          : DateTime.now(),
+      updatedDate: map?["updatedDate"] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map?['updatedDate'])
+          : DateTime.now(),
     );
   }
 
@@ -84,17 +85,17 @@ class CardsModel {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is CardsModel &&
-        o.uuid == uuid &&
-        o.cardNumber == cardNumber &&
-        o.name == name &&
-        o.expDate == expDate &&
-        o.cvc == cvc &&
-        o.createdDate == createdDate &&
-        o.updatedDate == updatedDate;
+    return other is CardsModel &&
+        other.uuid == uuid &&
+        other.cardNumber == cardNumber &&
+        other.name == name &&
+        other.expDate == expDate &&
+        other.cvc == cvc &&
+        other.createdDate == createdDate &&
+        other.updatedDate == updatedDate;
   }
 
   @override

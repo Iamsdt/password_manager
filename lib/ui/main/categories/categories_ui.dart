@@ -21,7 +21,7 @@ class CategoriesUI extends StatelessWidget {
         title: Text(
           "Categories",
           style: TextStyle(
-            color: context.theme.textTheme.bodyText1.color,
+            color: context.theme.textTheme.bodyText1?.color,
           ),
         ),
         actions: [
@@ -151,7 +151,7 @@ class CategoriesUI extends StatelessWidget {
                 //     Icons.share,
                 //   ),
                 // ),
-                title: Text(model.name ?? ""),
+                title: Text(model.name),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
               actions: <Widget>[

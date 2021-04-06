@@ -30,7 +30,7 @@ class SignupPageUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("SIGN UP", () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState?.validate() == true) {
                   _controller.signup();
                 }
                 // Get.to(MasterPassUI());
@@ -71,7 +71,8 @@ class SignupPageUI extends StatelessWidget {
               _controller.nameController,
               hint: "Full name",
               icon: Icons.person,
-              validator: (value) => value.isNotEmpty && value.length > 3
+              // Todo fix this error
+              validator: (value) => value?.isNotEmpty == true
                   ? null
                   : "Please enter your full name",
             ),

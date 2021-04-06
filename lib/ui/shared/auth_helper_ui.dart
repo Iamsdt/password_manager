@@ -13,7 +13,7 @@ class AuthHelper {
       width: Get.width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.blue[200], Colors.blueAccent],
+          colors: [Colors.blue[200]!, Colors.blueAccent],
         ),
       ),
     );
@@ -33,7 +33,7 @@ class AuthHelper {
             height: firstCliperHight ?? Get.height * 0.2,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.blue[200], Colors.blueAccent],
+                colors: [Colors.blue[200]!, Colors.blueAccent],
               ),
             ),
           ),
@@ -46,7 +46,7 @@ class AuthHelper {
               height: secondCliperHeight ?? Get.height * 0.2,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.blue[200], Colors.blueAccent],
+                  colors: [Colors.blue[200]!, Colors.blueAccent],
                 ),
               ),
             ),
@@ -85,7 +85,7 @@ class AuthHelper {
   //most of the case it will use as email password
   static Widget normalTextField(
     TextEditingController controller, {
-    FormFieldValidator<String> validator,
+    FormFieldValidator<String>? validator,
     String hint = "Email address",
     IconData icon = Icons.email,
   }) {
@@ -98,7 +98,7 @@ class AuthHelper {
         cursorColor: Colors.blue[200],
         validator: validator != null
             ? validator
-            : (value) => Validator.isEmailValid(value)
+            : (value) => Validator.isEmailValid(value ?? "")
                 ? null
                 : "Please enter a valid email",
         decoration: InputDecoration(
@@ -119,8 +119,8 @@ class AuthHelper {
 
   //static password filed
   static Widget passwordTextFiled(TextEditingController editingController,
-      {String hint = "Password", FormFieldValidator<String> validator}) {
-    return ObxValue(
+      {String hint = "Password", FormFieldValidator<String>? validator}) {
+    return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
@@ -130,9 +130,12 @@ class AuthHelper {
           cursorColor: Colors.blue[200],
           validator: validator != null
               ? validator
-              : (value) => value.isNotEmpty && value.length >= 6
-                  ? null
-                  : "Enter valid password (min length: 6)",
+              : (value) {
+                  var v = value ?? "";
+                  return v.isNotEmpty == true && v.length >= 6
+                      ? null
+                      : "Enter valid password (min length: 6)";
+                },
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.lock,
@@ -165,7 +168,7 @@ class AuthHelper {
     String text,
     void onPresed(),
   ) {
-    return RaisedButton(
+    return MaterialButton(
       elevation: 4.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
@@ -179,7 +182,7 @@ class AuthHelper {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           gradient: LinearGradient(
-            colors: <Color>[Colors.blue[200], Colors.blueAccent],
+            colors: <Color>[Colors.blue[200]!, Colors.blueAccent],
           ),
         ),
         padding: const EdgeInsets.all(12.0),

@@ -23,19 +23,19 @@ class HomeController extends GetxController {
   var focusNode = FocusNode();
 
   var passwordModelStatus =
-      DataStatus<List<PasswordModel>>(null, DataState.INIT).obs;
+      DataStatus<List<PasswordModel>>([], DataState.INIT).obs;
 
-  var notesModelStatus = DataStatus<List<NotesModel>>(null, DataState.INIT).obs;
+  var notesModelStatus = DataStatus<List<NotesModel>>([], DataState.INIT).obs;
 
-  var cache = List<PasswordModel>();
+  List<PasswordModel> cache = [];
 
   void getAllData({force = false}) async {
     //if we have cache data, then we will show
     //and if we force, then it will read that data again
     if (!force && cache.isNotEmpty) {
       passwordModelStatus.update((val) {
-        val.data = cache;
-        val.state = DataState.LOADED;
+        val?.data = cache;
+        val?.state = DataState.LOADED;
       });
 
       return;
@@ -52,8 +52,8 @@ class HomeController extends GetxController {
 
     //now update
     passwordModelStatus.update((val) {
-      val.data = models;
-      val.state = DataState.LOADED;
+      val?.data = models;
+      val?.state = DataState.LOADED;
     });
   }
 
@@ -69,8 +69,8 @@ class HomeController extends GetxController {
     }).toList();
 
     notesModelStatus.update((val) {
-      val.data = models;
-      val.state = DataState.LOADED;
+      val?.data = models;
+      val?.state = DataState.LOADED;
     });
   }
 
@@ -78,6 +78,7 @@ class HomeController extends GetxController {
     var model = NotesModel(
       notes: notes,
       passwordUUID: uuid,
+      updatedDate: DateTime.now(),
     );
     var res = await _store.addNote(model);
 
@@ -97,6 +98,7 @@ class HomeController extends GetxController {
       notes: notes,
       passwordUUID: uuid,
       uuid: noteUUID,
+      updatedDate: DateTime.now(),
     );
     var res = await _store.addNote(model, update: true);
 
@@ -126,14 +128,14 @@ class HomeController extends GetxController {
 
   //filter list
   void filterList(String value) {
-    if (cache == null || cache?.isEmpty == true) {
+    if (cache.isEmpty == true) {
       return;
     }
 
     if (value == "") {
       passwordModelStatus.update((val) {
-        val.data = cache;
-        val.state = DataState.LOADED;
+        val?.data = cache;
+        val?.state = DataState.LOADED;
       });
     }
 
@@ -142,8 +144,8 @@ class HomeController extends GetxController {
         .toList();
 
     passwordModelStatus.update((val) {
-      val.data = filtered;
-      val.state = DataState.LOADED;
+      val?.data = filtered;
+      val?.state = DataState.LOADED;
     });
   }
 

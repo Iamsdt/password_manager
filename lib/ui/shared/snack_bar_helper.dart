@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 class SnackBarHelper {
   static void showSuccess(messageText) {
     Get.snackbar(
-      null,
-      null,
+      "",
+      "",
       titleText: Text(""),
       messageText: Text(
         messageText,
@@ -29,8 +29,8 @@ class SnackBarHelper {
 
   static void showInfo(messageText) {
     Get.snackbar(
-      null,
-      null,
+      "",
+      "",
       titleText: Text(""),
       messageText: Text(
         messageText,
@@ -54,8 +54,8 @@ class SnackBarHelper {
 
   static void showError(messageText, {int time = 5}) {
     Get.snackbar(
-      null,
-      null,
+      "",
+      "",
       titleText: Text(""),
       messageText: Text(
         messageText,
@@ -74,8 +74,8 @@ class SnackBarHelper {
 
   static void showLoading(messageText) {
     Get.snackbar(
-      null,
-      null,
+      '',
+      '',
       titleText: Text(""),
       messageText: Text(
         messageText,

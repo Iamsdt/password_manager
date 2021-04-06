@@ -1,13 +1,13 @@
-import 'package:credit_card/flutter_credit_card.dart';
 import 'package:flutter/material.dart';
 import 'package:password_manager/db/model/cards_model.dart';
+import 'package:password_manager/ui/shared/card.dart';
 
 class MyCardWidget extends StatefulWidget {
   final CardsModel model;
 
   MyCardWidget(
     this.model, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

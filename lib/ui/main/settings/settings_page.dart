@@ -12,9 +12,9 @@ import 'package:password_manager/utils/theme/theme_data.dart';
 class SettingsPageUi extends StatelessWidget {
   final RxBool themeStatus = ThemeService.currentTheme.obs;
 
-  SettingsPageUi({Key key}) : super(key: key);
+  SettingsPageUi({Key? key}) : super(key: key);
 
-  final User user = FirebaseAuth.instance.currentUser;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class SettingsPageUi extends StatelessWidget {
                 CircleAvatar(
                   radius: 50,
                   child: Text(
-                    "${user.email}".substring(0, 2),
+                    "${user?.email}".substring(0, 2),
                     style: TextStyle(
                       fontSize: 48,
                     ),
@@ -44,7 +44,7 @@ class SettingsPageUi extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "${user.email}",
+                  "${user?.email}",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

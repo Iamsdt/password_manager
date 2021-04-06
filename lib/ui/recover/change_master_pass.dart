@@ -44,7 +44,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("UPDATE", () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState?.validate() == true) {
                   AppController.to
                       .updateMasterPassword(currentpass, newpass, confirmPass);
                 }
@@ -95,7 +95,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
   }
 
   Widget passwordTextFiled(String hint, void onChange(String value)) {
-    return ObxValue(
+    return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
@@ -105,9 +105,12 @@ class ChnageMasterPasswordUI extends StatelessWidget {
             onChange(value);
           },
           cursorColor: Colors.blue[200],
-          validator: (value) => value.isNotEmpty && value.length >= 6
-              ? null
-              : "Enter valid password (min length: 6)",
+          validator: (v) {
+            var value = v ?? "";
+            return value.isNotEmpty && value.length >= 6
+                ? null
+                : "Enter valid password (min length: 6)";
+          },
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.lock,

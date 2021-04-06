@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:uuid/uuid.dart';
 
 class NotesModel {
@@ -8,25 +9,21 @@ class NotesModel {
   String passwordUUID;
 
   NotesModel({
-    this.notes,
-    this.updatedDate,
-    this.uuid,
-    this.passwordUUID,
+    required this.notes,
+    required this.updatedDate,
+    this.uuid = "",
+    required this.passwordUUID,
   }) {
-    if (this.uuid == null) {
+    if (this.uuid.isEmpty) {
       this.uuid = Uuid().v4();
-    }
-
-    if (this.updatedDate == null) {
-      this.updatedDate = DateTime.now();
     }
   }
 
   NotesModel copyWith({
-    String notes,
-    DateTime updatedDate,
-    String uuid,
-    String passwordUUID,
+    String? notes,
+    DateTime? updatedDate,
+    String? uuid,
+    String? passwordUUID,
   }) {
     return NotesModel(
       notes: notes ?? this.notes,
@@ -39,20 +36,20 @@ class NotesModel {
   Map<String, dynamic> toMap() {
     return {
       'notes': notes,
-      'updatedDate': updatedDate?.millisecondsSinceEpoch,
+      'updatedDate': updatedDate.millisecondsSinceEpoch,
       'uuid': uuid,
       'passwordUUID': passwordUUID,
     };
   }
 
-  factory NotesModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
+  factory NotesModel.fromMap(Map<String, dynamic>? map) {
     return NotesModel(
-      notes: map['notes'],
-      updatedDate: DateTime.fromMillisecondsSinceEpoch(map['updatedDate']),
-      uuid: map['uuid'],
-      passwordUUID: map['passwordUUID'],
+      notes: map?['notes'] ?? "",
+      updatedDate: map?['updatedDate'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map?['updatedDate'])
+          : DateTime.now(),
+      uuid: map?['uuid'] ?? "",
+      passwordUUID: map?['passwordUUID'] ?? "",
     );
   }
 
@@ -67,14 +64,14 @@ class NotesModel {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is NotesModel &&
-        o.notes == notes &&
-        o.updatedDate == updatedDate &&
-        o.uuid == uuid &&
-        o.passwordUUID == passwordUUID;
+    return other is NotesModel &&
+        other.notes == notes &&
+        other.updatedDate == updatedDate &&
+        other.uuid == uuid &&
+        other.passwordUUID == passwordUUID;
   }
 
   @override

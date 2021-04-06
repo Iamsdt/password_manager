@@ -44,7 +44,7 @@ class MasterPassUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("Set Master Password", () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState?.validate() == true) {
                   _controller.updatePassword();
                 }
               }),

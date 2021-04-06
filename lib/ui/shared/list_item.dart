@@ -24,7 +24,7 @@ class ListItemUI {
       //   height: 32,
       // ),
       title: Text(
-        model.companyName ?? "",
+        model.companyName,
         style: TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.w500,

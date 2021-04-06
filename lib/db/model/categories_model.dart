@@ -8,21 +8,19 @@ class CategoriesModel {
   String uuid;
 
   CategoriesModel({
-    this.name,
-    this.icon,
-    this.uuid,
+    required this.name,
+    required this.icon,
+    this.uuid = "",
   }) {
-    if (this.uuid == null) {
+    if (this.uuid.isEmpty) {
       this.uuid = Uuid().v4();
     }
   }
 
-  
-
   CategoriesModel copyWith({
-    String name,
-    String icon,
-    String uuid,
+    String? name,
+    String? icon,
+    String? uuid,
   }) {
     return CategoriesModel(
       name: name ?? this.name,
@@ -39,31 +37,30 @@ class CategoriesModel {
     };
   }
 
-  factory CategoriesModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-  
+  factory CategoriesModel.fromMap(Map<String, dynamic>? map) {
     return CategoriesModel(
-      name: map['name'],
-      icon: map['icon'],
-      uuid: map['uuid'],
+      name: map?['name'] ?? "",
+      icon: map?['icon'] ?? "",
+      uuid: map?['uuid'] ?? "",
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory CategoriesModel.fromJson(String source) => CategoriesModel.fromMap(json.decode(source));
+  factory CategoriesModel.fromJson(String source) =>
+      CategoriesModel.fromMap(json.decode(source));
 
   @override
   String toString() => 'CategoriesModel(name: $name, icon: $icon, uuid: $uuid)';
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-  
-    return o is CategoriesModel &&
-      o.name == name &&
-      o.icon == icon &&
-      o.uuid == uuid;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is CategoriesModel &&
+        other.name == name &&
+        other.icon == icon &&
+        other.uuid == uuid;
   }
 
   @override

@@ -42,17 +42,17 @@ class SignupController extends GetxController {
       //that's means it's successful
       SnackBarHelper.showSuccess("Account created successful");
       //check user emil is verified or not
-      var user = value.userCredential.user;
+      var user = value.userCredential?.user;
       //update user name
-      user.updateProfile(displayName: name);
-      await user.reload();
+      user?.updateProfile(displayName: name);
+      await user?.reload();
 
-      if (user.emailVerified) {
+      if (user?.emailVerified == true) {
         //goto next page
         nextPage();
       } else {
         SnackBarHelper.showInfo("Please very email!");
-        await user.sendEmailVerification();
+        await user?.sendEmailVerification();
         SnackBarHelper.showSuccess(
             "Sent verification email, please check your inbox");
 
@@ -92,7 +92,7 @@ class SignupController extends GetxController {
   }
 
   void closeExistingSnackBar() {
-    if (Get.isSnackbarOpen) {
+    if (Get.isSnackbarOpen == true) {
       Get.back();
     }
   }

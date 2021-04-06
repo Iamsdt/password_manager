@@ -13,7 +13,7 @@ class SheetUIHelper {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Get.theme.bottomSheetTheme.backgroundColor,
+          color: Get.theme.bottomSheetTheme.backgroundColor ?? Colors.white,
         ),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),

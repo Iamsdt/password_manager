@@ -48,13 +48,13 @@ class LoginController extends GetxController {
       //that's means it's successful
       SnackBarHelper.showSuccess("Login successful");
       //check user emil is verified or not
-      var user = value.userCredential.user;
-      if (user.emailVerified) {
+      var user = value.userCredential?.user;
+      if (user?.emailVerified == true) {
         //goto next page
         nextPage();
       } else {
         SnackBarHelper.showInfo("Please very email!");
-        await user.sendEmailVerification();
+        await user?.sendEmailVerification();
         Get.to(VerifyOTP());
         SnackBarHelper.showSuccess(
             "Sent verification email, please check your inbox");
@@ -72,7 +72,7 @@ class LoginController extends GetxController {
       Get.off(LoginPageUI());
       SnackBarHelper.showSuccess("Sent recovery email, successfully");
     } catch (e, s) {
-      if (e.code == 'user-not-found') {
+      if (e == 'user-not-found') {
         SnackBarHelper.showError(
             "User not found with this email adress, Plese use correct one");
       }
@@ -109,7 +109,7 @@ class LoginController extends GetxController {
   }
 
   void closeExistingSnackBar() {
-    if (Get.isSnackbarOpen) {
+    if (Get.isSnackbarOpen == true) {
       Get.back();
     }
   }
@@ -127,7 +127,7 @@ class LoginController extends GetxController {
 
     //hide loading dialog
     //check dialog is showing or user close
-    if (Get.isDialogOpen) {
+    if (Get.isDialogOpen == true) {
       Get.back();
     }
 
@@ -137,7 +137,7 @@ class LoginController extends GetxController {
   void verify() async {
     var user = FirebaseAuth.instance.currentUser;
     //reload user
-    await user.reload();
+    await user?.reload();
     //now check user email is verified
     if (user != null && user.emailVerified) {
       //then go to next page

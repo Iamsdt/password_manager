@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthResults {
-  UserCredential userCredential;
+  UserCredential? userCredential;
   String message;
   bool status;
 

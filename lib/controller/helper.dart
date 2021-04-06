@@ -9,7 +9,7 @@ void logout() async {
 String createNonce(int length) {
   final random = Random.secure();
   final charCodes = List<int>.generate(length, (_) {
-    int codeUnit;
+    int codeUnit = 0;
 
     switch (random.nextInt(3)) {
       case 0:

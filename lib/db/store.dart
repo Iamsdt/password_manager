@@ -119,7 +119,7 @@ class Store {
 
       for (QueryDocumentSnapshot doc in list.docs) {
         if (doc.exists) {
-          var uuid = doc.data()['uuid'];
+          var uuid = doc.data()?['uuid'] ?? "";
           await pass.doc(uuid).delete();
         }
       }
@@ -241,9 +241,14 @@ class Store {
 
   CollectionReference getCollection(String collectionName) {
     var user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      //Todo logout
+    }
+
     return _firestore
         .collection(DbConstant.USER)
-        .doc(user.uid)
+        .doc(user!.uid)
         .collection(collectionName);
   }
 }

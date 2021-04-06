@@ -1,5 +1,3 @@
-import 'package:credit_card/credit_card_model.dart';
-import 'package:credit_card/credit_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -7,13 +5,14 @@ import 'package:password_manager/controller/card/card_controller.dart';
 import 'package:password_manager/db/model/cards_model.dart';
 import 'package:password_manager/db/model/credit_card_model.dart';
 import 'package:password_manager/ui/main/cards/my_card_form.dart';
+import 'package:password_manager/ui/shared/card.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 class CardInputPage extends StatefulWidget {
   final String title;
   final bool update;
-  final CardsModel cardsModel;
-  const CardInputPage(this.title, this.update, this.cardsModel, {Key key})
+  final CardsModel? cardsModel;
+  const CardInputPage(this.title, this.update, this.cardsModel, {Key? key})
       : super(key: key);
 
   @override
@@ -22,17 +21,17 @@ class CardInputPage extends StatefulWidget {
 
 class _CardInputPageState extends State<CardInputPage> {
   final CardController controller = Get.find();
-  MyCreditCardModel _model;
+  late MyCreditCardModel _model;
 
   @override
   void initState() {
     super.initState();
     if (widget.cardsModel != null) {
       _model = MyCreditCardModel(
-        cardHolderName: widget.cardsModel.name,
-        cardNumber: widget.cardsModel.cardNumber,
-        cvvCode: widget.cardsModel.cvc,
-        expiryDate: widget.cardsModel.expDate,
+        cardHolderName: widget.cardsModel!.name,
+        cardNumber: widget.cardsModel!.cardNumber,
+        cvvCode: widget.cardsModel!.cvc,
+        expiryDate: widget.cardsModel!.expDate,
         isCvvFocused: false,
       );
     } else {
@@ -55,7 +54,7 @@ class _CardInputPageState extends State<CardInputPage> {
         title: Text(
           widget.title,
           style: TextStyle(
-            color: context.theme.textTheme.bodyText1.color,
+            color: context.theme.textTheme.bodyText1?.color,
           ),
         ),
         iconTheme: IconThemeData(
@@ -108,7 +107,9 @@ class _CardInputPageState extends State<CardInputPage> {
               expiryDate: _model.expiryDate,
               themeColor: Colors.red,
               textColor: Get.isDarkMode ? Colors.white : Colors.black,
-              onCreditCardModelChange: (CreditCardModel data) {
+              onCreditCardModelChange: (CreditCardModel? data) {
+                if (data == null) return;
+
                 setState(() {
                   _model = MyCreditCardModel(
                     cardHolderName: data.cardHolderName,
@@ -127,7 +128,7 @@ class _CardInputPageState extends State<CardInputPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              RaisedButton(
+              MaterialButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0),
                   side: BorderSide(
@@ -174,7 +175,8 @@ class _CardInputPageState extends State<CardInputPage> {
   }
 
   void deleteCard() async {
-    var res = await controller.deleteCard(widget.cardsModel.uuid);
+    if (widget.cardsModel?.uuid == null) return;
+    var res = await controller.deleteCard(widget.cardsModel?.uuid ?? "");
     if (res) {
       //update list
       Get.back(closeOverlays: true);

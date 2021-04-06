@@ -44,7 +44,7 @@ class RecoverPasswordUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("RECOVER", () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState?.validate() == true) {
                   _controller.recoverPassword();
                 } else {
                   SnackBarHelper.showError("Please input valid data");

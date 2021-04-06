@@ -29,8 +29,8 @@ class RecoverQuestionController extends GetxController {
   void getData() async {
     var data = await store.getSecurityQuestion();
     if (data.exists) {
-      var question = data.data()['question'];
-      var ans = data.data()['answer'];
+      var question = data.data()?['question'];
+      var ans = data.data()?['answer'];
       controller1.text = question;
       answer = ans;
     }

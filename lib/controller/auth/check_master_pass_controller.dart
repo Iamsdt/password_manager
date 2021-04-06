@@ -29,7 +29,7 @@ class CheckMasterPassController extends GetxController {
     Encrypter encrypter = Get.find(tag: "ENCRYPT");
     var current = passController.text.encrypt(encrypter);
     Fimber.i("Current password $current");
-    var old = res.data()['psssword'];
+    var old = res.data()?["psssword"] ?? "";
     if (old == current) {
       passController.text = "";
       Get.offAll(BottomNavUI());

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:password_manager/utils/encrtypt.dart';
 
 extension TextS on String {
-  Widget toText({TextStyle style}) {
+  Widget toText({TextStyle? style}) {
     return Text(
       this,
       style: style != null ? style : TextStyle(),

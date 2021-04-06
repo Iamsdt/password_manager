@@ -33,7 +33,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
 
   bool edidtable = false;
 
-  CategoriesModel categoriesModel;
+  CategoriesModel? categoriesModel;
   int catValue = 1;
 
   int strength = 0;
@@ -302,7 +302,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
               categoriesModel = value.data[0];
 
               return DropdownButtonHideUnderline(
-                child: DropdownButton(
+                child: DropdownButton<int>(
                   value: catValue,
                   items: value.data.map((e) {
                     var index = value.data.indexOf(e);
@@ -315,9 +315,9 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                   onChanged: (pos) {
                     if (edidtable) {
                       setState(() {
-                        catValue = pos;
+                        catValue = pos ?? 0;
                         Fimber.i("Drop down value changed $catValue");
-                        categoriesModel = value.data[pos - 1];
+                        categoriesModel = value.data[catValue - 1];
                       });
                     }
                   },
@@ -392,7 +392,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                 ),
                 color: Get.isDarkMode ? Colors.grey[900] : Colors.white,
               ),
-              child: ObxValue(
+              child: ObxValue<RxBool>(
                 (data) => TextFormField(
                   controller: controller,
                   readOnly: !edidtable,
@@ -514,7 +514,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
       companyName: titleController.text,
       password: passwordController.text,
       userName: usernameController.text,
-      categories: categoriesModel.uuid,
+      categories: categoriesModel?.uuid,
       strength: Utils.analysisPassword(passwordController.text),
     );
 

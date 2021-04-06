@@ -18,15 +18,15 @@ class CardController extends GetxController {
   //focasing node
   var focusNode = FocusNode();
 
-  var cache = List<CardsModel>();
+  List<CardsModel> cache = [];
 
-  var cardModelStatus = DataStatus<List<CardsModel>>(null, DataState.INIT).obs;
+  var cardModelStatus = DataStatus<List<CardsModel>>([], DataState.INIT).obs;
 
   void getAllData({force = false}) async {
     if (!force && cache.isNotEmpty) {
       cardModelStatus.update((val) {
-        val.data = cache;
-        val.state = DataState.LOADED;
+        val?.data = cache;
+        val?.state = DataState.LOADED;
       });
     }
 
@@ -40,8 +40,8 @@ class CardController extends GetxController {
 
     //now update
     cardModelStatus.update((val) {
-      val.data = models;
-      val.state = DataState.LOADED;
+      val?.data = models;
+      val?.state = DataState.LOADED;
     });
   }
 
@@ -114,14 +114,14 @@ class CardController extends GetxController {
 
   //filter list
   void filterList(String value) {
-    if (cache == null || cache?.isEmpty == true) {
+    if (cache.isEmpty == true) {
       return;
     }
 
     if (value == "") {
       cardModelStatus.update((val) {
-        val.data = cache;
-        val.state = DataState.LOADED;
+        val?.data = cache;
+        val?.state = DataState.LOADED;
       });
     }
 
@@ -130,8 +130,8 @@ class CardController extends GetxController {
         .toList();
 
     cardModelStatus.update((val) {
-      val.data = filtered;
-      val.state = DataState.LOADED;
+      val?.data = filtered;
+      val?.state = DataState.LOADED;
     });
   }
 

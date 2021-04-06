@@ -43,7 +43,7 @@ class SecurityQuestionUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("UPDATE", () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState?.validate() == true) {
                   controller.updateSecurityQuestion();
                 }
               }),
@@ -70,8 +70,9 @@ class SecurityQuestionUI extends StatelessWidget {
               controller.controller1,
               hint: "Question",
               icon: Icons.question_answer,
-              validator: (value) =>
-                  value.isNotEmpty ? null : "Please add a valid question",
+              validator: (value) => value?.isNotEmpty == null
+                  ? null
+                  : "Please add a valid question",
             ),
             SizedBox(height: 10),
             passwordTextFiled(controller.controller2),
@@ -82,7 +83,7 @@ class SecurityQuestionUI extends StatelessWidget {
   }
 
   Widget passwordTextFiled(TextEditingController editingController) {
-    return ObxValue(
+    return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
@@ -91,7 +92,7 @@ class SecurityQuestionUI extends StatelessWidget {
           controller: editingController,
           cursorColor: Colors.blue[200],
           validator: (value) =>
-              value.isNotEmpty ? null : "Please add a valid answer",
+              value?.isNotEmpty == null ? null : "Please add a valid answer",
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.chat_sharp,

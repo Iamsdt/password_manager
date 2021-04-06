@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class SaveUIHelper {
   //input form
   static Widget userInputBox(TextEditingController controller, String hint) {
-    return ObxValue(
+    return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 0.0,
@@ -12,9 +12,12 @@ class SaveUIHelper {
         child: TextFormField(
           controller: controller,
           cursorColor: Colors.blue[200],
-          validator: (value) => value.isNotEmpty && value.length >= 6
-              ? null
-              : "Enter valid password (min length: 6)",
+          validator: (v) {
+            var value = v ?? "";
+            return value.isNotEmpty && value.length >= 6
+                ? null
+                : "Enter valid password (min length: 6)";
+          },
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.lock,
@@ -74,7 +77,7 @@ class SaveUIHelper {
             boxShadow: [
               BoxShadow(
                 color: Get.isDarkMode
-                    ? Colors.grey[900]
+                    ? Colors.grey[900]!
                     : Colors.grey.withOpacity(0.4),
                 spreadRadius: 1,
                 blurRadius: 1,

@@ -14,31 +14,31 @@ class PasswordModel {
   String uuid;
 
   PasswordModel({
-    this.companyName,
-    this.userName,
-    this.password,
-    this.strength,
-    this.iconPath,
-    this.categories,
-    this.updated,
-    this.accessedOn,
-    this.uuid,
+    required this.companyName,
+    required this.userName,
+    required this.password,
+    required this.strength,
+    required this.iconPath,
+    required this.categories,
+    required this.updated,
+    required this.accessedOn,
+    this.uuid = "",
   }) {
-    if (this.uuid == null) {
+    if (this.uuid.isEmpty) {
       this.uuid = Uuid().v4();
     }
   }
 
   PasswordModel copyWith({
-    String companyName,
-    String userName,
-    String password,
-    int strength,
-    String iconPath,
-    String categories,
-    DateTime updated,
-    DateTime accessedOn,
-    String uuid,
+    String? companyName,
+    String? userName,
+    String? password,
+    int? strength,
+    String? iconPath,
+    String? categories,
+    DateTime? updated,
+    DateTime? accessedOn,
+    String? uuid,
   }) {
     return PasswordModel(
       companyName: companyName ?? this.companyName,
@@ -60,26 +60,28 @@ class PasswordModel {
       'password': password,
       'strength': strength,
       'iconPath': iconPath,
-      'category': categories,
-      'updated': updated?.millisecondsSinceEpoch,
-      'accessedOn': accessedOn?.millisecondsSinceEpoch,
+      'categories': categories,
+      'updated': updated.millisecondsSinceEpoch,
+      'accessedOn': accessedOn.millisecondsSinceEpoch,
       'uuid': uuid,
     };
   }
 
-  factory PasswordModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
+  factory PasswordModel.fromMap(Map<String, dynamic>? map) {
     return PasswordModel(
-      companyName: map['companyName'],
-      userName: map['userName'],
-      password: map['password'],
-      strength: map['strength'],
-      iconPath: map['iconPath'],
-      categories: map['category'],
-      updated: DateTime.fromMillisecondsSinceEpoch(map['updated']),
-      accessedOn: DateTime.fromMillisecondsSinceEpoch(map['accessedOn']),
-      uuid: map['uuid'],
+      companyName: map?['companyName'] ?? "",
+      userName: map?['userName'] ?? "",
+      password: map?['password'] ?? "",
+      strength: map?['strength'] ?? "",
+      iconPath: map?['iconPath'] ?? "",
+      categories: map?['categories'] ?? "",
+      updated: map?["updated"] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map?['updated'])
+          : DateTime.now(),
+      accessedOn: map?["updated"] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map?['accessedOn'])
+          : DateTime.now(),
+      uuid: map?['uuid'] ?? "",
     );
   }
 
@@ -94,19 +96,19 @@ class PasswordModel {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is PasswordModel &&
-        o.companyName == companyName &&
-        o.userName == userName &&
-        o.password == password &&
-        o.strength == strength &&
-        o.iconPath == iconPath &&
-        o.categories == categories &&
-        o.updated == updated &&
-        o.accessedOn == accessedOn &&
-        o.uuid == uuid;
+    return other is PasswordModel &&
+        other.companyName == companyName &&
+        other.userName == userName &&
+        other.password == password &&
+        other.strength == strength &&
+        other.iconPath == iconPath &&
+        other.categories == categories &&
+        other.updated == updated &&
+        other.accessedOn == accessedOn &&
+        other.uuid == uuid;
   }
 
   @override
@@ -121,34 +123,4 @@ class PasswordModel {
         accessedOn.hashCode ^
         uuid.hashCode;
   }
-
-  // PasswordModel encrypt(Encrypter en) {
-  //   return PasswordModel(
-  //     companyName: encryptString(en, this.companyName),
-  //     userName: encryptString(en, this.userName),
-  //     password: encryptString(en, this.password),
-  //     strength: this.strength,
-  //     iconPath: this.iconPath,
-  //     categories: this.categories,
-  //     updated: this.updated,
-  //     accessedOn: this.accessedOn,
-  //   );
-  // }
-
-  // PasswordModel decrypt(Encrypter en) {
-  //   this.companyName = decryptString(en, this.companyName);
-  //   this.userName = decryptString(en, this.userName);
-  //   this.password = decryptString(en, this.password);
-
-  //   return PasswordModel(
-  //     companyName: this.companyName,
-  //     userName: this.userName,
-  //     password: this.password,
-  //     strength: this.strength,
-  //     iconPath: this.iconPath,
-  //     categories: this.categories,
-  //     updated: this.updated,
-  //     accessedOn: this.accessedOn,
-  //   );
-  // }
 }

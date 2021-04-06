@@ -7,7 +7,7 @@ import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 @lazySingleton
 class AuthLayer {
-  FirebaseAuth _auth;
+  FirebaseAuth? _auth;
 
   AuthLayer() {
     _auth = FirebaseAuth.instance;
@@ -15,7 +15,7 @@ class AuthLayer {
 
   Future<AuthResults> signupWithEmail(String email, String pass) async {
     try {
-      var userCredential = await _auth.createUserWithEmailAndPassword(
+      var userCredential = await _auth?.createUserWithEmailAndPassword(
           email: email, password: pass);
       return AuthResults(userCredential, "", true);
     } on FirebaseAuthException catch (e) {
@@ -35,7 +35,7 @@ class AuthLayer {
 
   Future<AuthResults> loginEmail(String email, password) async {
     try {
-      var userCredential = await _auth.signInWithEmailAndPassword(
+      var userCredential = await _auth?.signInWithEmailAndPassword(
           email: email, password: password);
       return AuthResults(userCredential, "", true);
     } on FirebaseAuthException catch (e) {
@@ -54,7 +54,7 @@ class AuthLayer {
 
   //send verification email
   Future<bool> verifyUser() async {
-    var user = _auth.currentUser;
+    var user = _auth?.currentUser;
     if (user != null && !user.emailVerified) {
       await user.sendEmailVerification();
       return true;
@@ -64,14 +64,14 @@ class AuthLayer {
   }
 
   Future<void> recoverPassword(String email) async {
-    return await _auth.sendPasswordResetEmail(email: email);
+    return await _auth?.sendPasswordResetEmail(email: email);
   }
 
   Future<bool> verifyEmailCode(String code) async {
     try {
-      await _auth.checkActionCode(code);
-      await _auth.applyActionCode(code);
-      _auth.currentUser.reload();
+      await _auth?.checkActionCode(code);
+      await _auth?.applyActionCode(code);
+      await _auth?.currentUser?.reload();
       return true;
     } on FirebaseAuthException catch (e, s) {
       if (e.code == 'invalid-action-code') {
@@ -84,26 +84,31 @@ class AuthLayer {
   }
 
   Future<AuthResults> googleSignin() async {
-    GoogleSignInAuthentication googleAuth;
+    GoogleSignInAuthentication? googleAuth;
     // Obtain the _auth details from the request
     try {
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-      googleAuth = await googleUser.authentication;
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      googleAuth = await googleUser?.authentication;
     } catch (e, s) {
       Fimber.e("Something went wrong on google account", ex: e, stacktrace: s);
       return AuthResults(null, "Something went wrong please try again?", false);
     }
 
     // Create a new credential
-    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+    final OAuthCredential? credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
+    );
+
+    var cred = AuthCredential(
+      providerId: credential?.providerId ?? "",
+      signInMethod: credential?.signInMethod ?? "",
     );
 
     // Once signed in, return the UserCredential
     try {
       var userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+          await FirebaseAuth.instance.signInWithCredential(cred);
       return AuthResults(userCredential, "", true);
     } on FirebaseAuthException catch (e, s) {
       Fimber.e("Something went wrong on google firebase account creation",

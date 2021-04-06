@@ -53,7 +53,7 @@ class LoginPageUI extends StatelessWidget {
                 height: 50,
               ),
               AuthHelper.getAuthButton("SIGN IN", () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState?.validate() == true) {
                   _controller.login();
                 } else {
                   SnackBarHelper.showError("Please input valid data");

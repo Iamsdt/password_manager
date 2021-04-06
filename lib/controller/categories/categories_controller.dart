@@ -13,7 +13,7 @@ class CategoriesController extends GetxController {
   CategoriesController(this._store);
 
   var passwordModelStatus =
-      DataStatus<List<PasswordModel>>(null, DataState.INIT).obs;
+      DataStatus<List<PasswordModel>>([], DataState.INIT).obs;
 
   void getAllData(String categoryID) async {
     var cats = await _store.getCategoryPassword(categoryID);
@@ -23,8 +23,8 @@ class CategoriesController extends GetxController {
 
     //now update
     passwordModelStatus.update((val) {
-      val.data = models;
-      val.state = DataState.LOADED;
+      val?.data = models;
+      val?.state = DataState.LOADED;
     });
   }
 }

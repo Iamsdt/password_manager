@@ -10,6 +10,7 @@ class AdvanceFilterUI extends StatelessWidget {
   var isLowercase = true.obs;
   var isSpecial = true.obs;
   var prefixTextValue = false.obs;
+
   String prefix = "";
   String length = "16";
 
@@ -88,12 +89,12 @@ class AdvanceFilterUI extends StatelessWidget {
                 ),
                 value: prefixTextValue.value,
                 onChanged: (value) {
-                  prefixTextValue.value = value;
+                  prefixTextValue.value = value ?? false;
                 },
               ),
               prefixTextValue,
             ),
-            ObxValue(
+            ObxValue<RxBool>(
               (data) => Visibility(
                 visible: data.value,
                 child: Container(
