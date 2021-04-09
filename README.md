@@ -35,13 +35,32 @@ My intention of this project, to build a personal password manager. Anyone can y
 
 - AES with PKCS7 padding
 
-State Management: GetX
+##### 3rd party libraries
 
-
+- State Management: **GetX**
+- DI: Injectable + GetX
 
 # How can I create my version?
 
-1. Create Firebase account
-2. Enable Firestone
-3. 
+1. Config Flutter in your computer
+
+2. Create Firebase account
+
+3. Enable Firestone
+
+4. Download "google-services.json" and add this file into **android/app/** folder
+
+5. Open .env file
+
+   ```
+   PASS=<password length 16>
+   ```
+
+   Add encryption password, and password length should be 16.
+
+   5. Now open terminal and run this command
+
+      ```
+      flutter build apk
+      ```
 
