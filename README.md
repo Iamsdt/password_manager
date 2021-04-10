@@ -27,19 +27,6 @@ My intention of this project, to build a personal password manager. Anyone can y
 | --------------------------- | -------------------------- | ---------------------------- | --------------------------- | --------------------------- |
 | <img src = "/img/l6.png" /> | <img src = "/img/l1.png"/> | <img src = "/img/l3.png"  /> | <img src = "/img/l4.png" /> | <img src = "/img/l5.png" /> |
 
-
-
-## Flutter Architecture
-
-### Encryption Algorithm
-
-- AES with PKCS7 padding
-
-##### 3rd party libraries
-
-- State Management: **GetX**
-- DI: Injectable + GetX
-
 # How can I create my version?
 
 1. Config Flutter in your computer
@@ -58,9 +45,39 @@ My intention of this project, to build a personal password manager. Anyone can y
 
    Add encryption password, and password length should be 16.
 
-   5. Now open terminal and run this command
+   6. Now open terminal and run this command
 
-      ```
-      flutter build apk
-      ```
+   ```
+   flutter build apk
+   ```
 
+
+
+## Flutter Architecture
+
+### Encryption Algorithm
+
+- AES with PKCS7 padding
+
+##### 3rd party libraries
+
+- State Management: **GetX**
+- DI: Injectable + GetX
+
+
+
+## Issues
+
+Feel free to submit issues and enhancement requests.
+
+
+
+## Contributing
+
+Pull requests are welcome.
+
+
+
+## Copyright and Licensing
+
+This project is licensed under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0)
