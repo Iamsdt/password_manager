@@ -141,11 +141,10 @@ class AppController extends GetxController {
     }
 
     var res = await _store.getMasterPass();
-    var old = res.data()?['psssword'];
     Encrypter encrypter = Get.find(tag: "ENCRYPT");
     var currentPass = current.encrypt(encrypter);
 
-    if (old != currentPass) {
+    if (res != currentPass) {
       SnackBarHelper.showError(
           "Current password did not match! Please try again?");
 
@@ -201,7 +200,7 @@ class AppController extends GetxController {
     var cats = await _store.getCategories();
 
     var models = cats.docs.map((e) {
-      return CategoriesModel.fromMap(e.data()!);
+      return CategoriesModel.fromMap(e.data());
     }).toList();
 
     // save to the cache

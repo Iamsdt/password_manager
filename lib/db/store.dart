@@ -42,12 +42,13 @@ class Store {
     }
   }
 
-  Future<QuerySnapshot> getPassword() async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getPassword() async {
     var pass = getCollection(DbConstant.PASSWORD);
     return await pass.get();
   }
 
-  Future<QuerySnapshot> getCategoryPassword(String categoryID) async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getCategoryPassword(
+      String categoryID) async {
     var pass = getCollection(DbConstant.PASSWORD);
     return await pass.where("category", isEqualTo: categoryID).get();
   }
@@ -75,7 +76,7 @@ class Store {
     }
   }
 
-  Future<QuerySnapshot> getNotes(String uuid) async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getNotes(String uuid) async {
     var note = getCollection(DbConstant.NOTES);
     return await note.where("passwordUUID", isEqualTo: uuid).get();
   }
@@ -96,7 +97,7 @@ class Store {
     }
   }
 
-  Future<QuerySnapshot> getCategories() async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getCategories() async {
     var cat = getCollection(DbConstant.CATEGORIES);
     return await cat.get();
   }
@@ -119,7 +120,8 @@ class Store {
 
       for (QueryDocumentSnapshot doc in list.docs) {
         if (doc.exists) {
-          var uuid = doc.data()?['uuid'] ?? "";
+          var uuid =
+              PasswordModel.fromMap(doc.data() as Map<String, dynamic>).uuid;
           await pass.doc(uuid).delete();
         }
       }
@@ -159,7 +161,7 @@ class Store {
     }
   }
 
-  Future<QuerySnapshot> getCards() async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getCards() async {
     var card = getCollection(DbConstant.CARDS);
     return await card.get();
   }
@@ -190,8 +192,10 @@ class Store {
     }
   }
 
-  Future<DocumentSnapshot> getMasterPass() async {
-    return await getCollection(DbConstant.MASTERPASS).doc("MasterPass").get();
+  Future<String> getMasterPass() async {
+    var map = getCollection(DbConstant.MASTERPASS);
+    var doc = await map.doc("MasterPass").get();
+    return doc.data()?['password'] ?? "";
   }
 
   Future<bool> checkMasterPassword() async {
@@ -233,13 +237,14 @@ class Store {
     }
   }
 
-  Future<DocumentSnapshot> getSecurityQuestion() async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> getSecurityQuestion() async {
     return await getCollection(DbConstant.SECURITY_QUESTION)
         .doc(DbConstant.SECURITY_QUESTION)
         .get();
   }
 
-  CollectionReference getCollection(String collectionName) {
+  CollectionReference<Map<String, dynamic>> getCollection(
+      String collectionName) {
     var user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {

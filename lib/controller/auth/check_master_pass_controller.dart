@@ -25,11 +25,11 @@ class CheckMasterPassController extends GetxController {
   }
 
   void updatePassword() async {
-    var res = await _store.getMasterPass();
+    String old = await _store.getMasterPass();
     Encrypter encrypter = Get.find(tag: "ENCRYPT");
     var current = passController.text.encrypt(encrypter);
     Fimber.i("Current password $current");
-    var old = res.data()?["psssword"] ?? "";
+
     if (old == current) {
       passController.text = "";
       Get.offAll(BottomNavUI());
