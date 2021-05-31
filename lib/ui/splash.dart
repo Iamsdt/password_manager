@@ -12,6 +12,7 @@ import 'package:password_manager/ui/auth/login_ui_page.dart';
 import 'package:password_manager/ui/auth/verify_otp.dart';
 import 'package:password_manager/utils/encrtypt.dart';
 import 'package:password_manager/utils/image_const.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class SplashUI extends StatefulWidget {
   @override
@@ -36,19 +37,19 @@ class _SplashUIState extends State<SplashUI> {
               alignment: Alignment.center,
               child: SvgPicture.asset(
                 ImageConst.PASSWORD_ICON,
-                width: 150,
-                height: 150,
+                width: AppConfig.dimen.splashImage.w,
+                height: AppConfig.dimen.splashImage.h,
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 20.h,
             ),
             Container(
               alignment: Alignment.center,
               child: Text(
                 "Password Manager",
                 style: GoogleFonts.montserrat(
-                  fontSize: 32,
+                  fontSize: 28.fontSize,
                   fontWeight: FontWeight.w900,
                 ),
               ),

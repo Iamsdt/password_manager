@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:password_manager/utils/encrtypt.dart';
 
 extension TextS on String {
-  Widget toText({TextStyle? style}) {
+  Widget toText({TextStyle style = const TextStyle()}) {
     return Text(
       this,
-      style: style != null ? style : TextStyle(),
+      style: style,
     );
   }
 }
@@ -18,6 +18,10 @@ extension Nums on String {
   //this double
   double toDouble() => double.parse(this.trim());
 }
+
+// extension LocalX on String {
+//   String translate() => AppLocalizations.of(Get.context).translate(this);
+// }
 
 //encryption
 extension EncryptS on String {
