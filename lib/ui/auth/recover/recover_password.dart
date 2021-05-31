@@ -1,13 +1,14 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/login_controller.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
+import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
+import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class RecoverPasswordUI extends StatelessWidget {
-  final LoginController _controller = Get.find();
+  late final LoginController _controller = Get.find();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -16,32 +17,25 @@ class RecoverPasswordUI extends StatelessWidget {
       body: Container(
         height: Get.height,
         width: Get.width,
-        margin: EdgeInsets.only(bottom: 5),
+        margin: EdgeInsets.only(bottom: 5.h),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              AuthHelper.getAppBar(height: Get.height * 0.15),
-              AuthHelper.clipShape(
-                roundIconTop: Get.height * 0.07,
-                firstCliperHight: Get.height * 0.2,
-                secondCliperHeight: Get.height * 0.2,
-              ),
+              const PassAppBar(),
+              const PassClipShare(),
               SizedBox(
-                height: 50,
+                height: 30.h,
               ),
               Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   "Recover password",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: context.textThemeData.headline4,
                 ),
               ),
               loginForm(),
               SizedBox(
-                height: 50,
+                height: 50.h,
               ),
               AuthHelper.getAuthButton("RECOVER", () {
                 if (_formKey.currentState?.validate() == true) {
@@ -66,7 +60,7 @@ class RecoverPasswordUI extends StatelessWidget {
       ),
       child: Form(
         key: _formKey,
-        autovalidateMode: AutovalidateMode.always,
+        autovalidateMode: AutovalidateMode.disabled,
         child: Column(
           children: <Widget>[
             AuthHelper.normalTextField(

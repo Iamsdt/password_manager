@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/security_question_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
+import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
+import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class RecoverMasterPassUI extends StatelessWidget {
-  final RecoverQuestionController controller =
+  late final RecoverQuestionController controller =
       Get.put(getIt<RecoverQuestionController>());
 
   final _formKey = GlobalKey<FormState>();
@@ -16,32 +19,25 @@ class RecoverMasterPassUI extends StatelessWidget {
       body: Container(
         height: Get.height,
         width: Get.width,
-        margin: EdgeInsets.only(bottom: 5),
+        margin: EdgeInsets.only(bottom: 5.h),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              AuthHelper.getAppBar(height: Get.height * 0.15),
-              AuthHelper.clipShape(
-                roundIconTop: Get.height * 0.07,
-                firstCliperHight: Get.height * 0.2,
-                secondCliperHeight: Get.height * 0.2,
-              ),
+              const PassAppBar(),
+              const PassClipShare(),
               SizedBox(
-                height: 30,
+                height: 30.h,
               ),
               Container(
-                padding: EdgeInsets.only(left: 20, right: 20),
+                padding: EdgeInsets.only(left: 20.w, right: 20.w),
                 child: Text(
                   "Verify Security Question?",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: context.textThemeData.headline5,
                 ),
               ),
               questionForm(),
               SizedBox(
-                height: 50,
+                height: 50.h,
               ),
               AuthHelper.getAuthButton("UPDATE", () {
                 if (_formKey.currentState?.validate() == true) {
@@ -59,16 +55,16 @@ class RecoverMasterPassUI extends StatelessWidget {
   Widget questionForm() {
     return Container(
       margin: EdgeInsets.only(
-        left: 25,
-        right: 25,
-        top: 30,
+        left: 25.w,
+        right: 25.w,
+        top: 30.h,
       ),
       child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
             questionTextField(controller.controller1),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             answerTextField(controller.controller2),
           ],
         ),
@@ -98,6 +94,7 @@ class RecoverMasterPassUI extends StatelessWidget {
             borderSide: BorderSide.none,
           ),
         ),
+        style: Get.textTheme.bodyText1,
       ),
     );
   }
@@ -133,6 +130,7 @@ class RecoverMasterPassUI extends StatelessWidget {
             ),
           ),
           obscureText: data.value,
+          style: Get.textTheme.bodyText1,
         ),
       ),
       true.obs,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/master_pass_controller.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
+import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
+import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
 
 class SecurityQuestionUI extends StatelessWidget {
   final MasterPassController controller = Get.find(tag: "MASTER");
@@ -19,12 +21,8 @@ class SecurityQuestionUI extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              AuthHelper.getAppBar(height: Get.height * 0.15),
-              AuthHelper.clipShape(
-                roundIconTop: Get.height * 0.07,
-                firstCliperHight: Get.height * 0.2,
-                secondCliperHeight: Get.height * 0.2,
-              ),
+              const PassAppBar(),
+              const PassClipShare(),
               SizedBox(
                 height: 30,
               ),

@@ -7,18 +7,6 @@ import 'package:password_manager/utils/image_const.dart';
 import 'package:password_manager/utils/validate_checker.dart';
 
 class AuthHelper {
-  static Widget getAppBar({height}) {
-    return Container(
-      height: height ?? Get.height * 0.15,
-      width: Get.width,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue[200]!, Colors.blueAccent],
-        ),
-      ),
-    );
-  }
-
   //cliper
   static Widget clipShape({
     firstCliperHight,
@@ -91,8 +79,8 @@ class AuthHelper {
   }) {
     return Material(
       borderRadius: BorderRadius.circular(30.0),
-      elevation: 5,
-      color: Get.isDarkMode ? Colors.white30 : Colors.white,
+      elevation: 3,
+      color: Get.theme.bottomSheetTheme.backgroundColor,
       child: TextFormField(
         controller: controller,
         cursorColor: Colors.blue[200],
@@ -113,6 +101,7 @@ class AuthHelper {
             borderSide: BorderSide.none,
           ),
         ),
+        style: Get.textTheme.bodyText1,
       ),
     );
   }
@@ -123,8 +112,8 @@ class AuthHelper {
     return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
-        elevation: 5,
-        color: Get.isDarkMode ? Colors.white30 : Colors.white,
+        elevation: 3,
+        color: Get.theme.bottomSheetTheme.backgroundColor,
         child: TextFormField(
           controller: editingController,
           cursorColor: Colors.blue[200],
@@ -157,6 +146,7 @@ class AuthHelper {
             ),
           ),
           obscureText: data.value,
+          style: Get.textTheme.bodyText1,
         ),
       ),
       true.obs,
@@ -168,28 +158,32 @@ class AuthHelper {
     String text,
     void onPresed(),
   ) {
-    return MaterialButton(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        onPresed();
-      },
-      textColor: Colors.white,
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: Get.width * 0.5,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          gradient: LinearGradient(
-            colors: <Color>[Colors.blue[200]!, Colors.blueAccent],
+    return Material(
+      elevation: 2,
+      borderRadius: BorderRadius.circular(30),
+      child: InkWell(
+        onTap: () {
+          onPresed();
+        },
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+            gradient: LinearGradient(
+              colors: <Color>[
+                Colors.blue[200]!,
+                Colors.blueAccent,
+              ],
+            ),
           ),
-        ),
-        padding: const EdgeInsets.all(12.0),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
+          width: Get.width * 0.5,
+          padding: const EdgeInsets.all(12.0),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 16.fontSize,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -200,20 +194,15 @@ class AuthHelper {
   static Widget infoLabelText(String text) {
     return Container(
       margin: EdgeInsets.only(top: 10),
-      //todo remove row
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            text,
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
-          ),
-        ],
+      child: Text(
+        text,
+        style: Get.textTheme.bodyText1,
       ),
     );
   }
 
   //social buttons
+  // todo update icons
   static Widget socialIconsButtons(
     void googleClick(),
     void facebookClick(),
@@ -251,16 +240,16 @@ class AuthHelper {
     void onPresed(),
   ) {
     return Container(
-      margin: EdgeInsets.only(top: 20.0),
+      margin: EdgeInsets.only(top: 20.0.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
             hintLabel,
-            style: TextStyle(fontWeight: FontWeight.w400),
+            style: Get.theme.textTheme.bodyText1,
           ),
           SizedBox(
-            width: 5,
+            width: 5.w,
           ),
           GestureDetector(
             onTap: () {
@@ -269,9 +258,9 @@ class AuthHelper {
             child: Text(
               linkLabel,
               style: TextStyle(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.bold,
                 color: Colors.blue[200],
-                fontSize: 19,
+                fontSize: 20.fontSize,
               ),
             ),
           )

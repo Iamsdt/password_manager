@@ -195,7 +195,9 @@ class Store {
   Future<String> getMasterPass() async {
     var map = getCollection(DbConstant.MASTERPASS);
     var doc = await map.doc("MasterPass").get();
-    return doc.data()?['password'] ?? "";
+    var data = doc.data();
+    var pass = data?.entries.first;
+    return pass?.value ?? "";
   }
 
   Future<bool> checkMasterPassword() async {

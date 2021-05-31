@@ -22,7 +22,7 @@ class SplashUI extends StatefulWidget {
 class _SplashUIState extends State<SplashUI> {
   @override
   void initState() {
-    Timer(Duration(seconds: 10), () => handleSplashScreen());
+    Timer(Duration(seconds: 1), () => handleSplashScreen());
     super.initState();
   }
 
@@ -48,10 +48,7 @@ class _SplashUIState extends State<SplashUI> {
               alignment: Alignment.center,
               child: Text(
                 "Password Manager",
-                style: GoogleFonts.montserrat(
-                  fontSize: 28.fontSize,
-                  fontWeight: FontWeight.w900,
-                ),
+                style: context.textThemeData.headline4,
               ),
             ),
           ],
@@ -72,7 +69,7 @@ class _SplashUIState extends State<SplashUI> {
     //check user is null or not
     //if null goto login page
     if (user == null) {
-      Get.offAll(LoginPageUI());
+      Get.offAll(() => LoginPageUI());
       return;
     }
 
@@ -80,11 +77,11 @@ class _SplashUIState extends State<SplashUI> {
     //if not send to verify page
     if (!user.emailVerified) {
       await user.sendEmailVerification();
-      Get.offAll(VerifyOTP());
+      Get.offAll(() => VerifyOTP());
       return;
     }
 
     //otherwise go to master pass ui page
-    Get.offAll(CheckMasterPassUI());
+    Get.offAll(() => CheckMasterPassUI());
   }
 }

@@ -8,9 +8,13 @@ import 'package:password_manager/ui/auth/recover/recover_password.dart';
 import 'package:password_manager/ui/auth/signup_page.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
+import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
+import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
+import 'package:password_manager/ext/ext.dart';
+import 'package:password_manager/utils/theme/theme_data.dart';
 
 class LoginPageUI extends StatelessWidget {
-  final LoginController _controller = Get.put(getIt<LoginController>());
+  late final LoginController _controller = Get.put(getIt<LoginController>());
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -23,34 +27,26 @@ class LoginPageUI extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              AuthHelper.getAppBar(height: Get.height * 0.15),
-              AuthHelper.clipShape(
-                roundIconTop: Get.height * 0.07,
-                firstCliperHight: Get.height * 0.2,
-                secondCliperHeight: Get.height * 0.2,
-              ),
+              const PassAppBar(),
+              const PassClipShare(),
               loginForm(),
-              SizedBox(
-                height: 10,
-              ),
               InkWell(
                 onTap: () {
-                  Get.to(RecoverPasswordUI());
+                  Get.to(() => RecoverPasswordUI(),
+                      transition: Transition.rightToLeft);
                 },
                 child: Container(
-                  padding: EdgeInsets.only(right: 30),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 30.w),
                   alignment: Alignment.topRight,
                   child: Text(
                     "Forget password",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: context.textThemeData.bodyText1,
                   ),
                 ),
               ),
               SizedBox(
-                height: 50,
+                height: 20.h,
               ),
               AuthHelper.getAuthButton("SIGN IN", () {
                 if (_formKey.currentState?.validate() == true) {
@@ -67,9 +63,14 @@ class LoginPageUI extends StatelessWidget {
                 //facebook click
                 _controller.facebookLogin();
               }),
-              AuthHelper.loginORSignupText("New here?", "Sign Up", () {
-                Get.off(SignupPageUI());
-              }),
+              AuthHelper.loginORSignupText(
+                "New here?",
+                "Sign Up",
+                () {
+                  Get.off(() => SignupPageUI(),
+                      transition: Transition.rightToLeft);
+                },
+              ),
             ],
           ),
         ),
@@ -80,17 +81,17 @@ class LoginPageUI extends StatelessWidget {
   Widget loginForm() {
     return Container(
       margin: EdgeInsets.only(
-        left: 25,
-        right: 25,
-        top: 60,
+        left: 25.w,
+        right: 25.w,
+        top: 40.h,
       ),
       child: Form(
         key: _formKey,
-        autovalidateMode: AutovalidateMode.always,
+        autovalidateMode: AutovalidateMode.disabled,
         child: Column(
           children: <Widget>[
             AuthHelper.normalTextField(_controller.emailController),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             AuthHelper.passwordTextFiled(_controller.passController),
           ],
         ),
