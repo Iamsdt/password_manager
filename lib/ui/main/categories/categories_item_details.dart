@@ -7,12 +7,12 @@ import 'package:password_manager/controller/app_controller.dart';
 import 'package:password_manager/controller/categories/categories_controller.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/main/main_ui/password_details_page.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:search_page/search_page.dart';
-import 'package:password_manager/ext/ext.dart';
 
 class CategoriesDetails extends StatelessWidget {
   final Encrypter encrypter = Get.find(tag: "ENCRYPT");
@@ -34,7 +34,7 @@ class CategoriesDetails extends StatelessWidget {
             color: Get.iconColor,
           ),
         ),
-        title: Text(title),
+        title: Text(title, style: context.textThemeData.headline6),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
@@ -87,7 +87,7 @@ class CategoriesDetails extends StatelessWidget {
                   itemCount: data.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     var model = data.data[index];
-                    return ListItemUI.passList(model, encrypter);
+                    return ListItemUI.passList(context, model, encrypter);
                   },
                 );
               case DataState.FAILED:
@@ -167,10 +167,7 @@ class CategoriesDetails extends StatelessWidget {
           ),
           subtitle: Text(
             "Last updated: ${model.accessedOn.readableString()}",
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w500,
-            ),
+            style: context.textThemeData.bodyText1,
           ),
         ),
       ),

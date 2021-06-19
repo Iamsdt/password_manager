@@ -4,6 +4,7 @@ import 'package:password_manager/controller/auth/master_pass_controller.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
 import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class SecurityQuestionUI extends StatelessWidget {
   final MasterPassController controller = Get.find(tag: "MASTER");
@@ -30,10 +31,7 @@ class SecurityQuestionUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   "Add Security Question",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: context.textThemeData.headline5,
                 ),
               ),
               passwordForm(),

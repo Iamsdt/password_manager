@@ -5,6 +5,7 @@ import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
 import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class ChangeSecurityQuestionUI extends StatelessWidget {
   final String title;
@@ -35,13 +36,10 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: context.textThemeData.headline5,
                 ),
               ),
-              questionForm(),
+              questionForm(context),
               SizedBox(
                 height: 50,
               ),
@@ -58,7 +56,7 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
     );
   }
 
-  Widget questionForm() {
+  Widget questionForm(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
         left: 25,
@@ -75,14 +73,15 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
               return value.isNotEmpty ? null : "Please add a valid question";
             }),
             SizedBox(height: 10),
-            answerTextFiled(controller.answerController),
+            answerTextFiled(context, controller.answerController),
           ],
         ),
       ),
     );
   }
 
-  Widget answerTextFiled(TextEditingController editingController) {
+  Widget answerTextFiled(
+      BuildContext context, TextEditingController editingController) {
     return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
@@ -91,6 +90,7 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
         child: TextFormField(
           controller: editingController,
           cursorColor: Colors.blue[200],
+          style: context.textThemeData.bodyText1,
           validator: (v) {
             var value = v ?? "";
             return value.isNotEmpty ? null : "Please add a valid answer";

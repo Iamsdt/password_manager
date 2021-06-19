@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/app_controller.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
 import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
@@ -31,13 +32,10 @@ class ChnageMasterPasswordUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   "Update Masterpassword",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: context.textThemeData.headline5,
                 ),
               ),
-              passwordForm(),
+              passwordForm(context),
               SizedBox(
                 height: 50,
               ),
@@ -55,7 +53,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
     );
   }
 
-  Widget passwordForm() {
+  Widget passwordForm(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
         left: 25,
@@ -67,6 +65,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
         child: Column(
           children: <Widget>[
             passwordTextFiled(
+              context,
               "Current Password",
               (value) {
                 currentpass = value;
@@ -74,6 +73,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
             ),
             SizedBox(height: 10),
             passwordTextFiled(
+              context,
               "New password",
               (value) {
                 currentpass = value;
@@ -81,6 +81,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
             ),
             SizedBox(height: 10),
             passwordTextFiled(
+              context,
               "Confirm password",
               (value) {
                 confirmPass = value;
@@ -92,7 +93,8 @@ class ChnageMasterPasswordUI extends StatelessWidget {
     );
   }
 
-  Widget passwordTextFiled(String hint, void onChange(String value)) {
+  Widget passwordTextFiled(
+      BuildContext context, String hint, void onChange(String value)) {
     return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
@@ -102,6 +104,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
           onChanged: (value) {
             onChange(value);
           },
+          style: context.textThemeData.bodyText1,
           cursorColor: Colors.blue[200],
           validator: (v) {
             var value = v ?? "";

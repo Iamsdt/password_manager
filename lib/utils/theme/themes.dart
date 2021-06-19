@@ -32,6 +32,7 @@ class Themes {
       bodyText1: TextStyle(
         fontSize: AppConfig.dimen.defaultFontSize,
         color: Colors.black,
+        fontWeight: FontWeight.normal,
       ),
     ),
   );

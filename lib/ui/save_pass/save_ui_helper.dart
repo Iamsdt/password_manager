@@ -18,6 +18,7 @@ class SaveUIHelper {
                 ? null
                 : "Enter valid password (min length: 6)";
           },
+          style: Get.textTheme.bodyText1,
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.lock,
@@ -51,9 +52,8 @@ class SaveUIHelper {
       alignment: Alignment.topLeft,
       child: Text(
         text,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w500,
+        style: Get.textTheme.headline5?.copyWith(
+          fontWeight: FontWeight.normal,
         ),
       ),
     );

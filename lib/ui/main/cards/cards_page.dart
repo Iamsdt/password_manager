@@ -116,7 +116,7 @@ class CardPageUI extends StatelessWidget {
 
                 return InkWell(
                   onLongPress: () {
-                    Get.to(CardInputPage("Update Card", true, modelDe));
+                    Get.to(() => CardInputPage("Update Card", true, modelDe));
                     controller.removeFocus();
                   },
                   child: Container(

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:password_manager/controller/DataStatus.dart';
 import 'package:password_manager/controller/app_controller.dart';
 import 'package:password_manager/db/model/categories_model.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/main/categories/categories_item_details.dart';
 import 'package:password_manager/ui/main/categories/create_categories.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
@@ -61,6 +62,7 @@ class CategoriesUI extends StatelessWidget {
                   onChanged: (value) {
                     controller.filterList(value);
                   },
+                  style: context.textThemeData.bodyText1,
                   focusNode: controller.focusNode,
                   decoration: InputDecoration(
                     isDense: true,
@@ -90,7 +92,7 @@ class CategoriesUI extends StatelessWidget {
                 case DataState.LOADING:
                   return getSliver(CommonUI.showLoading());
                 case DataState.LOADED:
-                  return showLoadedData(data.data);
+                  return showLoadedData(context, data.data);
                 case DataState.FAILED:
                   return getSliver(CommonUI.showFailed(
                       "Something went wrong! Please try again"));
@@ -111,7 +113,7 @@ class CategoriesUI extends StatelessWidget {
     );
   }
 
-  Widget showLoadedData(List<CategoriesModel> data) {
+  Widget showLoadedData(BuildContext context, List<CategoriesModel> data) {
     if (data.isEmpty) {
       return getSliver(
         CommonUI.showFailed(
@@ -151,7 +153,7 @@ class CategoriesUI extends StatelessWidget {
                 //     Icons.share,
                 //   ),
                 // ),
-                title: Text(model.name),
+                title: Text(model.name, style: context.textThemeData.bodyText1),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
               actions: <Widget>[

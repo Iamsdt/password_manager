@@ -14,7 +14,8 @@ import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/utils/theme/theme_data.dart';
 
 class LoginPageUI extends StatelessWidget {
-  late final LoginController _controller = Get.put(getIt<LoginController>());
+  late final LoginController _controller =
+      Get.put(getIt<LoginController>(), permanent: true);
   final _formKey = GlobalKey<FormState>();
 
   @override

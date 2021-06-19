@@ -8,6 +8,8 @@ import 'package:password_manager/ui/recover/change_security_question.dart';
 import 'package:password_manager/ui/splash.dart';
 import 'package:password_manager/utils/theme/theme_data.dart';
 
+import '../../../ext/ext.dart';
+
 class SettingsPageUi extends StatelessWidget {
   final RxBool themeStatus = ThemeService.currentTheme.obs;
 
@@ -68,26 +70,21 @@ class SettingsPageUi extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Get.to(ChnageMasterPasswordUI());
+              Get.to(() => ChnageMasterPasswordUI());
             },
             title: Text(
               "Change master password",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
+              style: context.textThemeData.bodyText1,
             ),
           ),
           ListTile(
             onTap: () {
-              Get.to(ChangeSecurityQuestionUI("Update Security Question"));
+              Get.to(
+                  () => ChangeSecurityQuestionUI("Update Security Question"));
             },
             title: Text(
               "Change security question",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
+              style: context.textThemeData.bodyText1,
             ),
           ),
           SizedBox(height: 20),
@@ -104,7 +101,10 @@ class SettingsPageUi extends StatelessWidget {
           ),
           ObxValue(
             (data) => SwitchListTile(
-              title: Text("Use dark Theme"),
+              title: Text(
+                "Use dark Theme",
+                style: context.textThemeData.bodyText1,
+              ),
               value: themeStatus.value,
               onChanged: (value) {
                 themeStatus.value = value;

@@ -8,6 +8,7 @@ import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/list_item.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class HomePageUI extends StatelessWidget {
   final HomeController controller =
@@ -65,12 +66,7 @@ class HomePageUI extends StatelessWidget {
               child: Text(
                 'Recent Site',
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 18,
-                  letterSpacing: 0.0,
-                  fontWeight: FontWeight.w500,
-                  height: 1,
-                ),
+                style: context.textThemeData.headline5,
               ),
             ),
           ),
@@ -82,7 +78,7 @@ class HomePageUI extends StatelessWidget {
             builder: (_) {
               var data = controller.passwordModelStatus.value;
               if (data.state == DataState.LOADED) {
-                return showLoadedData(data.data);
+                return showLoadedData(context, data.data);
               } else {
                 return getSliver(
                   CommonUI.showLoading(),
@@ -104,7 +100,7 @@ class HomePageUI extends StatelessWidget {
     );
   }
 
-  Widget showLoadedData(List<PasswordModel> data) {
+  Widget showLoadedData(BuildContext context, List<PasswordModel> data) {
     if (data.isEmpty) {
       return getSliver(
         Container(
@@ -122,7 +118,7 @@ class HomePageUI extends StatelessWidget {
           var model = data[pos];
           return Container(
             margin: EdgeInsets.only(top: 10, bottom: 10),
-            child: ListItemUI.passList(model, encrypter),
+            child: ListItemUI.passList(context, model, encrypter),
           );
         },
         childCount: data.length,

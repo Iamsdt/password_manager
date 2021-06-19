@@ -8,12 +8,12 @@ import 'package:password_manager/controller/app_controller.dart';
 import 'package:password_manager/controller/home/home_controller.dart';
 import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/password_model.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/main/categories/create_categories.dart';
 import 'package:password_manager/ui/main/main_ui/details_ui_helper.dart';
 import 'package:password_manager/ui/main/main_ui/helper/create_notes.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/utils/utils.dart';
-import 'package:password_manager/ext/ext.dart';
 
 class PasswordDetailsUI extends StatefulWidget {
   final PasswordModel model;
@@ -25,7 +25,7 @@ class PasswordDetailsUI extends StatefulWidget {
 }
 
 class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
-  AppController controller = AppController.to;
+  late AppController controller = AppController.to;
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -126,11 +126,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                       alignment: Alignment.topRight,
                       child: Text(
                         "+ Add New Category",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: context.textThemeData.bodyText1,
                       ),
                     ).materialClick(() {
                       CreateCategories.showDialog(controller);
@@ -164,9 +160,8 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                     ),
                     Text(
                       "Username",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w500,
+                      style: context.textThemeData.headline5?.copyWith(
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                     SizedBox(
@@ -181,9 +176,8 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                     ),
                     Text(
                       "Password",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w500,
+                      style: context.textThemeData.headline5?.copyWith(
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                     SizedBox(
@@ -244,6 +238,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                       alignment: Alignment.topRight,
                       child: Text(
                         "+ Add Notes",
+                        style: context.textThemeData.bodyText1,
                       ).materialClick(() {
                         //click add notes
                         CreateNotes.showDialog(widget.model.uuid);
@@ -282,9 +277,8 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
         children: [
           Text(
             "Category: ",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
+            style: context.textThemeData.headline6?.copyWith(
+              fontWeight: FontWeight.normal,
             ),
           ),
           SizedBox(
@@ -308,7 +302,10 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                     var index = value.data.indexOf(e);
                     Fimber.i("Drop down index $index");
                     return DropdownMenuItem(
-                      child: Text(e.name),
+                      child: Text(
+                        e.name,
+                        style: context.textThemeData.bodyText1,
+                      ),
                       value: index + 1,
                     );
                   }).toList(),
@@ -352,9 +349,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
               ),
-              style: TextStyle(
-                fontSize: 30,
-              ),
+              style: context.textThemeData.headline4,
             ),
           ),
           InkWell(
@@ -396,6 +391,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                 (data) => TextFormField(
                   controller: controller,
                   readOnly: !edidtable,
+                  style: context.textThemeData.bodyText1,
                   onChanged: (value) {
                     onChanged(value);
                   },
@@ -431,6 +427,16 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
             onTap: () {
               //hello
               Clipboard.setData(new ClipboardData(text: controller.text));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Items copied into clipboard",
+                    style: context.textThemeData.bodyText1,
+                  ),
+                  backgroundColor:
+                      Get.isDarkMode ? Colors.black45 : Colors.white70,
+                ),
+              );
             },
             child: Container(
               padding: const EdgeInsets.only(
@@ -537,11 +543,9 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
 
   void showDeleteDialog() {
     Get.defaultDialog(
-      title: "Confirmation Alert",
-      middleText: "Are you sure to delete the password?",
-      middleTextStyle: TextStyle(
-        fontSize: 15,
-      ),
+      title: "Confirmation!",
+      middleText: "Are you sure to delete?",
+      middleTextStyle: Get.textTheme.bodyText1,
       confirmTextColor: Colors.white,
       onConfirm: () {
         deletePassword();

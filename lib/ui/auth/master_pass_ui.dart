@@ -5,6 +5,7 @@ import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
 import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
+import 'package:password_manager/ext/ext.dart';
 
 class MasterPassUI extends StatelessWidget {
   final MasterPassController _controller =
@@ -31,10 +32,7 @@ class MasterPassUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   "Please add Master Password",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: context.textThemeData.headline5,
                 ),
               ),
               passwordForm(),

@@ -54,10 +54,7 @@ class AdvanceFilterUI extends StatelessWidget {
                   padding: EdgeInsets.only(left: 15),
                   child: Text(
                     "Password Length:",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: context.textThemeData.bodyText1,
                   ),
                 ),
                 SizedBox(
@@ -70,6 +67,7 @@ class AdvanceFilterUI extends StatelessWidget {
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                     ),
+                    style: context.textThemeData.bodyText1,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       length = value;
@@ -82,10 +80,7 @@ class AdvanceFilterUI extends StatelessWidget {
               (data) => CheckboxListTile(
                 title: Text(
                   "Add prefix text",
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: context.textThemeData.bodyText1,
                 ),
                 value: prefixTextValue.value,
                 onChanged: (value) {
@@ -104,6 +99,7 @@ class AdvanceFilterUI extends StatelessWidget {
                     onChanged: (value) {
                       prefix = value;
                     },
+                    style: context.textThemeData.bodyText1,
                   ),
                 ),
               ),
@@ -128,7 +124,7 @@ class AdvanceFilterUI extends StatelessWidget {
                 children: [
                   ObxValue(
                     (data) => SwitchListTile(
-                      title: getTitle("Add Uppercase Letter"),
+                      title: getTitle(context, "Add Uppercase Letter"),
                       value: isUppercase.value,
                       onChanged: (value) {
                         isUppercase.value = value;
@@ -138,7 +134,7 @@ class AdvanceFilterUI extends StatelessWidget {
                   ),
                   ObxValue(
                     (data) => SwitchListTile(
-                      title: getTitle("Add Lowercase Letter"),
+                      title: getTitle(context, "Add Lowercase Letter"),
                       value: isLowercase.value,
                       onChanged: (value) {
                         isLowercase.value = value;
@@ -148,7 +144,7 @@ class AdvanceFilterUI extends StatelessWidget {
                   ),
                   ObxValue(
                     (data) => SwitchListTile(
-                      title: getTitle("Add Numbers"),
+                      title: getTitle(context, "Add Numbers"),
                       value: isNumbers.value,
                       onChanged: (value) {
                         isNumbers.value = value;
@@ -158,7 +154,7 @@ class AdvanceFilterUI extends StatelessWidget {
                   ),
                   ObxValue(
                     (data) => SwitchListTile(
-                      title: getTitle("Add Special charters"),
+                      title: getTitle(context, "Add Special charters"),
                       value: isSpecial.value,
                       onChanged: (value) {
                         isSpecial.value = value;
@@ -233,12 +229,10 @@ class AdvanceFilterUI extends StatelessWidget {
     );
   }
 
-  Widget getTitle(String text) {
+  Widget getTitle(BuildContext context, String text) {
     return Text(
       text,
-      style: TextStyle(
-        fontSize: 18.0,
-      ),
+      style: context.textThemeData.bodyText1,
     );
   }
 }
