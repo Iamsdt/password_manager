@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:password_manager/envs.dart';
 import 'package:password_manager/ui/auth/check_master_password.dart';
 import 'package:password_manager/ui/auth/login_ui_page.dart';

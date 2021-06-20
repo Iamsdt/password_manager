@@ -1,21 +1,19 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/login_controller.dart';
 import 'package:password_manager/di/config_inject.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/auth/recover/recover_password.dart';
 import 'package:password_manager/ui/auth/signup_page.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
 import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
-import 'package:password_manager/ext/ext.dart';
-import 'package:password_manager/utils/theme/theme_data.dart';
 
 class LoginPageUI extends StatelessWidget {
-  late final LoginController _controller =
+  final LoginController _controller =
       Get.put(getIt<LoginController>(), permanent: true);
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -68,8 +66,10 @@ class LoginPageUI extends StatelessWidget {
                 "New here?",
                 "Sign Up",
                 () {
-                  Get.off(() => SignupPageUI(),
-                      transition: Transition.rightToLeft);
+                  Get.off(
+                    () => SignupPageUI(),
+                    transition: Transition.rightToLeft,
+                  );
                 },
               ),
             ],
