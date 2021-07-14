@@ -164,9 +164,8 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                     ),
                     Text(
                       "Username",
-                      style: TextStyle(
+                      style: Get.textTheme.bodyText1?.copyWith(
                         fontSize: 20.0,
-                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     SizedBox(
@@ -181,9 +180,8 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                     ),
                     Text(
                       "Password",
-                      style: TextStyle(
+                      style: Get.textTheme.bodyText1?.copyWith(
                         fontSize: 20.0,
-                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     SizedBox(
@@ -244,6 +242,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                       alignment: Alignment.topRight,
                       child: Text(
                         "+ Add Notes",
+                        style: Get.textTheme.bodyText1,
                       ).materialClick(() {
                         //click add notes
                         CreateNotes.showDialog(widget.model.uuid);
@@ -282,10 +281,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
         children: [
           Text(
             "Category: ",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-            ),
+            style: Get.textTheme.headline6,
           ),
           SizedBox(
             width: 20,
@@ -308,7 +304,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                     var index = value.data.indexOf(e);
                     Fimber.i("Drop down index $index");
                     return DropdownMenuItem(
-                      child: Text(e.name),
+                      child: Text(e.name, style: Get.textTheme.bodyText1),
                       value: index + 1,
                     );
                   }).toList(),
@@ -352,9 +348,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
               ),
-              style: TextStyle(
-                fontSize: 30,
-              ),
+              style: Get.textTheme.headline5,
             ),
           ),
           InkWell(
@@ -399,6 +393,7 @@ class _PasswordDetailsUIState extends State<PasswordDetailsUI> {
                   onChanged: (value) {
                     onChanged(value);
                   },
+                  style: Get.textTheme.bodyText1,
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       icon,

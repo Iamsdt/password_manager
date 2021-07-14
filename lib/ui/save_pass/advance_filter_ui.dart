@@ -5,11 +5,11 @@ import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/shared/modal_sheet.dart';
 
 class AdvanceFilterUI extends StatelessWidget {
-  var isNumbers = true.obs;
-  var isUppercase = true.obs;
-  var isLowercase = true.obs;
-  var isSpecial = true.obs;
-  var prefixTextValue = false.obs;
+  final isNumbers = true.obs;
+  final isUppercase = true.obs;
+  final isLowercase = true.obs;
+  final isSpecial = true.obs;
+  final prefixTextValue = false.obs;
 
   String prefix = "";
   String length = "16";
@@ -54,10 +54,7 @@ class AdvanceFilterUI extends StatelessWidget {
                   padding: EdgeInsets.only(left: 15),
                   child: Text(
                     "Password Length:",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Get.textTheme.headline6,
                   ),
                 ),
                 SizedBox(
@@ -71,6 +68,7 @@ class AdvanceFilterUI extends StatelessWidget {
                       focusedBorder: InputBorder.none,
                     ),
                     keyboardType: TextInputType.number,
+                    style: Get.textTheme.bodyText1,
                     onChanged: (value) {
                       length = value;
                     },
@@ -82,10 +80,7 @@ class AdvanceFilterUI extends StatelessWidget {
               (data) => CheckboxListTile(
                 title: Text(
                   "Add prefix text",
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Get.textTheme.bodyText1,
                 ),
                 value: prefixTextValue.value,
                 onChanged: (value) {
@@ -101,6 +96,7 @@ class AdvanceFilterUI extends StatelessWidget {
                   margin: EdgeInsets.only(left: 15, right: 15),
                   child: TextField(
                     decoration: InputDecoration(hintText: "Prefix text"),
+                    style: Get.textTheme.bodyText1,
                     onChanged: (value) {
                       prefix = value;
                     },
@@ -236,9 +232,7 @@ class AdvanceFilterUI extends StatelessWidget {
   Widget getTitle(String text) {
     return Text(
       text,
-      style: TextStyle(
-        fontSize: 18.0,
-      ),
+      style: Get.textTheme.bodyText1,
     );
   }
 }

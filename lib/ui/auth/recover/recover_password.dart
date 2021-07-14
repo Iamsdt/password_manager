@@ -30,7 +30,7 @@ class RecoverPasswordUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   "Recover password",
-                  style: context.textThemeData.headline4,
+                  style: Get.textTheme.headline4,
                 ),
               ),
               loginForm(),

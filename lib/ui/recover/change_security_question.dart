@@ -35,10 +35,7 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: Get.textTheme.headline5,
                 ),
               ),
               questionForm(),
@@ -95,6 +92,7 @@ class ChangeSecurityQuestionUI extends StatelessWidget {
             var value = v ?? "";
             return value.isNotEmpty ? null : "Please add a valid answer";
           },
+          style: Get.textTheme.bodyText1,
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.chat_sharp,

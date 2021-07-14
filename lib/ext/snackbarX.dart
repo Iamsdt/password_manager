@@ -6,7 +6,7 @@ extension SnackbarX on BuildContext {
       {Color bcgColor: Colors.black,
       Color textColor: Colors.white,
       double size: 16}) {
-    Scaffold.of(this).showSnackBar(
+    ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
         content: Padding(
           padding: EdgeInsets.all(4.0),

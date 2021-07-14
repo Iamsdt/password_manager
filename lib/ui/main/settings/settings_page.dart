@@ -68,26 +68,22 @@ class SettingsPageUi extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Get.to(ChnageMasterPasswordUI());
+              Get.to(() => ChnageMasterPasswordUI());
             },
             title: Text(
               "Change master password",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
+              style: context.textTheme.bodyText1,
             ),
           ),
           ListTile(
             onTap: () {
-              Get.to(ChangeSecurityQuestionUI("Update Security Question"));
+              Get.to(
+                () => ChangeSecurityQuestionUI("Update Security Question"),
+              );
             },
             title: Text(
               "Change security question",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
+              style: context.textTheme.bodyText1,
             ),
           ),
           SizedBox(height: 20),
@@ -104,7 +100,10 @@ class SettingsPageUi extends StatelessWidget {
           ),
           ObxValue(
             (data) => SwitchListTile(
-              title: Text("Use dark Theme"),
+              title: Text(
+                "Use dark Theme",
+                style: context.textTheme.bodyText1,
+              ),
               value: themeStatus.value,
               onChanged: (value) {
                 themeStatus.value = value;

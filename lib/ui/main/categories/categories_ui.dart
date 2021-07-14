@@ -133,7 +133,7 @@ class CategoriesUI extends StatelessWidget {
               child: ListTile(
                 onTap: () {
                   //handle click
-                  Get.to(CategoriesDetails(model.uuid, model.name));
+                  Get.to(() => CategoriesDetails(model.uuid, model.name));
                   controller.removeFocus();
                 },
                 // leading: Container(
@@ -151,7 +151,7 @@ class CategoriesUI extends StatelessWidget {
                 //     Icons.share,
                 //   ),
                 // ),
-                title: Text(model.name),
+                title: Text(model.name, style: Get.textTheme.bodyText1),
                 trailing: Icon(Icons.arrow_forward_ios),
               ),
               actions: <Widget>[

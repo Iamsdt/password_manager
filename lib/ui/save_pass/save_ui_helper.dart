@@ -12,6 +12,7 @@ class SaveUIHelper {
         child: TextFormField(
           controller: controller,
           cursorColor: Colors.blue[200],
+          style: Get.textTheme.bodyText1,
           validator: (v) {
             var value = v ?? "";
             return value.isNotEmpty && value.length >= 6
@@ -51,10 +52,7 @@ class SaveUIHelper {
       alignment: Alignment.topLeft,
       child: Text(
         text,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w500,
-        ),
+        style: Get.textTheme.headline5,
       ),
     );
   }

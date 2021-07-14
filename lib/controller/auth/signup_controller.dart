@@ -44,7 +44,7 @@ class SignupController extends GetxController {
       //check user emil is verified or not
       var user = value.userCredential?.user;
       //update user name
-      user?.updateProfile(displayName: name);
+      user?.updateDisplayName(name);
       await user?.reload();
 
       if (user?.emailVerified == true) {

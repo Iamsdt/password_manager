@@ -32,7 +32,7 @@ class RecoverMasterPassUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20.w, right: 20.w),
                 child: Text(
                   "Verify Security Question?",
-                  style: context.textThemeData.headline5,
+                  style: Get.textTheme.headline5,
                 ),
               ),
               questionForm(),

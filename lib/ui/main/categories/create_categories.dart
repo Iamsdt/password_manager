@@ -39,6 +39,7 @@ class CreateCategories {
                       onChanged: (value) {
                         text = value;
                       },
+                      style: Get.textTheme.bodyText1,
                       decoration: InputDecoration(
                         hintText: "Create category",
                         border: OutlineInputBorder(

@@ -1,5 +1,3 @@
-import 'package:get/get.dart';
-
 import 'app_config.dart';
 
 extension Responsive on num {

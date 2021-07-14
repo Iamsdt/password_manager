@@ -31,10 +31,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   "Update Masterpassword",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: Get.textTheme.headline5,
                 ),
               ),
               passwordForm(),
@@ -102,6 +99,7 @@ class ChnageMasterPasswordUI extends StatelessWidget {
           onChanged: (value) {
             onChange(value);
           },
+          style: Get.textTheme.bodyText1,
           cursorColor: Colors.blue[200],
           validator: (v) {
             var value = v ?? "";

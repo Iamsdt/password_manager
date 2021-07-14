@@ -115,10 +115,7 @@ class _SavePasswordState extends State<SavePasswordUI> {
         children: [
           Text(
             "Category: ",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-            ),
+            style: Get.textTheme.headline6,
           ),
           SizedBox(
             width: 20,
@@ -141,7 +138,7 @@ class _SavePasswordState extends State<SavePasswordUI> {
                     var index = value.data.indexOf(e);
                     Fimber.i("Drop down index $index");
                     return DropdownMenuItem(
-                      child: Text(e.name),
+                      child: Text(e.name, style: Get.textTheme.bodyText1),
                       value: index + 1,
                     );
                   }).toList(),
@@ -168,10 +165,7 @@ class _SavePasswordState extends State<SavePasswordUI> {
         children: [
           Text(
             "Title: ",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-            ),
+            style: Get.textTheme.headline6,
           ),
           SizedBox(
             width: 20,
@@ -179,6 +173,7 @@ class _SavePasswordState extends State<SavePasswordUI> {
           Expanded(
             child: TextField(
               controller: titleController,
+              style: Get.textTheme.bodyText1,
               decoration: InputDecoration(hintText: "write a title"),
             ),
           )

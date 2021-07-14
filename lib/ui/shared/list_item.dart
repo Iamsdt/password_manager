@@ -14,7 +14,7 @@ class ListItemUI {
         var modelDe = model.copyWith(
             userName: model.userName.decrypt(encrypter),
             password: model.password.decrypt(encrypter));
-        Get.to(PasswordDetailsUI(modelDe));
+        Get.to(() => PasswordDetailsUI(modelDe));
         //remove foucus
         HomeController.to.removeFocus();
       },
@@ -25,17 +25,11 @@ class ListItemUI {
       // ),
       title: Text(
         model.companyName,
-        style: TextStyle(
-          fontSize: 24.0,
-          fontWeight: FontWeight.w500,
-        ),
+        style: Get.textTheme.headline6,
       ),
       subtitle: Text(
         "Last updated: ${model.accessedOn.readableString()}",
-        style: TextStyle(
-          fontSize: 16.0,
-          fontWeight: FontWeight.w500,
-        ),
+        style: Get.textTheme.bodyText1,
       ),
       // trailing: Container(
       //   width: 20.0,

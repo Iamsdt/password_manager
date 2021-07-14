@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/login_controller.dart';
@@ -11,7 +9,6 @@ import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
 import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
 import 'package:password_manager/ext/ext.dart';
-import 'package:password_manager/utils/theme/theme_data.dart';
 
 class LoginPageUI extends StatelessWidget {
   late final LoginController _controller = Get.put(getIt<LoginController>());
@@ -41,7 +38,7 @@ class LoginPageUI extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: Text(
                     "Forget password",
-                    style: context.textThemeData.bodyText1,
+                    style: Get.textTheme.bodyText1,
                   ),
                 ),
               ),

@@ -21,11 +21,8 @@ extension ContextX on BuildContext {
   double percentHpx(num value) => (widthPx * value) / 100.0;
 
   //get theme
-  ThemeData get themeData => Theme.of(this);
 
-  TextTheme get textThemeData => Theme.of(this).textTheme;
-
-  bool get isDark => themeData.brightness == Brightness.dark;
+  bool get isDark => Theme.of(this).brightness == Brightness.dark;
 }
 
 extension NavigationContextExt on BuildContext {

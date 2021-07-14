@@ -65,7 +65,7 @@ class HomePageUI extends StatelessWidget {
               child: Text(
                 'Recent Site',
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: context.textTheme.bodyText1?.copyWith(
                   fontSize: 18,
                   letterSpacing: 0.0,
                   fontWeight: FontWeight.w500,

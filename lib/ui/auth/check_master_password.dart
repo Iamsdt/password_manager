@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/check_master_pass_controller.dart';
@@ -37,7 +35,7 @@ class CheckMasterPassUI extends StatelessWidget {
               ),
               Text(
                 "Verify master password",
-                style: context.textThemeData.headline5,
+                style: Get.textTheme.headline5,
               ),
               passwordForm(),
               SizedBox(
@@ -56,7 +54,7 @@ class CheckMasterPassUI extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: Text(
                     "Forget Master Password",
-                    style: context.textThemeData.bodyText1,
+                    style: Get.textTheme.bodyText1,
                   ),
                 ),
               ),

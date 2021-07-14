@@ -25,6 +25,7 @@ class PasswordDetailsUIHelper {
             width: Get.width,
             child: Text(
               "Note ${index + 1}:\n" + note.notes,
+              style: Get.textTheme.bodyText1,
             ),
           ),
           actions: <Widget>[
@@ -62,16 +63,11 @@ class PasswordDetailsUIHelper {
       children: [
         Text(
           status,
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Get.textTheme.headline4,
         ),
         Text(
           title,
-          style: TextStyle(
-            fontSize: 14,
-          ),
+          style: Get.textTheme.bodyText1,
         ),
       ],
     );
@@ -88,12 +84,7 @@ class PasswordDetailsUIHelper {
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 14,
-          ),
-        ),
+        Text(title, style: Get.textTheme.bodyText1),
       ],
     );
   }

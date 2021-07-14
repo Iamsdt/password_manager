@@ -72,9 +72,7 @@ class SheetUIHelper {
                                   print("UI ->" + value.pass);
                                   return Text(
                                     value.pass,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ),
+                                    style: Get.textTheme.bodyText1,
                                   );
                                 },
                               ),
@@ -153,7 +151,7 @@ class SheetUIHelper {
                         ],
                       ),
                     ).materialClick(() {
-                      Get.off(AdvanceFilterUI());
+                      Get.off(() => AdvanceFilterUI());
                     }),
                     Container(
                       color: Get.theme.bottomSheetTheme.backgroundColor,
@@ -174,7 +172,7 @@ class SheetUIHelper {
                         ],
                       ),
                     ).materialClick(() {
-                      Get.off(SavePasswordUI());
+                      Get.off(() => SavePasswordUI());
                     })
                   ],
                 ),
