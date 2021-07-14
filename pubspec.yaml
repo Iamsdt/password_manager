@@ -17,58 +17,58 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2 
-  font_awesome_flutter: ^9.0.0 
+  cupertino_icons: ^1.0.3
+  font_awesome_flutter: ^9.1.0
   flutter_svg: ^0.22.0
-  flutter_fimber: ^0.6.3 
+  flutter_fimber: ^0.6.3
 
   # environment and encrypt
-  encrypt: ^5.0.0 
-  flutter_dotenv: ^5.0.0 
+  encrypt: ^5.0.0
+  flutter_dotenv: ^5.0.0
 
   # uuid
-  uuid: ^3.0.3 
+  uuid: ^3.0.4
 
   # di
-  injectable: ^1.2.2 
-  get_it: ^7.1.3 
+  injectable: ^1.4.1
+  get_it: ^7.2.0
 
   # ui
   # credit_card: 
   flutter_credit_card: ^2.0.0
-  google_fonts: ^2.0.0 
+  google_fonts: ^2.1.0
 
   # state management
-  get: ^4.1.4 
-  get_storage: ^2.0.2 
+  get: ^4.1.4
+  get_storage: ^2.0.2
 
   # firebase
-  firebase_core: ^1.0.2 
+  firebase_core: ^1.3.0
   # iso required
-  firebase_crashlytics: ^2.0.4
+  firebase_crashlytics: ^2.0.7
   #  firebase_analytics: ^6.2.0
 
   # auth
-  firebase_auth: ^1.0.1 
-  google_sign_in: ^5.0.1 
+  firebase_auth: ^2.0.0
+  google_sign_in: ^5.0.4
   #  flutter_facebook_auth: ^0.3.3
   #  sign_in_with_apple: ^2.5.4
-  cloud_firestore: ^2.2.0 
-  
-  flutter_slidable: ^0.6.0-nullsafety.0
+  cloud_firestore: ^2.3.0
+
+  flutter_slidable: ^0.6.0
 
   # search page
-  search_page: ^2.0.0 
+  search_page: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   # code generator
-  build_runner: 
+  build_runner:
 
   # test
-  injectable_generator: 
+  injectable_generator:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
