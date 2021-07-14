@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/shared/custom_shape.dart';
 import 'package:password_manager/utils/image_const.dart';
-import 'package:password_manager/utils/validate_checker.dart';
 
 class AuthHelper {
   //cliper
@@ -86,7 +85,7 @@ class AuthHelper {
         cursorColor: Colors.blue[200],
         validator: validator != null
             ? validator
-            : (value) => Validator.isEmailValid(value ?? "")
+            : (value) => GetUtils.isEmail(value ?? "")
                 ? null
                 : "Please enter a valid email",
         decoration: InputDecoration(
