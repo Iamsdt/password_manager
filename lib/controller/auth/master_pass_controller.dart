@@ -4,10 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/db/store.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/auth/security_question.dart';
 import 'package:password_manager/ui/main/bottom_nav.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
-import 'package:password_manager/ext/ext.dart';
 
 @lazySingleton
 class MasterPassController extends GetxController {
@@ -32,7 +32,7 @@ class MasterPassController extends GetxController {
       //reset controller
       controller1.clear();
       controller2.clear();
-      Get.off(SecurityQuestionUI());
+      Get.off(() => SecurityQuestionUI());
       SnackBarHelper.showSuccess("Master password updated successfully");
       getData();
     } else {
@@ -61,7 +61,7 @@ class MasterPassController extends GetxController {
     if (res) {
       //delete master controller
       Get.delete(tag: "MASTER");
-      Get.offAll(BottomNavUI());
+      Get.offAll(() => BottomNavUI());
       SnackBarHelper.showSuccess("Security Question updated successfully");
     } else {
       SnackBarHelper.showSuccess("Something went wrong");

@@ -9,6 +9,8 @@ import 'package:password_manager/ui/main/cards/card_input_form.dart';
 import 'package:password_manager/ui/shared/common_ui.dart';
 import 'package:password_manager/ui/shared/my_card_widget.dart';
 
+import 'card_update_form.dart';
+
 class CardPageUI extends StatelessWidget {
   final CardController controller = Get.put(getIt<CardController>());
   final Encrypter encrypter = Get.find(tag: "ENCRYPT");
@@ -28,7 +30,7 @@ class CardPageUI extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(CardInputPage("Add new cards", false, null));
+              Get.to(() => CardInputPage("Add new cards", false, null));
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0, left: 10),
@@ -116,7 +118,7 @@ class CardPageUI extends StatelessWidget {
 
                 return InkWell(
                   onLongPress: () {
-                    Get.to(CardInputPage("Update Card", true, modelDe));
+                    Get.to(() => CardUpdatePage("Update Card", true, modelDe));
                     controller.removeFocus();
                   },
                   child: Container(

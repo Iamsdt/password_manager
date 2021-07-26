@@ -5,12 +5,17 @@ import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
 import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
 
-class ChnageMasterPasswordUI extends StatelessWidget {
-  String currentpass = "";
-  String newpass = "";
-  String confirmPass = "";
+class ChnageMasterPasswordUI extends StatefulWidget {
+  @override
+  _ChnageMasterPasswordUIState createState() => _ChnageMasterPasswordUIState();
+}
 
+class _ChnageMasterPasswordUIState extends State<ChnageMasterPasswordUI> {
   final _formKey = GlobalKey<FormState>();
+
+  late TextEditingController currentpass = TextEditingController();
+  late TextEditingController newpass = TextEditingController();
+  late TextEditingController confirmpass = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +45,8 @@ class ChnageMasterPasswordUI extends StatelessWidget {
               ),
               AuthHelper.getAuthButton("UPDATE", () {
                 if (_formKey.currentState?.validate() == true) {
-                  AppController.to
-                      .updateMasterPassword(currentpass, newpass, confirmPass);
+                  AppController.to.updateMasterPassword(
+                      currentpass.text, newpass.text, confirmpass.text);
                 }
               }),
               //signInTextRow(),
@@ -65,23 +70,17 @@ class ChnageMasterPasswordUI extends StatelessWidget {
           children: <Widget>[
             passwordTextFiled(
               "Current Password",
-              (value) {
-                currentpass = value;
-              },
+              currentpass,
             ),
             SizedBox(height: 10),
             passwordTextFiled(
               "New password",
-              (value) {
-                currentpass = value;
-              },
+              newpass,
             ),
             SizedBox(height: 10),
             passwordTextFiled(
               "Confirm password",
-              (value) {
-                confirmPass = value;
-              },
+              confirmpass,
             ),
           ],
         ),
@@ -89,16 +88,14 @@ class ChnageMasterPasswordUI extends StatelessWidget {
     );
   }
 
-  Widget passwordTextFiled(String hint, void onChange(String value)) {
+  Widget passwordTextFiled(String hint, TextEditingController controller) {
     return ObxValue<RxBool>(
       (data) => Material(
         borderRadius: BorderRadius.circular(30.0),
         elevation: 5,
         color: Get.isDarkMode ? Colors.white30 : Colors.white,
         child: TextFormField(
-          onChanged: (value) {
-            onChange(value);
-          },
+          controller: controller,
           style: Get.textTheme.bodyText1,
           cursorColor: Colors.blue[200],
           validator: (v) {
@@ -132,5 +129,13 @@ class ChnageMasterPasswordUI extends StatelessWidget {
       ),
       true.obs,
     );
+  }
+
+  @override
+  void dispose() {
+    currentpass.dispose();
+    confirmpass.dispose();
+    newpass.dispose();
+    super.dispose();
   }
 }

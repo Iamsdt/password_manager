@@ -31,10 +31,7 @@ class MasterPassUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   "Please add Master Password",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: Get.textTheme.headline5,
                 ),
               ),
               passwordForm(),

@@ -4,9 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/db/store.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/auth/master_pass_ui.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
-import 'package:password_manager/ext/ext.dart';
 
 @lazySingleton
 class RecoverQuestionController extends GetxController {
@@ -43,10 +43,10 @@ class RecoverQuestionController extends GetxController {
     var en = answerText.encrypt(encrypter);
 
     if (en == answer) {
-      Get.offAll(MasterPassUI());
+      Get.to(() => MasterPassUI());
       SnackBarHelper.showSuccess("Updated master password now");
     } else {
-      SnackBarHelper.showSuccess("Answer did not matched");
+      SnackBarHelper.showError("Answer did not matched");
     }
   }
 

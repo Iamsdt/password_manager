@@ -39,21 +39,21 @@ dependencies:
   google_fonts: ^2.1.0
 
   # state management
-  get: ^4.1.4
-  get_storage: ^2.0.2
+  get: ^4.3.0
+  get_storage: ^2.0.3
 
   # firebase
-  firebase_core: ^1.3.0
+  firebase_core: ^1.4.0
   # iso required
-  firebase_crashlytics: ^2.0.7
+  firebase_crashlytics: ^2.1.1
   #  firebase_analytics: ^6.2.0
 
   # auth
-  firebase_auth: ^2.0.0
-  google_sign_in: ^5.0.4
+  firebase_auth: ^3.0.1
+  google_sign_in: ^5.0.5
   #  flutter_facebook_auth: ^0.3.3
   #  sign_in_with_apple: ^2.5.4
-  cloud_firestore: ^2.3.0
+  cloud_firestore: ^2.4.0
 
   flutter_slidable: ^0.6.0
 

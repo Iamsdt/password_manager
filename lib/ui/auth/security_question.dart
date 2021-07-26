@@ -30,10 +30,7 @@ class SecurityQuestionUI extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Text(
                   "Add Security Question",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: Get.textTheme.headline5,
                 ),
               ),
               passwordForm(),
@@ -68,7 +65,7 @@ class SecurityQuestionUI extends StatelessWidget {
               controller.controller1,
               hint: "Question",
               icon: Icons.question_answer,
-              validator: (value) => value?.isNotEmpty == null
+              validator: (value) => value?.isNotEmpty != null
                   ? null
                   : "Please add a valid question",
             ),
@@ -90,7 +87,7 @@ class SecurityQuestionUI extends StatelessWidget {
           controller: editingController,
           cursorColor: Colors.blue[200],
           validator: (value) =>
-              value?.isNotEmpty == null ? null : "Please add a valid answer",
+              value?.isNotEmpty != null ? null : "Please add a valid answer",
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.chat_sharp,
@@ -111,6 +108,7 @@ class SecurityQuestionUI extends StatelessWidget {
               ),
             ),
           ),
+          style: Get.textTheme.bodyText1,
           obscureText: data.value,
         ),
       ),

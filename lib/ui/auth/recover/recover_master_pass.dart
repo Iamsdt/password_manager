@@ -108,7 +108,7 @@ class RecoverMasterPassUI extends StatelessWidget {
           controller: editingController,
           cursorColor: Colors.blue[200],
           validator: (value) =>
-              value?.isNotEmpty == null ? null : "Please add a valid answer",
+              value?.isNotEmpty != null ? null : "Please add a valid answer",
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.chat_sharp,

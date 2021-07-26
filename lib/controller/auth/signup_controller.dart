@@ -56,7 +56,7 @@ class SignupController extends GetxController {
         SnackBarHelper.showSuccess(
             "Sent verification email, please check your inbox");
 
-        Get.to(VerifyOTP());
+        Get.to(() => VerifyOTP());
         //go to verification ui
       }
     } else {

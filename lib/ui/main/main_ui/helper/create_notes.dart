@@ -26,9 +26,9 @@ class CreateNotes {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
+                      // border: Border.all(
+                      //   color: Colors.white,
+                      // ),
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),

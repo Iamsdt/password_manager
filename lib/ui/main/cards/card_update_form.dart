@@ -5,20 +5,21 @@ import 'package:get/get.dart';
 import 'package:password_manager/controller/card/card_controller.dart';
 import 'package:password_manager/db/model/cards_model.dart';
 import 'package:password_manager/db/model/credit_card_model.dart';
+import 'package:password_manager/ext/my_input_card.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
-class CardInputPage extends StatefulWidget {
+class CardUpdatePage extends StatefulWidget {
   final String title;
   final bool update;
   final CardsModel? cardsModel;
-  const CardInputPage(this.title, this.update, this.cardsModel, {Key? key})
+  const CardUpdatePage(this.title, this.update, this.cardsModel, {Key? key})
       : super(key: key);
 
   @override
   _CardInputPageState createState() => _CardInputPageState();
 }
 
-class _CardInputPageState extends State<CardInputPage> {
+class _CardInputPageState extends State<CardUpdatePage> {
   final CardController controller = Get.find();
   late MyCreditCardModel _model;
 
@@ -100,7 +101,7 @@ class _CardInputPageState extends State<CardInputPage> {
             ),
           ),
           Container(
-            child: CreditCardForm(
+            child: MyCreditCardForm(
               formKey: _formKey,
               cardHolderName: _model.cardHolderName,
               cardNumber: _model.cardNumber,
@@ -225,11 +226,15 @@ class _CardInputPageState extends State<CardInputPage> {
   }
 
   void updateCard() async {
-    var res = await controller.addCard(_model);
+    if (widget.cardsModel?.uuid == null) return;
+    var res =
+        await controller.updateCard(_model, widget.cardsModel?.uuid ?? "");
     if (res) {
       //update list
       // Get.back();
       SnackBarHelper.showSuccess("Card updated successfully");
+    } else {
+      SnackBarHelper.showError("Something went wrong, please try again!");
     }
   }
 }

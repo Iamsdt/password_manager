@@ -9,9 +9,9 @@ import 'package:password_manager/db/model/categories_model.dart';
 import 'package:password_manager/db/model/generated_pass.dart';
 import 'package:password_manager/db/model/password_model.dart';
 import 'package:password_manager/db/store.dart';
+import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/utils/pass_generator.dart';
-import 'package:password_manager/ext/ext.dart';
 import 'package:password_manager/utils/utils.dart';
 
 @lazySingleton
@@ -155,6 +155,8 @@ class AppController extends GetxController {
     Fimber.i("Master pass add result $result");
     if (!result) {
       SnackBarHelper.showError("Something went wrong, please try again");
+    } else {
+      SnackBarHelper.showSuccess("Master password updated successfully");
     }
   }
 

@@ -1,14 +1,13 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/controller/auth/login_controller.dart';
+import 'package:password_manager/di/config_inject.dart';
 import 'package:password_manager/ui/shared/auth_helper_ui.dart';
 import 'package:password_manager/ui/shared/widgets/app_clip_share.dart';
 import 'package:password_manager/ui/shared/widgets/pass_apbar.dart';
 
 class VerifyOTP extends StatelessWidget {
-  final LoginController _controller = Get.find();
+  late final LoginController _controller = Get.put(getIt<LoginController>());
 
   // final _formKey = GlobalKey<FormState>();
 
@@ -32,10 +31,7 @@ class VerifyOTP extends StatelessWidget {
                 child: Text(
                   "An email with verification link, " +
                       "sent to your email address, please use that link to verify your account, then click Verified Button",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: Get.textTheme.bodyText1,
                 ),
               ),
               // passwordForm(),

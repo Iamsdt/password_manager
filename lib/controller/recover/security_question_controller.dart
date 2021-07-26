@@ -4,8 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:password_manager/db/store.dart';
-import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 import 'package:password_manager/ext/ext.dart';
+import 'package:password_manager/ui/shared/snack_bar_helper.dart';
 
 @lazySingleton
 class SecurityQuestionController extends GetxController {
@@ -41,7 +41,7 @@ class SecurityQuestionController extends GetxController {
     if (res) {
       SnackBarHelper.showSuccess("Question updated successfully");
     } else {
-      SnackBarHelper.showSuccess("Something went wrong");
+      SnackBarHelper.showError("Something went wrong");
     }
   }
 

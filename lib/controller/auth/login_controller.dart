@@ -142,15 +142,18 @@ class LoginController extends GetxController {
     if (user != null && user.emailVerified) {
       //then go to next page
       nextPage();
+    } else {
+      SnackBarHelper.showError(
+          "Account not verified yet! Please verify your account");
     }
   }
 
   void nextPage() async {
     var res = await checkMasterPassExists();
     if (res) {
-      Get.to(CheckMasterPassUI());
+      Get.to(() => CheckMasterPassUI());
     } else {
-      Get.to(MasterPassUI());
+      Get.to(() => MasterPassUI());
     }
   }
 
