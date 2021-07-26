@@ -46,7 +46,6 @@ app.*.map.json
 /android/app/release
 
 # env
-*.env
 *.json
 
 # pub
@@ -54,6 +53,3 @@ pubspec.lock
 
 .gtm/
 .vscode
-.env
-.env
-.env

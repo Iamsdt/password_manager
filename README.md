@@ -6,12 +6,13 @@ An easy configurable and secure open source personal password manager.
 
 ### Motivation
 
-My intention of this project, to build a personal password manager. Anyone can you this project and generate his own personal mobile app. All the password will be saved into his own **Firebase** **Firestone** database with encryption. You need just 2 steps -
+My intention for this project, to build a personal password manager. Anyone can use this project and generate his own personal mobile app. All the passwords will be saved into his own **Firebase** **Firestone** database with encryption. You need just 2 steps -
 
-1. Create Firebase project and Enable Firebase **Firestone** Database for the project
+1. Create **Firebase** project and Enable **Firebase** **Firestone** Database for the project
+
 2. Generate **App** with flutter
 
-
+   
 
 ### Screenshots
 
@@ -29,7 +30,7 @@ My intention of this project, to build a personal password manager. Anyone can y
 
 # How can I create my version?
 
-1. Config Flutter in your computer
+1. Configure Flutter in your computer
 
 2. Create Firebase account
 
@@ -43,13 +44,18 @@ My intention of this project, to build a personal password manager. Anyone can y
    PASS=<password length 16>
    ```
 
-   Add encryption password, and password length should be 16.
+   Note: Add encryption password, and password length should be 16.
 
-   6. Now open terminal and run this command
+   
+
+6. Now open terminal and run this command to Generate **Android APK**
 
    ```
    flutter build apk
    ```
+
+
+### Disclaimer: This project is not tested on IOS.
 
 
 
@@ -61,8 +67,11 @@ My intention of this project, to build a personal password manager. Anyone can y
 
 ##### 3rd party libraries
 
-- State Management: **GetX**
-- DI: Injectable + GetX
+| GetX                      | Font Awesome Flutter | Google fonts     | Cloud Firestore |
+| :------------------------ | -------------------- | ---------------- | --------------- |
+| Injectable + GetX + GetIt | Flutter Svg          | Get Storage      | Firebase auth   |
+| Encrypt                   | Flutter Fimber       | Flutter Slidable | Firebase auth   |
+| Flutter Dotenv            | Flutter credit card  | uuid             | Google sign in  |
 
 
 
