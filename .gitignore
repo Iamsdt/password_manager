@@ -53,3 +53,6 @@ pubspec.lock
 
 .gtm/
 .vscode
+
+# local secrets
+.env
